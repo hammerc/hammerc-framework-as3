@@ -4,6 +4,10 @@
  */
 package org.hammerc.components.core
 {
+	/**
+	 * 
+	 * @author wizardc
+	 */
 	public interface IUIContainer
 	{
 		
