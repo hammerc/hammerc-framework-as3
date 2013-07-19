@@ -15,7 +15,7 @@ package org.hammerc.components.core
 	use namespace hammerc_internal;
 	
 	/**
-	 * 
+	 * <code>UIComponent</code> 
 	 * @author wizardc
 	 */
 	public class UIComponent extends Sprite implements IUIComponent, IInvalidating, 
