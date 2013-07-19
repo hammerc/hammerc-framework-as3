@@ -4,7 +4,7 @@ bin-debug/
 bin-release/
 
 # Other files and folders
-.settings/
+.metadata/
 .settings/
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
@@ -13,3 +13,4 @@ bin-release/
 .project
 .actionScriptProperties
 .flexProperties
+.flexLibProperties
