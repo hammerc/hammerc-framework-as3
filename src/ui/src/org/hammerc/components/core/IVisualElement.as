@@ -8,7 +8,7 @@ package org.hammerc.components.core
 	import flash.events.IEventDispatcher;
 	
 	/**
-	 * 
+	 * <code>IVisualElement</code> 
 	 * @author wizardc
 	 */
 	public interface IVisualElement extends IEventDispatcher, IBitmapDrawable
