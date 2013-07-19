@@ -5,7 +5,7 @@
 package org.hammerc.components.core
 {
 	/**
-	 * 
+	 * <code>IInvalidating</code> 
 	 * @author wizardc
 	 */
 	public interface IInvalidating
