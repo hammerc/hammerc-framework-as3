@@ -5,7 +5,7 @@
 package org.hammerc.components.core
 {
 	/**
-	 * 
+	 * <code>ILayoutElement</code> 
 	 * @author wizardc
 	 */
 	public interface ILayoutElement
