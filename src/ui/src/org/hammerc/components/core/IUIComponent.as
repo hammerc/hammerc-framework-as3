@@ -10,8 +10,19 @@ package org.hammerc.components.core
 	 * <code>IUIComponent</code> 接口定义了组件的通用方法及属性.
 	 * @author wizardc
 	 */
-	public interface IUIComponent extends IVisualElement
+	public interface IUIComponent
 	{
+		/**
+		 * 获取本对象的所有者.
+		 */
+		function get owner():Object;
+		
+		/**
+		 * 内部设置本对象的所有者. 请不要自行改变它的值, 否则可能引发未知的问题.
+		 * @param value 本对象的所有者.
+		 */
+		function ownerChanged(value:Object):void;
+		
 		/**
 		 * 设置或获取所属的系统管理器.
 		 */

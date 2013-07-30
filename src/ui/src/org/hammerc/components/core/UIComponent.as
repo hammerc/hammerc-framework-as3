@@ -464,7 +464,7 @@ package org.hammerc.components.core
 		/**
 		 * @inheritDoc
 		 */
-		public function setLayoutBoundsSize(width:Number,height:Number):void
+		public function setLayoutBoundsSize(width:Number, height:Number):void
 		{
 			
 		}
@@ -472,7 +472,7 @@ package org.hammerc.components.core
 		/**
 		 * @inheritDoc
 		 */
-		public function setLayoutBoundsPosition(x:Number,y:Number):void
+		public function setLayoutBoundsPosition(x:Number, y:Number):void
 		{
 			
 		}
