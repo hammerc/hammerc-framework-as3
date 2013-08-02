@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.components.core
+package org.hammerc.core
 {
 	/**
 	 * <code>IInvalidating</code> 接口定义了拥有失效验证机制组件的接口.

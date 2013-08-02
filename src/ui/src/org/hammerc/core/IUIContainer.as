@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.components.core
+package org.hammerc.core
 {
 	/**
 	 * <code>IUIContainer</code> 接口定义了的组件容器的通用方法及属性.

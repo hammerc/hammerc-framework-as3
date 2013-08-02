@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.components.core
+package org.hammerc.core
 {
 	import org.hammerc.managers.ISystemManager;
 	

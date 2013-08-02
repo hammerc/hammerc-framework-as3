@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.components.core
+package org.hammerc.core
 {
 	/**
 	 * <code>ILayoutElement</code> 接口定义了可布局元素的接口.
