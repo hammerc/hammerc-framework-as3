@@ -2,14 +2,17 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.components.core
+package org.hammerc.core
 {
 	/**
 	 * 
 	 * @author wizardc
 	 */
-	public interface IUIContainer
+	public class UIContainer extends UIComponent implements IUIContainer
 	{
-		
+		public function UIContainer()
+		{
+			
+		}
 	}
 }

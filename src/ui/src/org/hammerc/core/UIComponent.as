@@ -2,12 +2,11 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.components.core
+package org.hammerc.core
 {
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	
-	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.managers.ILayoutManagerClient;
 	import org.hammerc.managers.ISystemManager;
 	import org.hammerc.managers.IToolTipManagerClient;
@@ -464,7 +463,7 @@ package org.hammerc.components.core
 		/**
 		 * @inheritDoc
 		 */
-		public function setLayoutBoundsSize(width:Number,height:Number):void
+		public function setLayoutBoundsSize(width:Number, height:Number):void
 		{
 			
 		}
@@ -472,7 +471,7 @@ package org.hammerc.components.core
 		/**
 		 * @inheritDoc
 		 */
-		public function setLayoutBoundsPosition(x:Number,y:Number):void
+		public function setLayoutBoundsPosition(x:Number, y:Number):void
 		{
 			
 		}

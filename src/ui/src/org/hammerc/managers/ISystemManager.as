@@ -7,7 +7,7 @@ package org.hammerc.managers
 	import flash.display.Stage;
 	import flash.events.IEventDispatcher;
 	
-	import org.hammerc.components.core.IUIContainer;
+	import org.hammerc.core.IUIContainer;
 	
 	/**
 	 * 
