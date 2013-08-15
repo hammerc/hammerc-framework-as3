@@ -155,10 +155,10 @@ package org.hammerc.core
 		
 		/**
 		 * 设置组件的布局宽高, 此值应已包含 <code>scaleX</code>, <code>scaleY</code> 的值.
-		 * @param width 宽度.
-		 * @param height 高度.
+		 * @param layoutWidth 宽度.
+		 * @param layoutHeight 高度.
 		 */
-		function setLayoutBoundsSize(width:Number, height:Number):void;
+		function setLayoutBoundsSize(layoutWidth:Number, layoutHeight:Number):void;
 		
 		/**
 		 * 设置组件的布局位置.
