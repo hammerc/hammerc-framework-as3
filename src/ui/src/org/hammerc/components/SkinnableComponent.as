@@ -2,17 +2,16 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.core
+package org.hammerc.components
 {
 	/**
-	 * 
+	 * <code>SkinnableComponent</code> 类
 	 * @author wizardc
 	 */
-	public class UIContainer extends UIComponent implements IUIContainer
+	public class SkinnableComponent
 	{
-		public function UIContainer()
+		public function SkinnableComponent()
 		{
-			
 		}
 	}
 }

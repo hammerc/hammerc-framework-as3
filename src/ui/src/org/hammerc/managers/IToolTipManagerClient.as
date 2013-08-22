@@ -4,13 +4,14 @@
  */
 package org.hammerc.managers
 {
+	import flash.events.IEventDispatcher;
 	import flash.geom.Point;
 	
 	/**
 	 * <code>IToolTipManagerClient</code> 接口定义了可以弹出工具提示对象的通用方法及属性.
 	 * @author wizardc
 	 */
-	public interface IToolTipManagerClient
+	public interface IToolTipManagerClient extends IEventDispatcher
 	{
 		/**
 		 * 设置或获取工具提示的内容.

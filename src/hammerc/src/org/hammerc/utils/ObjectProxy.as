@@ -201,7 +201,7 @@ package org.hammerc.utils
 				}
 			}
 			//添加属性名称到属性层级记录数组中
-			var property:Array = event.property;
+			var property:Array = event.property as Array;
 			property.unshift(key);
 			//继续发送事件
 			dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE, event.isDelete, event.newValue, event.oldValue, event.source, property));

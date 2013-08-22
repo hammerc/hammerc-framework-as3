@@ -12,6 +12,7 @@ package org.hammerc.core
 	import flash.geom.Point;
 	
 	import org.hammerc.events.MoveEvent;
+	import org.hammerc.events.PropertyChangeEvent;
 	import org.hammerc.events.ResizeEvent;
 	import org.hammerc.events.UIEvent;
 	import org.hammerc.managers.ILayoutManagerClient;
@@ -105,12 +106,12 @@ package org.hammerc.core
 		/**
 		 * 父级布局管理器设置了组件的宽度标志, 尺寸设置优先级: 自动布局 -> 显式设置 -> 自动测量.
 		 */
-		hammerc_internal var layoutWidthExplicitlySet:Boolean = false;
+		hammerc_internal var _layoutWidthExplicitlySet:Boolean = false;
 		
 		/**
 		 * 父级布局管理器设置了组件的高度标志, 尺寸设置优先级: 自动布局 -> 显式设置 -> 自动测量.
 		 */
-		hammerc_internal var layoutHeightExplicitlySet:Boolean = false;
+		hammerc_internal var _layoutHeightExplicitlySet:Boolean = false;
 		
 		private var _top:Number;
 		private var _bottom:Number;
@@ -378,6 +379,20 @@ package org.hammerc.core
 		}
 		
 		/**
+		 * 抛出属性值改变事件.
+		 * @param prop 改变的属性名.
+		 * @param oldValue 属性的原始值.
+		 * @param value 属性的新值.
+		 */
+		protected function dispatchPropertyChangeEvent(property:String, oldValue:*, value:*):void
+		{
+			if(this.hasEventListener(PropertyChangeEvent.PROPERTY_CHANGE))
+			{
+				this.dispatchEvent(new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE, false, value, oldValue, this, property));
+			}
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		public function setActualSize(newWidth:Number, newHeight:Number):void
@@ -390,7 +405,6 @@ package org.hammerc.core
 			}
 			if(_height != newHeight)
 			{
-				_height = newHeight;
 				change = true;
 			}
 			if(change)
@@ -566,37 +580,37 @@ package org.hammerc.core
 			if(!this.canSkipMeasurement())
 			{
 				this.measure();
-				if(this.measuredWidth < minWidth)
+				if(this.measuredWidth < this.minWidth)
 				{
-					this.measuredWidth = minWidth;
+					this.measuredWidth = this.minWidth;
 				}
-				if(this.measuredWidth > maxWidth)
+				if(this.measuredWidth > this.maxWidth)
 				{
-					this.measuredWidth = maxWidth;
+					this.measuredWidth = this.maxWidth;
 				}
-				if(this.measuredHeight < minHeight)
+				if(this.measuredHeight < this.minHeight)
 				{
-					this.measuredHeight = minHeight;
+					this.measuredHeight = this.minHeight;
 				}
-				if(this.measuredHeight > maxHeight)
+				if(this.measuredHeight > this.maxHeight)
 				{
-					this.measuredHeight = maxHeight;
+					this.measuredHeight = this.maxHeight;
 				}
 			}
 			if(isNaN(_oldPreferWidth))
 			{
-				_oldPreferWidth = preferredWidth;
-				_oldPreferHeight = preferredHeight;
+				_oldPreferWidth = this.preferredWidth;
+				_oldPreferHeight = this.preferredHeight;
 				changed = true;
 			}
 			else
 			{
-				if(preferredWidth != _oldPreferWidth || preferredHeight != _oldPreferHeight)
+				if(this.preferredWidth != _oldPreferWidth || this.preferredHeight != _oldPreferHeight)
 				{
 					changed = true;
 				}
-				_oldPreferWidth = preferredWidth;
-				_oldPreferHeight = preferredHeight;
+				_oldPreferWidth = this.preferredWidth;
+				_oldPreferHeight = this.preferredHeight;
 			}
 			return changed;
 		}
@@ -642,7 +656,7 @@ package org.hammerc.core
 			{
 				var unscaledWidth:Number = 0;
 				var unscaledHeight:Number = 0;
-				if(layoutWidthExplicitlySet)
+				if(_layoutWidthExplicitlySet)
 				{
 					unscaledWidth = _width;
 				}
@@ -654,7 +668,7 @@ package org.hammerc.core
 				{
 					unscaledWidth = this.measuredWidth;
 				}
-				if(layoutHeightExplicitlySet)
+				if(_layoutHeightExplicitlySet)
 				{
 					unscaledHeight = _height;
 				}
@@ -682,6 +696,8 @@ package org.hammerc.core
 		
 		/**
 		 * 更新显示列表.
+		 * @param unscaledWidth 组件的宽度.
+		 * @param unscaledHeight 组件的高度.
 		 */
 		protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
 		{
@@ -697,7 +713,7 @@ package org.hammerc.core
 				return;
 			}
 			var p:IInvalidating = this.parent as IInvalidating;
-			if(p)
+			if(p != null)
 			{
 				p.invalidateSize();
 				p.invalidateDisplayList();
@@ -940,7 +956,7 @@ package org.hammerc.core
 			if(_includeInLayout != value)
 			{
 				_includeInLayout = true;
-				invalidateParentSizeAndDisplayList();
+				this.invalidateParentSizeAndDisplayList();
 				_includeInLayout = value;
 			}
 		}
@@ -1119,7 +1135,7 @@ package org.hammerc.core
 			{
 				return 0;
 			}
-			return w * scaleX;
+			return w * this.scaleX;
 		}
 		
 		/**
@@ -1132,7 +1148,7 @@ package org.hammerc.core
 			{
 				return 0;
 			}
-			return h * scaleY;
+			return h * this.scaleY;
 		}
 		
 		/**
@@ -1141,7 +1157,7 @@ package org.hammerc.core
 		public function get layoutBoundsWidth():Number
 		{
 			var w:Number =  0;
-			if(layoutWidthExplicitlySet)
+			if(_layoutWidthExplicitlySet)
 			{
 				w = _width;
 			}
@@ -1151,9 +1167,9 @@ package org.hammerc.core
 			}
 			else
 			{
-				w = measuredWidth;
+				w = this.measuredWidth;
 			}
-			return escapeNaN(w * scaleX);
+			return escapeNaN(w * this.scaleX);
 		}
 		
 		/**
@@ -1162,7 +1178,7 @@ package org.hammerc.core
 		public function get layoutBoundsHeight():Number
 		{
 			var h:Number =  0
-			if(layoutHeightExplicitlySet)
+			if(_layoutHeightExplicitlySet)
 			{
 				h = _height;
 			}
@@ -1172,9 +1188,9 @@ package org.hammerc.core
 			}
 			else
 			{
-				h = measuredHeight;
+				h = this.measuredHeight;
 			}
-			return escapeNaN(h * scaleY);
+			return escapeNaN(h * this.scaleY);
 		}
 		
 		/**
@@ -1246,25 +1262,25 @@ package org.hammerc.core
 		 */
 		public function setLayoutBoundsSize(layoutWidth:Number, layoutHeight:Number):void
 		{
-			layoutWidth /= scaleX;
-			layoutHeight /= scaleY;
+			layoutWidth /= this.scaleX;
+			layoutHeight /= this.scaleY;
 			if(isNaN(layoutWidth))
 			{
-				layoutWidthExplicitlySet = false;
-				layoutWidth = preferredWidth;
+				_layoutWidthExplicitlySet = false;
+				layoutWidth = this.preferredWidth;
 			}
 			else
 			{
-				layoutWidthExplicitlySet = true;
+				_layoutWidthExplicitlySet = true;
 			}
 			if(isNaN(layoutHeight))
 			{
-				layoutHeightExplicitlySet = false;
-				layoutHeight = preferredHeight;
+				_layoutHeightExplicitlySet = false;
+				layoutHeight = this.preferredHeight;
 			}
 			else
 			{
-				layoutHeightExplicitlySet = true;
+				_layoutHeightExplicitlySet = true;
 			}
 			this.setActualSize(layoutWidth, layoutHeight);
 		}

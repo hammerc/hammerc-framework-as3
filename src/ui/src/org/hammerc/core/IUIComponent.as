@@ -10,7 +10,7 @@ package org.hammerc.core
 	 * <code>IUIComponent</code> 接口定义了组件的通用方法及属性.
 	 * @author wizardc
 	 */
-	public interface IUIComponent
+	public interface IUIComponent extends IDisplayObject
 	{
 		/**
 		 * 获取本对象的所有者.

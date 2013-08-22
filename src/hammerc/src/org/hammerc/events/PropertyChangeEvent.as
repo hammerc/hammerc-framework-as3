@@ -22,7 +22,7 @@ package org.hammerc.events
 		 *   <tr><td><code>newValue</code></td><td>改变后的值.</td></tr>
 		 *   <tr><td><code>oldValue</code></td><td>改变前的值.</td></tr>
 		 *   <tr><td><code>source</code></td><td>改变了值的源对象, 并非代理对象.</td></tr>
-		 *   <tr><td><code>property</code></td><td>如果改变的值和当前侦听的对象有多个层级关系则该数组表示属性名称的层级.</td></tr>
+		 *   <tr><td><code>property</code></td><td>改变的属性名称. 如果改变的值和当前侦听的对象有多个层级关系则该对象为数组并表示属性名称的层级.</td></tr>
 		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
 		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
 		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
@@ -36,7 +36,7 @@ package org.hammerc.events
 		private var _newValue:*;
 		private var _oldValue:*;
 		private var _source:Object;
-		private var _property:Array;
+		private var _property:Object;
 		
 		/**
 		 * 创建一个 <code>PropertyChangeEvent</code> 对象.
@@ -45,9 +45,9 @@ package org.hammerc.events
 		 * @param newValue 改变后的值.
 		 * @param oldValue 改变前的值.
 		 * @param source 改变了值的源对象, 并非代理对象.
-		 * @param property 如果改变的值和当前侦听的对象有多个层级关系则该数组表示属性名称的层级.
+		 * @param property 改变的属性名称. 如果改变的值和当前侦听的对象有多个层级关系则该对象为数组并表示属性名称的层级.
 		 */
-		public function PropertyChangeEvent(type:String, isDelete:Boolean, newValue:*, oldValue:*, source:Object, property:Array)
+		public function PropertyChangeEvent(type:String, isDelete:Boolean, newValue:*, oldValue:*, source:Object, property:Object)
 		{
 			super(type, false, false);
 			_isDelete = isDelete;
@@ -90,13 +90,13 @@ package org.hammerc.events
 		}
 		
 		/**
-		 * 获取改变的值和当前侦听对象的层级关系.
+		 * 获取改变的值的属性名称, 若为数组则表示当前侦听对象改变的值的层级关系.
 		 * <p>如: <code>ObjectProxy</code> 对象 A 代理了对象 B, 对象 B 中有一个名
 		 * 为 c 的属性为 <code>ObjectProxy</code> 类型的对象 D, 对象 D 代理了对象 
 		 * E, 对象 E 中有一个名为 f 的属性为对象 G, G 的属性 h 改变了, 对象 A 收到
 		 * 的事件中的 <code>property</code> 为 ["c", "f", "h"].</p>
 		 */
-		public function get property():Array
+		public function get property():Object
 		{
 			return _property;
 		}
