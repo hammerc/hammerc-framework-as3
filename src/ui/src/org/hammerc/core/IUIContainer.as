@@ -8,7 +8,7 @@ package org.hammerc.core
 	 * <code>IUIContainer</code> 接口定义了的组件容器的通用方法及属性.
 	 * @author wizardc
 	 */
-	public interface IUIContainer extends IUIComponent
+	public interface IUIContainer
 	{
 		/**
 		 * 获取此容器中的组件数量. 组件即实现 <code>IUIComponent</code> 接口的类的.

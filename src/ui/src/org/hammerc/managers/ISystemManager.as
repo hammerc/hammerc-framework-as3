@@ -10,32 +10,28 @@ package org.hammerc.managers
 	import org.hammerc.core.IUIContainer;
 	
 	/**
-	 * 
+	 * <code>ISystemManager</code> 定义了系统管理器的接口.
 	 * @author wizardc
 	 */
 	public interface ISystemManager extends IEventDispatcher
 	{
 		/**
-		 * 
-		 * @return 
+		 * 获取舞台引用.
 		 */
 		function get stage():Stage;
 		
 		/**
-		 * 
-		 * @return 
+		 * 获取弹出窗口层容器.
 		 */
 		function get popUpContainer():IUIContainer;
 		
 		/**
-		 * 
-		 * @return 
+		 * 获取工具提示层容器.
 		 */
 		function get toolTipContainer():IUIContainer;
 		
 		/**
-		 * 
-		 * @return 
+		 * 获取鼠标样式层容器.
 		 */
 		function get cursorContainer():IUIContainer;
 	}
