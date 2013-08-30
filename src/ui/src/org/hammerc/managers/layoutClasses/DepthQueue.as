@@ -16,9 +16,9 @@ package org.hammerc.managers.layoutClasses
 	public class DepthQueue
 	{
 		/**
-		 * 记录深度对象的列表.
+		 * 记录深度对象的数组.
 		 */
-		private var _depthBins:Vector.<DepthBin> = new Vector.<DepthBin>();
+		private var _depthBins:Array = new Array();
 		
 		/**
 		 * 记录最小深度.

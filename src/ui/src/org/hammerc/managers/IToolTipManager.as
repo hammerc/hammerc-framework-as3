@@ -54,8 +54,8 @@ package org.hammerc.managers
 		/**
 		 * 设置或获取默认的工具提示渲染类.
 		 */
-		function set toolTipClass(value:Class):void;
-		function get toolTipClass():Class;
+		function set toolTipRenderer(value:Class):void;
+		function get toolTipRenderer():Class;
 		
 		/**
 		 * 注册需要显示工具提示的组件.
@@ -67,13 +67,13 @@ package org.hammerc.managers
 		
 		/**
 		 * 创建指定的工具提示对象到舞台中.
-		 * @param toolTip 工具提示的内容.
+		 * @param toolTipData 工具提示的内容.
 		 * @param x 舞台 x 轴坐标.
 		 * @param y 舞台 y 轴坐标.
 		 * @param toolTipRenderer 工具提示渲染类.
 		 * @return 创建后的工具提示对象.
 		 */
-		function createToolTip(toolTip:Object, x:Number = 0, y:Number = 0, toolTipRenderer:Class = null):IToolTip;
+		function createToolTip(toolTipData:Object, x:Number = 0, y:Number = 0, toolTipRenderer:Class = null):IToolTip;
 		
 		/**
 		 * 销毁指定的工具提示对象.

@@ -8,7 +8,7 @@ package org.hammerc.core
 	 * <code>ILayoutElement</code> 接口定义了可布局元素的接口.
 	 * @author wizardc
 	 */
-	public interface ILayoutElement
+	public interface ILayoutElement extends IDisplayObject
 	{
 		/**
 		 * 设置或获取此组件是否包含在父容器的布局中. 若为 false, 则父级容器在测量和布局阶段都忽略此组件.

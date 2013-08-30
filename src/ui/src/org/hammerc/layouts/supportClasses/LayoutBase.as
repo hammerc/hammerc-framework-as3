@@ -309,7 +309,7 @@ package org.hammerc.layouts.supportClasses
 		protected function getScrollRect():Rectangle
 		{
 			var g:GroupBase = target;
-			if(g != null && g.clipAndEnableScrolling != null)
+			if(g != null && g.clipAndEnableScrolling)
 			{
 				var vsp:Number = g.verticalScrollPosition;
 				var hsp:Number = g.horizontalScrollPosition;

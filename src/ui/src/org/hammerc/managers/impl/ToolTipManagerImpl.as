@@ -5,40 +5,64 @@
 package org.hammerc.managers.impl
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.InteractiveObject;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.utils.Timer;
+	import flash.utils.getQualifiedClassName;
 	
 	import org.hammerc.collections.WeakHashMap;
+	import org.hammerc.components.TextToolTip;
+	import org.hammerc.core.HammercGlobals;
+	import org.hammerc.core.IInvalidating;
 	import org.hammerc.core.IToolTip;
+	import org.hammerc.core.IUIComponent;
+	import org.hammerc.core.IUIContainer;
+	import org.hammerc.core.PopUpPosition;
+	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.events.ToolTipEvent;
+	import org.hammerc.managers.ILayoutManagerClient;
+	import org.hammerc.managers.ISystemManager;
 	import org.hammerc.managers.IToolTipManager;
 	import org.hammerc.managers.IToolTipManagerClient;
 	
+	use namespace hammerc_internal;
+	
 	/**
-	 * <code>ToolTipManagerImpl</code> 
+	 * <code>ToolTipManagerImpl</code> 类实现了工具提示管理器的功能.
 	 * @author wizardc
 	 */
 	public class ToolTipManagerImpl implements IToolTipManager
 	{
+		private var _initialized:Boolean = false;
+		
+		private var _showTimer:Timer;
+		private var _hideTimer:Timer;
+		private var _scrubTimer:Timer;
+		
+		private var _currentTipData:Object;
+		
 		private var _previousTarget:IToolTipManagerClient;
 		private var _currentTarget:IToolTipManagerClient;
-		private var _currentToolTip:IToolTip;
+		private var _currentToolTip:DisplayObject;
+		
 		private var _enabled:Boolean = true;
-		private var _showDelay:Number = 500;
-		private var _scrubDelay:Number = 100;
+		
 		private var _hideDelay:Number = 10000;
-		private var _toolTipClass:Class;
+		private var _scrubDelay:Number = 100;
+		private var _showDelay:Number = 200;
 		
-		private var _initialized:Boolean = false;
-		private var _showTimer:Timer;
-		private var _scrubTimer:Timer;
-		private var _hideTimer:Timer;
+		private var _toolTipClass:Class = TextToolTip;
 		
-		private var _toolTipMap:WeakHashMap;
+		private var _showImmediatelyFlag:Boolean = false;
+		
+		private var _toolTipCacheMap:WeakHashMap = new WeakHashMap();
 		
 		/**
-		 * 
+		 * 创建一个 <code>ToolTipManagerImpl</code> 对象.
 		 */
 		public function ToolTipManagerImpl()
 		{
@@ -46,7 +70,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 设置或获取当前弹出工具提示的组件.
 		 */
 		public function set currentTarget(value:IToolTipManagerClient):void
 		{
@@ -58,31 +82,32 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 设置或获取当前弹出的工具提示对象.
 		 */
 		public function set currentToolTip(value:IToolTip):void
 		{
-			_currentToolTip = value;
+			_currentToolTip = value as DisplayObject;
 		}
 		public function get currentToolTip():IToolTip
 		{
-			return _currentToolTip;
+			return _currentToolTip as IToolTip;
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 设置或获取是否启用工具提示功能.
 		 */
 		public function set enabled(value:Boolean):void
 		{
-			if(_enabled != value)
+			if(_enabled == value)
 			{
-				_enabled = value;
-				if(!_enabled && _currentTarget != null)
-				{
-					_currentTarget = null;
-					targetChanged();
-					_previousTarget = _currentTarget;
-				}
+				return;
+			}
+			_enabled = value;
+			if(!_enabled && this.currentTarget != null)
+			{
+				this.currentTarget = null;
+				targetChanged();
+				_previousTarget = this.currentTarget;
 			}
 		}
 		public function get enabled():Boolean
@@ -91,7 +116,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 设置或获取工具提示鼠标悬停时的出现等待时间, 单位毫秒.
 		 */
 		public function set showDelay(value:Number):void
 		{
@@ -103,8 +128,8 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * @inheritDoc
-		 */
+		 * 设置或获取当一个工具提示显示完毕后, 若在此时间间隔内快速移动到下一个组件上就直接显示该组件的工具提示而不进行延迟, 单位毫秒.
+		 */	
 		public function set scrubDelay(value:Number):void
 		{
 			_scrubDelay = value;
@@ -115,7 +140,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 设置或获取工具提示自显示后自动消失的等待时间, 单位毫秒, 0 或负数则表示该工具提示不会自动消失.
 		 */
 		public function set hideDelay(value:Number):void
 		{
@@ -127,52 +152,64 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 设置或获取默认的工具提示渲染类.
 		 */
-		public function set toolTipClass(value:Class):void
+		public function set toolTipRenderer(value:Class):void
 		{
 			_toolTipClass = value;
 		}
-		public function get toolTipClass():Class
+		public function get toolTipRenderer():Class 
 		{
 			return _toolTipClass;
 		}
 		
+		private function initialize():void
+		{
+			if(_showTimer == null)
+			{
+				_showTimer = new Timer(0, 1);
+				_showTimer.addEventListener(TimerEvent.TIMER, showTimer_timerHandler);
+			}
+			if(_hideTimer == null)
+			{
+				_hideTimer = new Timer(0, 1);
+				_hideTimer.addEventListener(TimerEvent.TIMER, hideTimer_timerHandler);
+			}
+			if(_scrubTimer == null)
+			{
+				_scrubTimer = new Timer(0, 1);
+			}
+			_initialized = true;
+		}
+		
 		/**
-		 * @inheritDoc
+		 * 注册需要显示工具提示的组件.
+		 * @param target 目标显示对象.
+		 * @param oldToolTip 旧的工具提示数据.
+		 * @param newToolTip 新的工具提示数据.
 		 */
 		public function registerToolTip(target:DisplayObject, oldToolTip:Object, newToolTip:Object):void
 		{
-			var hasOld:Boolean = oldToolTip != null;
-			var hasNew:Boolean = newToolTip != null;
+			var hasOld:Boolean = oldToolTip != null && oldToolTip != "";
+			var hasNew:Boolean = newToolTip != null && newToolTip != "";
 			if(!hasOld && hasNew)
 			{
-				target.addEventListener(MouseEvent.ROLL_OVER, toolTipRollOverHandler);
-				target.addEventListener(MouseEvent.ROLL_OUT, toolTipRollOutHandler);
+				target.addEventListener(MouseEvent.MOUSE_OVER, toolTipMouseOverHandler);
+				target.addEventListener(MouseEvent.MOUSE_OUT, toolTipMouseOutHandler);
 				if(mouseIsOver(target))
 				{
-					checkIfTargetChanged(target);
+					showImmediately(target);
 				}
 			}
-			if(hasOld && !hasNew)
+			else if(hasOld && !hasNew)
 			{
-				target.removeEventListener(MouseEvent.ROLL_OVER, toolTipRollOverHandler);
-				target.removeEventListener(MouseEvent.ROLL_OUT, toolTipRollOutHandler);
+				target.removeEventListener(MouseEvent.MOUSE_OVER, toolTipMouseOverHandler);
+				target.removeEventListener(MouseEvent.MOUSE_OUT, toolTipMouseOutHandler);
 				if(mouseIsOver(target))
 				{
-					checkIfTargetChanged(target);
+					hideImmediately(target);
 				}
 			}
-		}
-		
-		private function toolTipRollOverHandler(event:MouseEvent):void
-		{
-			checkIfTargetChanged(event.currentTarget as DisplayObject);
-		}
-		
-		private function toolTipRollOutHandler(event:MouseEvent):void
-		{
-			checkIfTargetChanged(event.relatedObject);
 		}
 		
 		/**
@@ -190,24 +227,46 @@ package org.hammerc.managers.impl
 			{
 				return false;
 			}
+			if(target is ILayoutManagerClient && !ILayoutManagerClient(target).initialized)
+			{
+				return false;
+			}
 			return target.hitTestPoint(target.stage.mouseX, target.stage.mouseY, true);
+		}
+		
+		/**
+		 * 立即显示目标组件的工具提示.
+		 */
+		private function showImmediately(target:DisplayObject):void
+		{
+			_showImmediatelyFlag = true;
+			checkIfTargetChanged(target);
+			_showImmediatelyFlag = false;
+		}
+		
+		/**
+		 * 立即隐藏目标组件的工具提示.
+		 */
+		private function hideImmediately(target:DisplayObject):void
+		{
+			checkIfTargetChanged(null);
 		}
 		
 		/**
 		 * 当目标对象改变时进行检测.
 		 * @param target 当前的目标对象.
 		 */
-		private function checkIfTargetChanged(target:DisplayObject):void
+		private function checkIfTargetChanged(displayObject:DisplayObject):void
 		{
-			if(!_enabled)
+			if(!enabled)
 			{
 				return;
 			}
-			findTarget(target);
-			if(_currentTarget != _previousTarget)
+			findTarget(displayObject);
+			if(this.currentTarget != _previousTarget)
 			{
 				targetChanged();
-				_previousTarget = _currentTarget;
+				_previousTarget = this.currentTarget;
 			}
 		}
 		
@@ -215,18 +274,23 @@ package org.hammerc.managers.impl
 		 * 遍历本对象及其父层对象, 直到找到需要显示工具提示的对象为止, 该对象即为真正的目标对象.
 		 * @param target 当前的目标对象.
 		 */
-		private function findTarget(target:DisplayObject):void
+		private function findTarget(displayObject:DisplayObject):void
 		{
-			while(target != null)
+			while(displayObject)
 			{
-				if(target is IToolTip && (target as IToolTip).toolTipData != null)
+				if(displayObject is IToolTipManagerClient)
 				{
-					_currentTarget = target as IToolTipManagerClient;
-					return;
+					_currentTipData = IToolTipManagerClient(displayObject).toolTip;
+					if(_currentTipData != null)
+					{
+						this.currentTarget = displayObject as IToolTipManagerClient;
+						return;
+					}
 				}
-				target = target.parent;
+				displayObject = displayObject.parent;
 			}
-			_currentTarget = null;
+			_currentTipData = null;
+			this.currentTarget = null;
 		}
 		
 		/**
@@ -237,16 +301,21 @@ package org.hammerc.managers.impl
 			if(!_initialized)
 			{
 				initialize();
-				_initialized = true;
 			}
-			if(_previousTarget != null)
+			var event:ToolTipEvent;
+			if(_previousTarget && this.currentToolTip)
 			{
-				_previousTarget.dispatchEvent(new ToolTipEvent(ToolTipEvent.TOOL_TIP_HIDE, _currentToolTip));
+				event = new ToolTipEvent(ToolTipEvent.TOOL_TIP_HIDE, this.currentToolTip);
+				_previousTarget.dispatchEvent(event);
 			}
 			reset();
-			if(_currentTarget != null && _currentTarget.toolTip != null)
+			if(this.currentTarget)
 			{
-				if(_showDelay <= 0 || _scrubTimer.running)
+				if(!_currentTipData)
+				{
+					return;
+				}
+				if(_showDelay == 0 || _showImmediatelyFlag || _scrubTimer.running)
 				{
 					createTip();
 					initializeTip();
@@ -261,87 +330,49 @@ package org.hammerc.managers.impl
 			}
 		}
 		
-		private function initialize():void
-		{
-			_showTimer = new Timer(0, 1);
-			_showTimer.addEventListener(TimerEvent.TIMER_COMPLETE, showTimerCompleteHandler);
-			_scrubTimer = new Timer(0, 1);
-			_hideTimer = new Timer(0, 1);
-			_hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, hideTimerCompleteHandler);
-		}
-		
-		private function showTimerCompleteHandler(event:TimerEvent):void
-		{
-			if(_currentTarget != null)
-			{
-				createTip();
-				initializeTip();
-				positionTip();
-				showTip();
-			}
-		}
-		
-		private function hideTimerCompleteHandler(event:TimerEvent):void
-		{
-			hideTip();
-		}
-		
-		/**
-		 * 移除当前显示的工具提示并重置所有的数据.
-		 */
-		private function reset():void
-		{
-			_showTimer.reset();
-			_hideTimer.reset();
-			if(_currentToolTip != null)
-			{
-				//移除当前显示的工具提示对象
-				if((_currentToolTip as DisplayObject).visible)
-				{
-					_currentToolTip.hide();
-				}
-				LayerManager.getInstance().toolTipLayer.removeChild(_currentToolTip as DisplayObject);
-				_currentToolTip = null;
-				//设置 scrub 延时
-				_scrubTimer.reset();
-				if(_scrubDelay > 0)
-				{
-					_scrubTimer.delay = _scrubDelay;
-					_scrubTimer.start();
-				}
-			}
-		}
-		
 		/**
 		 * 创建用于显示的工具提示对象.
 		 */
 		private function createTip():void
 		{
-			var toolTipRenderer:Class = _currentTarget.toolTipRenderer;
-			if(toolTipRenderer == null)
+			var tipRenderer:Class = this.currentTarget.toolTipRenderer;
+			if(tipRenderer == null)
 			{
-				toolTipRenderer = _toolTipClass;
+				tipRenderer = toolTipRenderer;
 			}
-			_currentToolTip = _toolTipMap.get(toolTipRenderer);
-			if(_currentToolTip == null)
+			var key:String = getQualifiedClassName(tipRenderer);
+			this.currentToolTip = _toolTipCacheMap.get(key);
+			if(this.currentToolTip == null)
 			{
-				_currentToolTip = new toolTipRenderer() as IToolTipManagerClient;
-				_toolTipMap.put(toolTipRenderer, _currentToolTip);
+				this.currentToolTip = new tipRenderer();
+				_toolTipCacheMap.put(key, this.currentToolTip);
+				if(this.currentToolTip is InteractiveObject)
+				{
+					InteractiveObject(this.currentToolTip).mouseEnabled = false;
+				}
+				if(this.currentToolTip is DisplayObjectContainer)
+				{
+					DisplayObjectContainer(this.currentToolTip).mouseChildren = false;
+				}
 			}
-			else
+			toolTipContainer.addElement(this.currentToolTip);
+		}
+		
+		/**
+		 * 获取工具提示弹出层.
+		 */
+		private function get toolTipContainer():IUIContainer
+		{
+			var sm:ISystemManager;
+			if(_currentTarget is IUIComponent)
 			{
-				_currentToolTip.reset();
+				sm = IUIComponent(_currentTarget).systemManager;
 			}
-			if(_currentToolTip is InteractiveObject)
+			if(!sm)
 			{
-				(_currentToolTip as InteractiveObject).mouseEnabled = false;
+				sm = HammercGlobals.systemManager;
 			}
-			if(_currentToolTip is DisplayObjectContainer)
-			{
-				(_currentToolTip as DisplayObjectContainer).mouseChildren = false;
-			}
-			(_currentToolTip as DisplayObject).visible = false;
-			LayerManager.getInstance().toolTipLayer.addChild(_currentToolTip as DisplayObject);
+			return sm.toolTipContainer;
 		}
 		
 		/**
@@ -349,11 +380,10 @@ package org.hammerc.managers.impl
 		 */
 		private function initializeTip():void
 		{
-			_currentToolTip.data = _currentTarget.toolTip;
-			if(_currentToolTip is IInvalidating)
+			this.currentToolTip.toolTipData = _currentTipData;
+			if(this.currentToolTip is IInvalidating)
 			{
-				(_currentToolTip as IInvalidating).validateLayoutNow();
-				(_currentToolTip as IInvalidating).validateShowNow();
+				IInvalidating(this.currentToolTip).validateNow();
 			}
 		}
 		
@@ -362,76 +392,71 @@ package org.hammerc.managers.impl
 		 */
 		private function positionTip():void
 		{
-			var component:DisplayObject = _currentTarget as DisplayObject;
-			var toolTip:DisplayObject = _currentToolTip as DisplayObject;
-			//获取组件相对于父层坐标的区域
-			var layerRect:Rectangle = component.getBounds(LayerManager.getInstance().toolTipLayer);
-			//获取工具提示相对于本身坐标的区域, 因为需要处理工具提示并非对其到自身原点的情况
-			var toolTipRect:Rectangle = toolTip.getBounds(toolTip);
-			//复用工具提示时取出的区域是上一次的大小, 需要进行调整
-			toolTipRect.width = toolTip.width;
-			toolTipRect.height = toolTip.height;
-			//获取工具提示的中心位置
-			var centerX:Number = layerRect.left + (layerRect.width - toolTipRect.width) / 2;
-			var centerY:Number = layerRect.top + (layerRect.height - toolTipRect.height) / 2;
-			//设置位置
-			var x:Number, y:Number;
-			var position:String = _currentTarget.toolTipPosition;
-			switch(position)
+			var x:Number;
+			var y:Number;
+			var sm:DisplayObjectContainer = this.currentToolTip.parent;
+			var toolTipWidth:Number = this.currentToolTip.layoutBoundsWidth;
+			var toolTipHeight:Number = this.currentToolTip.layoutBoundsHeight;
+			var rect:Rectangle = DisplayObject(this.currentTarget).getRect(sm);
+			var centerX:Number = rect.left + (rect.width - toolTipWidth) * 0.5;
+			var centetY:Number = rect.top + (rect.height - toolTipHeight) * 0.5;
+			switch(this.currentTarget.toolTipPosition)
 			{
-				case ToolTipPosition.ABOVE:
+				case PopUpPosition.BELOW:
 					x = centerX;
-					y = layerRect.top - toolTipRect.height;
+					y = rect.bottom;
 					break;
-				case ToolTipPosition.BELOW:
+				case PopUpPosition.ABOVE:
 					x = centerX;
-					y = layerRect.bottom;
+					y = rect.top - toolTipHeight;
 					break;
-				case ToolTipPosition.LEFT:
-					x = layerRect.left - toolTipRect.width;
-					y = centerY;
+				case PopUpPosition.LEFT:
+					x = rect.left - toolTipWidth;
+					y = centetY;
 					break;
-				case ToolTipPosition.RIGHT:
-					x = layerRect.right;
-					y = centerY;
+				case PopUpPosition.RIGHT:
+					x = rect.right;
+					y = centetY;
+					break;
+				case PopUpPosition.CENTER:
+					x = centerX;
+					y = centetY;
+					break;
+				case PopUpPosition.TOP_LEFT:
+					x = rect.left;
+					y = rect.top;
 					break;
 				default:
-					x = LayerManager.getInstance().toolTipLayer.mouseX + 15;
-					y = LayerManager.getInstance().toolTipLayer.mouseY + 15;
+					x = sm.mouseX + 10;
+					y = sm.mouseY + 20;
 					break;
 			}
-			//校正位置
-			x -= toolTipRect.left;
-			y -= toolTipRect.top;
-			//设定偏移量
-			var offset:Point = _currentTarget.toolTipOffset;
-			if(offset != null)
+			var offset:Point = this.currentTarget.toolTipOffset;
+			if(offset)
 			{
 				x += offset.x;
-				y += offset.y;
+				y = offset.y;
 			}
-			//对超出显示区域的工具提示进行调整
-			var screenWidth:Number = Global.stage.stageWidth;
-			var screenHeight:Number = Global.stage.stageHeight;
-			if(y + toolTipRect.height > screenHeight)
+			var screenWidth:Number = sm.width;
+			var screenHeight:Number = sm.height;
+			if(x + toolTipWidth > screenWidth)
 			{
-				y = screenHeight - toolTipRect.height;
+				x = screenWidth - toolTipWidth;
 			}
-			if(y < 0)
+			if(y + toolTipHeight > screenHeight)
 			{
-				y = 0;
-			}
-			if(x + toolTipRect.width > screenWidth)
-			{
-				x = screenWidth - toolTipRect.width;
+				y = screenHeight - toolTipHeight;
 			}
 			if(x < 0)
 			{
 				x = 0;
 			}
-			//应用坐标
-			(_currentToolTip as DisplayObject).x = x;
-			(_currentToolTip as DisplayObject).y = y;
+			if(y < 0)
+			{
+				y = 0;
+			}
+			this.currentToolTip.x = x;
+			this.currentToolTip.y = y;
 		}
 		
 		/**
@@ -439,11 +464,14 @@ package org.hammerc.managers.impl
 		 */
 		private function showTip():void
 		{
-			_currentTarget.dispatchEvent(new ToolTipEvent(ToolTipEvent.TOOL_TIP_SHOW, _currentToolTip));
-			Global.stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
-			_currentToolTip.show();
-			(_currentToolTip as DisplayObject).visible = true;
-			if(_hideDelay > 0)
+			var event:ToolTipEvent = new ToolTipEvent(ToolTipEvent.TOOL_TIP_SHOW, this.currentToolTip);
+			this.currentTarget.dispatchEvent(event);
+			HammercGlobals.stage.addEventListener(MouseEvent.MOUSE_DOWN, stage_mouseDownHandler);
+			if(_hideDelay == 0)
+			{
+				hideTip();
+			}
+			else if(_hideDelay < Infinity)
 			{
 				_hideTimer.delay = _hideDelay;
 				_hideTimer.start();
@@ -455,52 +483,116 @@ package org.hammerc.managers.impl
 		 */
 		private function hideTip():void
 		{
-			if(_previousTarget != null)
+			if(_previousTarget && this.currentToolTip)
 			{
-				_previousTarget.dispatchEvent(new ToolTipEvent(ToolTipEvent.TOOL_TIP_HIDE, _currentToolTip));
-				Global.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+				var event:ToolTipEvent = new ToolTipEvent(ToolTipEvent.TOOL_TIP_HIDE, this.currentToolTip);
+				_previousTarget.dispatchEvent(event);
 			}
-			if(_currentToolTip != null)
+			if(_previousTarget)
 			{
-				_currentToolTip.hide();
-				(_currentToolTip as DisplayObject).visible = false;
+				HammercGlobals.stage.removeEventListener(MouseEvent.MOUSE_DOWN, stage_mouseDownHandler);
+			}
+			reset();
+		}
+		
+		/**
+		 * 移除当前显示的工具提示并重置所有的数据.
+		 */
+		private function reset():void
+		{
+			_showTimer.reset();
+			_hideTimer.reset();
+			if(this.currentToolTip != null)
+			{
+				var tipParent:DisplayObjectContainer = this.currentToolTip.parent;
+				if(tipParent is IUIContainer)
+				{
+					IUIContainer(tipParent).removeElement(this.currentToolTip);
+				}
+				else if(tipParent != null)
+				{
+					tipParent.removeChild(_currentToolTip);
+				}
+				this.currentToolTip = null;
+				_scrubTimer.delay = this.scrubDelay;
+				_scrubTimer.reset();
+				if(scrubDelay > 0)
+				{
+					_scrubTimer.delay = this.scrubDelay;
+					_scrubTimer.start();
+				}
 			}
 		}
 		
-		private function mouseDownHandler(event:MouseEvent):void
+		private function toolTipMouseOverHandler(event:MouseEvent):void
+		{
+			checkIfTargetChanged(DisplayObject(event.target));
+		}
+		
+		private function toolTipMouseOutHandler(event:MouseEvent):void
+		{
+			checkIfTargetChanged(event.relatedObject);
+		}
+		
+		private function showTimer_timerHandler(event:TimerEvent):void
+		{
+			if(this.currentTarget != null)
+			{
+				createTip();
+				initializeTip();
+				positionTip();
+				showTip();
+			}
+		}
+		
+		private function hideTimer_timerHandler(event:TimerEvent):void
+		{
+			hideTip();
+		}
+		
+		private function stage_mouseDownHandler(event:MouseEvent):void
 		{
 			reset();
 		}
 		
 		/**
 		 * 创建指定的工具提示对象到舞台中.
-		 * @param toolTip 工具提示的内容.
+		 * @param toolTipData 工具提示的内容.
 		 * @param x 舞台 x 轴坐标.
 		 * @param y 舞台 y 轴坐标.
 		 * @param toolTipRenderer 工具提示渲染类.
 		 * @return 创建后的工具提示对象.
 		 */
-		public function createToolTip(toolTip:Object, x:Number = 0, y:Number = 0, toolTipRenderer:Class = null):IToolTipManagerClient
+		public function createToolTip(toolTipData:Object, x:Number = 0, y:Number = 0, toolTipRenderer:Class = null):IToolTip
 		{
-			if(toolTipRenderer == null)
+			var toolTip:IToolTip = new toolTipRenderer() as IToolTip;
+			toolTipContainer.addElement(toolTip);
+			toolTip.toolTipData = toolTipData;
+			if(currentToolTip is IInvalidating)
 			{
-				toolTipRenderer = _toolTipClass;
+				IInvalidating(currentToolTip).validateNow();
 			}
-			var toolTipRender:IToolTipManagerClient = new toolTipRenderer() as IToolTipManagerClient;
-			(toolTipRender as DisplayObject).x = x;
-			(toolTipRender as DisplayObject).y = y;
-			toolTipRender.data = toolTip;
-			LayerManager.getInstance().toolTipLayer.addChild(toolTipRender as DisplayObject);
-			return toolTipRender;
+			var pos:Point = toolTip.parent.globalToLocal(new Point(x, y));
+			toolTip.x = pos.x;
+			toolTip.y = pos.y;
+			return toolTip;
 		}
 		
 		/**
 		 * 销毁指定的工具提示对象.
 		 * @param toolTipRenderer 要销毁的工具提示对象.
 		 */
-		public function destroyToolTip(toolTipRender:IToolTipManagerClient):void
+		public function destroyToolTip(toolTip:IToolTip):void
 		{
-			LayerManager.getInstance().toolTipLayer.removeChild(toolTipRender as DisplayObject);
+			var tipParent:DisplayObjectContainer = toolTip.parent;
+			if(tipParent is IUIContainer)
+			{
+				IUIContainer(tipParent).removeElement(toolTip);
+			}
+			else if(tipParent&&toolTip is DisplayObject)
+			{
+				tipParent.removeChild(toolTip as DisplayObject);
+			}
 		}
 	}
 }

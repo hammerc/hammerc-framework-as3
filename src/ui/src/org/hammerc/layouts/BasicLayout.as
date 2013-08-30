@@ -176,8 +176,8 @@ package org.hammerc.layouts
 					childY = layoutElement.layoutBoundsY;
 				}
 				layoutElement.setLayoutBoundsPosition(childX, childY);
-				maxX = Math.max(maxX,childX + elementWidth);
-				maxY = Math.max(maxY,childY + elementHeight);
+				maxX = Math.max(maxX, childX + elementWidth);
+				maxY = Math.max(maxY, childY + elementHeight);
 			}
 			target.setContentSize(maxX, maxY);
 		}

@@ -48,6 +48,16 @@ package org.hammerc.core
 	[Event(name="updateComplete", type="org.hammerc.events.UIEvent")]
 	
 	/**
+	 * @eventType org.hammerc.events.ToolTipEvent.TOOL_TIP_SHOW
+	 */
+	[Event(name="toolTipShow", type="org.hammerc.events.ToolTipEvent")]
+	
+	/**
+	 * @eventType org.hammerc.events.ToolTipEvent.TOOL_TIP_HIDE
+	 */
+	[Event(name="toolTipHide", type="org.hammerc.events.ToolTipEvent")]
+	
+	/**
 	 * <code>UIComponent</code> 类为所有组件的基类, 定义了组件的基本属性及方法.
 	 * @author wizardc
 	 */
@@ -405,6 +415,7 @@ package org.hammerc.core
 			}
 			if(_height != newHeight)
 			{
+				_height = newHeight;
 				change = true;
 			}
 			if(change)
