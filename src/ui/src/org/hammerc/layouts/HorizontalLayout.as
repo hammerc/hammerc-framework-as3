@@ -103,7 +103,7 @@ package org.hammerc.layouts
 		/**
 		 * 子对象最大高度.
 		 */
-		private var maxElementHeight:Number = 0;
+		private var _maxElementHeight:Number = 0;
 		
 		/**
 		 * 创建一个 <code>HorizontalLayout</code> 对象.
@@ -161,9 +161,9 @@ package org.hammerc.layouts
 			{
 				_gap = value;
 				invalidateTargetSizeAndDisplayList();
-				if(hasEventListener("gapChanged"))
+				if(this.hasEventListener("gapChanged"))
 				{
-					dispatchEvent(new Event("gapChanged"));
+					this.dispatchEvent(new Event("gapChanged"));
 				}
 			}
 		}
@@ -380,7 +380,7 @@ package org.hammerc.layouts
 				}
 				else
 				{
-					maxElementHeight = Math.max(maxElementHeight, layoutElement.preferredHeight);
+					_maxElementHeight = Math.max(_maxElementHeight, layoutElement.preferredHeight);
 					excessWidth -= layoutElement.layoutBoundsWidth;
 				}
 			}
@@ -415,7 +415,7 @@ package org.hammerc.layouts
 			var justifyHeight:Number = Math.ceil(targetHeight);
 			if(_verticalAlign == VerticalAlign.CONTENT_JUSTIFY)
 			{
-				justifyHeight = Math.ceil(Math.max(targetHeight, maxElementHeight));
+				justifyHeight = Math.ceil(Math.max(targetHeight, _maxElementHeight));
 			}
 			for(i = 0; i < count; i++)
 			{
