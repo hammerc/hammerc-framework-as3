@@ -23,7 +23,7 @@ package org.hammerc.managers
 		
 		private static function get impl():IToolTipManager
 		{
-			if(!_impl)
+			if(_impl == null)
 			{
 				try
 				{

@@ -89,6 +89,30 @@ package org.hammerc.events
 		public static const DRAG_ENTER:String = "dragEnter";
 		
 		/**
+		 * 当被拖动的显示对象被拖入目标显示对象上方时, 下方的显示对象在鼠标拖入和移动时会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>altKey</code></td><td>如果 Alt 键处于活动状态, 则为 <code>true</code>; 如果处于非活动状态, 则为 <code>false</code>.</td></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>buttonDown</code></td><td>如果按下鼠标主按键, 则为 <code>true</code>; 否则为 <code>false</code>.</td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>ctrlKey</code></td><td>如果 Ctrl 键处于活动状态, 则为 <code>true</code>; 如果处于非活动状态, 则为 <code>false</code>.</td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>localX</code></td><td>事件发生点的相对于包含 <code>Sprite</code> 的水平坐标.</td></tr>
+		 *   <tr><td><code>localY</code></td><td>事件发生点的相对于包含 <code>Sprite</code> 的垂直坐标</td></tr>
+		 *   <tr><td><code>shiftKey</code></td><td>如果 Shift 键处于活动状态, 则为 <code>true</code>; 如果处于非活动状态, 则为 <code>false</code>.</td></tr>
+		 *   <tr><td><code>stageX</code></td><td>事件发生点在全局舞台坐标中的水平坐标.</td></tr>
+		 *   <tr><td><code>stageY</code></td><td>事件发生点在全局舞台坐标中的垂直坐标.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 *   <tr><td><code>dragInitiator</code></td><td>当前正在被拖动的显示对象.</td></tr>
+		 *   <tr><td><code>dragData</code></td><td>正在拖动的数据对象.</td></tr>
+		 * </table>
+		 * @eventType dragOver
+		 */
+		public static const DRAG_OVER:String = "dragOver";
+		
+		/**
 		 * 当被拖动的显示对象拖出被设置为可拖入显示对象时, 可拖入的显示对象会播放该事件.
 		 * <p>此事件具有以下属性:</p>
 		 * <table class="innertable">

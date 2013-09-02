@@ -70,7 +70,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取当前弹出工具提示的组件.
+		 * @inheritDoc
 		 */
 		public function set currentTarget(value:IToolTipManagerClient):void
 		{
@@ -82,7 +82,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取当前弹出的工具提示对象.
+		 * @inheritDoc
 		 */
 		public function set currentToolTip(value:IToolTip):void
 		{
@@ -94,7 +94,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取是否启用工具提示功能.
+		 * @inheritDoc
 		 */
 		public function set enabled(value:Boolean):void
 		{
@@ -116,7 +116,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取工具提示鼠标悬停时的出现等待时间, 单位毫秒.
+		 * @inheritDoc
 		 */
 		public function set showDelay(value:Number):void
 		{
@@ -128,8 +128,8 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取当一个工具提示显示完毕后, 若在此时间间隔内快速移动到下一个组件上就直接显示该组件的工具提示而不进行延迟, 单位毫秒.
-		 */	
+		 * @inheritDoc
+		 */
 		public function set scrubDelay(value:Number):void
 		{
 			_scrubDelay = value;
@@ -140,7 +140,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取工具提示自显示后自动消失的等待时间, 单位毫秒, 0 或负数则表示该工具提示不会自动消失.
+		 * @inheritDoc
 		 */
 		public function set hideDelay(value:Number):void
 		{
@@ -152,7 +152,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 设置或获取默认的工具提示渲染类.
+		 * @inheritDoc
 		 */
 		public function set toolTipRenderer(value:Class):void
 		{
@@ -183,10 +183,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 注册需要显示工具提示的组件.
-		 * @param target 目标显示对象.
-		 * @param oldToolTip 旧的工具提示数据.
-		 * @param newToolTip 新的工具提示数据.
+		 * @inheritDoc
 		 */
 		public function registerToolTip(target:DisplayObject, oldToolTip:Object, newToolTip:Object):void
 		{
@@ -556,12 +553,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 创建指定的工具提示对象到舞台中.
-		 * @param toolTipData 工具提示的内容.
-		 * @param x 舞台 x 轴坐标.
-		 * @param y 舞台 y 轴坐标.
-		 * @param toolTipRenderer 工具提示渲染类.
-		 * @return 创建后的工具提示对象.
+		 * @inheritDoc
 		 */
 		public function createToolTip(toolTipData:Object, x:Number = 0, y:Number = 0, toolTipRenderer:Class = null):IToolTip
 		{
@@ -579,8 +571,7 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
-		 * 销毁指定的工具提示对象.
-		 * @param toolTipRenderer 要销毁的工具提示对象.
+		 * @inheritDoc
 		 */
 		public function destroyToolTip(toolTip:IToolTip):void
 		{

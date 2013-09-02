@@ -58,6 +58,36 @@ package org.hammerc.core
 	[Event(name="toolTipHide", type="org.hammerc.events.ToolTipEvent")]
 	
 	/**
+	 * @eventType org.hammerc.eventsDragEvent.DRAG_START
+	 */
+	[Event(name="dragStart", type="org.hammerc.events.DragEvent")]
+	
+	/**
+	 * @eventType org.hammerc.eventsDragEvent.DRAG_COMPLETE
+	 */
+	[Event(name="dragComplete", type="org.hammerc.events.DragEvent")]
+	
+	/**
+	 * @eventType org.hammerc.eventsDragEvent.DRAG_ENTER
+	 */
+	[Event(name="dragEnter", type="org.hammerc.events.DragEvent")]
+	
+	/**
+	 * @eventType org.hammerc.eventsDragEvent.DRAG_OVER
+	 */
+	[Event(name="dragOver", type="org.hammerc.events.DragEvent")]
+	
+	/**
+	 * @eventType org.hammerc.eventsDragEvent.DRAG_EXIT
+	 */
+	[Event(name="dragExit", type="org.hammerc.events.DragEvent")]
+	
+	/**
+	 * @eventType org.hammerc.eventsDragEvent.DRAG_DROP
+	 */
+	[Event(name="dragDrop", type="org.hammerc.events.DragEvent")]
+	
+	/**
 	 * <code>UIComponent</code> 类为所有组件的基类, 定义了组件的基本属性及方法.
 	 * @author wizardc
 	 */
