@@ -178,10 +178,12 @@ package org.hammerc.events
 		 * @param ctrlKey 指示是否已激活 Ctrl 键.
 		 * @param altKey 指示是否已激活 Alt 键(仅限 Windows).
 		 * @param shiftKey 指示是否已激活 Shift 键.
+		 * @param bubbles 是否参与事件流的冒泡阶段.
+		 * @param cancelable 是否可以取消事件对象.
 		 */
-		public function DragEvent(type:String, dragInitiator:DisplayObject, dragData:DragData, ctrlKey:Boolean = false, altKey:Boolean = false, shiftKey:Boolean = false)
+		public function DragEvent(type:String, dragInitiator:DisplayObject, dragData:DragData, ctrlKey:Boolean = false, altKey:Boolean = false, shiftKey:Boolean = false, bubbles:Boolean = false, cancelable:Boolean = false)
 		{
-			super(type, false, false);
+			super(type, bubbles, cancelable);
 			_dragInitiator = dragInitiator;
 			_dragData = dragData;
 			this.ctrlKey = ctrlKey;
@@ -211,7 +213,7 @@ package org.hammerc.events
 		 */
 		override public function clone():Event
 		{
-			var cloneEvent:DragEvent = new DragEvent(this.type, this.dragInitiator, this.dragData, this.ctrlKey, this.altKey, this.shiftKey);
+			var cloneEvent:DragEvent = new DragEvent(this.type, this.dragInitiator, this.dragData, this.ctrlKey, this.altKey, this.shiftKey, this.bubbles, this.cancelable);
 			cloneEvent.relatedObject = this.relatedObject;
 			cloneEvent.localX = this.localX;
 			cloneEvent.localY = this.localY;
