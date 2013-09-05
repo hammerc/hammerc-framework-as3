@@ -12,6 +12,7 @@ package org.hammerc.managers.impl
 	
 	import org.hammerc.components.Rect;
 	import org.hammerc.core.HammercGlobals;
+	import org.hammerc.core.IInvalidating;
 	import org.hammerc.core.IUIComponent;
 	import org.hammerc.core.IUIContainer;
 	import org.hammerc.managers.IPopUpManager;
@@ -272,6 +273,10 @@ package org.hammerc.managers.impl
 			var parent:DisplayObjectContainer = popUp.parent;
 			if(parent != null)
 			{
+				if(popUp is IInvalidating)
+				{
+					(popUp as IInvalidating).validateNow();
+				}
 				popUp.x = (parent.width - popUp.layoutBoundsWidth) * 0.5;
 				popUp.y = (parent.height - popUp.layoutBoundsHeight) * 0.5;
 			}

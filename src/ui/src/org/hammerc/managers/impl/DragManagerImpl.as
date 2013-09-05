@@ -10,9 +10,12 @@ package org.hammerc.managers.impl
 	import flash.geom.Point;
 	
 	import org.hammerc.core.HammercGlobals;
+	import org.hammerc.core.IUIComponent;
+	import org.hammerc.core.IUIContainer;
 	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.managers.IDragManager;
 	import org.hammerc.managers.ILayoutManagerClient;
+	import org.hammerc.managers.ISystemManager;
 	import org.hammerc.managers.dragClasses.DragData;
 	import org.hammerc.managers.dragClasses.DragProxy;
 	
@@ -45,6 +48,23 @@ package org.hammerc.managers.impl
 		}
 		
 		/**
+		 * 获取弹出层.
+		 */
+		private function get popUpContainer():IUIContainer
+		{
+			var sm:ISystemManager;
+			if(_dragInitiator is IUIComponent)
+			{
+				sm = IUIComponent(_dragInitiator).systemManager;
+			}
+			if(sm == null)
+			{
+				sm = HammercGlobals.systemManager;
+			}
+			return sm.popUpContainer;
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		public function doDrag(dragInitiator:InteractiveObject, dragData:DragData, dragImage:DisplayObject = null, offsetX:Number = 0, offsetY:Number = 0, imageAlpha:Number = 0.5):void
@@ -61,7 +81,7 @@ package org.hammerc.managers.impl
 			{
 				return;
 			}
-			stage.addChild(_dragProxy);
+			popUpContainer.addElement(_dragProxy);
 			if(dragImage != null)
 			{
 				_dragProxy.addChild(dragImage);
@@ -102,7 +122,7 @@ package org.hammerc.managers.impl
 		{
 			if(_dragProxy != null)
 			{
-				_dragProxy.parent.removeChild(_dragProxy);
+				popUpContainer.removeElement(_dragProxy);
 				if(_dragProxy.numChildren > 0)
 				{
 					_dragProxy.removeChildAt(0);

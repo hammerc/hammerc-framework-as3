@@ -92,7 +92,11 @@ package org.hammerc.collections
 					{
 						_nodeList.push(_source);
 					}
-					this.addChildren(_source, _nodeList);
+					else
+					{
+						_openNodes = [_source];
+						this.addChildren(_source, _nodeList);
+					}
 				}
 				this.dispatchCollectEvent(CollectionKind.RESET);
 			}
@@ -127,12 +131,17 @@ package org.hammerc.collections
 				{
 					if(_showRoot)
 					{
-						_nodeList.push(_source);
+						_nodeList.splice(0, 0, _source);
 					}
 					else
 					{
 						_nodeList.shift();
+						if(_openNodes.indexOf(_source) == -1)
+						{
+							_openNodes.push(_source);
+						}
 					}
+					this.refresh();
 				}
 			}
 		}
@@ -154,17 +163,14 @@ package org.hammerc.collections
 		 * @param parent 要处理的对象.
 		 * @param list 会被添加到的数组.
 		 */
-		protected function addChildren(parent:Object,list:Array):void
+		protected function addChildren(parent:Object, list:Array):void
 		{
-			if(parent.hasOwnProperty(_childrenKey))
+			if(parent.hasOwnProperty(_childrenKey) && _openNodes.indexOf(parent) != -1)
 			{
 				for each(var child:Object in parent[_childrenKey])
 				{
 					list.push(child);
-					if(_openNodes.indexOf(child) != -1)
-					{
-						this.addChildren(child, list);
-					}
+					this.addChildren(child, list);
 				}
 			}
 		}
@@ -253,12 +259,12 @@ package org.hammerc.collections
 			var index:int = _openNodes.indexOf(item);
 			if(index != -1)
 			{
+				var list:Array = new Array();
+				this.addChildren(item, list);
 				_openNodes.splice(index, 1);
 				index = _nodeList.indexOf(item);
 				if(index != -1)
 				{
-					var list:Array = new Array();
-					this.addChildren(item, list);
 					index++;
 					while(list.length != 0)
 					{

@@ -179,7 +179,7 @@ package org.hammerc.managers
 		{
 			var delta:int = value - _noTopMostIndex;
 			_noTopMostIndex = value;
-			topMostIndex += delta;
+			this.topMostIndex += delta;
 		}
 		hammerc_internal function get noTopMostIndex():int
 		{
@@ -193,7 +193,7 @@ package org.hammerc.managers
 		{
 			var delta:int = value - _topMostIndex;
 			_topMostIndex = value;
-			toolTipIndex += delta;
+			this.toolTipIndex += delta;
 		}
 		hammerc_internal function get topMostIndex():int
 		{
@@ -207,7 +207,7 @@ package org.hammerc.managers
 		{
 			var delta:int = value - _toolTipIndex;
 			_toolTipIndex = value;
-			cursorIndex += delta;
+			this.cursorIndex += delta;
 		}
 		hammerc_internal function get toolTipIndex():int
 		{
@@ -548,22 +548,22 @@ package org.hammerc.managers
 				var oldIndex:int = this.getElementIndex(element);
 				if(oldIndex < _noTopMostIndex)
 				{
-					noTopMostIndex--;
+					this.noTopMostIndex--;
 				}
 				else if(oldIndex >= _noTopMostIndex && oldIndex < _topMostIndex)
 				{
-					topMostIndex--;
+					this.topMostIndex--;
 				}
 				else if(oldIndex >= _topMostIndex && oldIndex < _toolTipIndex)
 				{
-					toolTipIndex--;
+					this.toolTipIndex--;
 				}
 				else
 				{
-					cursorIndex--;
+					this.cursorIndex--;
 				}
 			}
-			return super.addElementAt(element,index);
+			return super.addElementAt(element, index);
 		}
 		
 		hammerc_internal function raw_removeElement(element:IUIComponent):IUIComponent
@@ -583,7 +583,7 @@ package org.hammerc.managers
 		
 		hammerc_internal function raw_setElementIndex(element:IUIComponent, index:int):void
 		{
-			super.setElementIndex(element,index);
+			super.setElementIndex(element, index);
 		}
 		
 		hammerc_internal function raw_containsElement(element:IUIComponent):void

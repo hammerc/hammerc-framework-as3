@@ -365,7 +365,7 @@ package org.hammerc.managers.impl
 			{
 				sm = IUIComponent(_currentTarget).systemManager;
 			}
-			if(!sm)
+			if(sm == null)
 			{
 				sm = HammercGlobals.systemManager;
 			}
