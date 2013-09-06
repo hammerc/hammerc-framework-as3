@@ -304,7 +304,7 @@ package org.hammerc.managers.layoutClasses
 import flash.utils.Dictionary;
 
 /**
- * <code>DepthBin</code> 类路基一个列表项的数据.
+ * <code>DepthBin</code> 类记录一个列表项的数据.
  * @author wizardc
  */
 class DepthBin

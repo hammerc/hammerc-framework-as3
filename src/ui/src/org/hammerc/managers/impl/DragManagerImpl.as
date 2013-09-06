@@ -21,6 +21,8 @@ package org.hammerc.managers.impl
 	
 	use namespace hammerc_internal;
 	
+	[ExcludeClass]
+	
 	/**
 	 * <code>DragManagerImpl</code> 类实现了拖拽管理器的功能.
 	 * @author wizardc

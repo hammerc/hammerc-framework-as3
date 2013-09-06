@@ -31,6 +31,8 @@ package org.hammerc.managers.impl
 	
 	use namespace hammerc_internal;
 	
+	[ExcludeClass]
+	
 	/**
 	 * <code>ToolTipManagerImpl</code> 类实现了工具提示管理器的功能.
 	 * @author wizardc

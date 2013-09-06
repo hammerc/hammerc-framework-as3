@@ -18,6 +18,8 @@ package org.hammerc.managers.impl
 	import org.hammerc.managers.IPopUpManager;
 	import org.hammerc.managers.ISystemManager;
 	
+	[ExcludeClass]
+	
 	/**
 	 * <code>PopUpManagerImpl</code> 类实现了弹出管理器的功能.
 	 * @author wizardc
