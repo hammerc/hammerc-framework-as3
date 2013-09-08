@@ -13,6 +13,7 @@ package org.hammerc.components
 	import org.hammerc.core.PopUpPosition;
 	import org.hammerc.core.UIComponent;
 	import org.hammerc.managers.PopUpManager;
+	import org.hammerc.utils.callLater;
 	
 	/**
 	 * <code>PopUpAnchor</code> 类实现用于定位布局中的弹出控件或下拉控件的功能.
