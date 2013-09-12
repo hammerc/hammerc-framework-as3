@@ -98,7 +98,7 @@ package org.hammerc.events
 		 */
 		override public function clone():Event
 		{
-			return new LocalDataEvent(type);
+			return new LocalDataEvent(this.type);
 		}
 		
 		/**
