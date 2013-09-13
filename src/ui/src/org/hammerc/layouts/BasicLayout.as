@@ -22,6 +22,13 @@ package org.hammerc.layouts
 		}
 		
 		/**
+		 * 此布局不支持虚拟布局, 设置这个属性无效.
+		 */
+		override public function set useVirtualLayout(value:Boolean):void
+		{
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		override public function measure():void

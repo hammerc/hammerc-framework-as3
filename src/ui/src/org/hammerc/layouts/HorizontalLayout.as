@@ -106,6 +106,26 @@ package org.hammerc.layouts
 		private var _maxElementHeight:Number = 0;
 		
 		/**
+		 * 虚拟布局使用的子对象尺寸缓存.
+		 */
+		private var _elementSizeTable:Array = [];
+		
+		/**
+		 * 虚拟布局使用的当前视图中的第一个元素索引.
+		 */
+		private var _startIndex:int = -1;
+		
+		/**
+		 * 虚拟布局使用的当前视图中的最后一个元素的索引.
+		 */
+		private var _endIndex:int = -1;
+		
+		/**
+		 * 视图的第一个和最后一个元素的索引值已经计算好的标志.
+		 */
+		private var _indexInViewCalculated:Boolean = false;
+		
+		/**
 		 * 创建一个 <code>HorizontalLayout</code> 对象.
 		 */
 		public function HorizontalLayout()
@@ -275,7 +295,14 @@ package org.hammerc.layouts
 			{
 				return;
 			}
-			measureReal();
+			if(this.useVirtualLayout)
+			{
+				measureVirtual();
+			}
+			else
+			{
+				measureReal();
+			}
 		}
 		
 		/**
@@ -313,6 +340,41 @@ package org.hammerc.layouts
 		}
 		
 		/**
+		 * 测量使用虚拟布局的尺寸.
+		 */
+		private function measureVirtual():void
+		{
+			var numElements:int = target.numElements;
+			var typicalHeight:Number = this.typicalLayoutRect ? this.typicalLayoutRect.height : 22;
+			var typicalWidth:Number = this.typicalLayoutRect ? this.typicalLayoutRect.width : 71;
+			var measuredWidth:Number = getElementTotalSize();
+			var measuredHeight:Number = Math.max(_maxElementHeight, typicalHeight);
+			var visibleIndices:Vector.<int> = target.getElementIndicesInView();
+			for each(var i:int in visibleIndices)
+			{
+				var layoutElement:ILayoutElement = target.getElementAt(i) as ILayoutElement;
+				if(layoutElement == null || !layoutElement.includeInLayout)
+				{
+					continue;
+				}
+				var preferredWidth:Number = layoutElement.preferredWidth;
+				var preferredHeight:Number = layoutElement.preferredHeight;
+				measuredWidth += preferredWidth;
+				measuredWidth -= isNaN(_elementSizeTable[i]) ? typicalWidth : _elementSizeTable[i];
+				measuredHeight = Math.max(measuredHeight, preferredHeight);
+			}
+			var padding:Number = isNaN(_padding) ? 0 : _padding;
+			var paddingL:Number = isNaN(_paddingLeft) ? padding : _paddingLeft;
+			var paddingR:Number = isNaN(_paddingRight) ? padding : _paddingRight;
+			var paddingT:Number = isNaN(_paddingTop) ? padding : _paddingTop;
+			var paddingB:Number = isNaN(_paddingBottom) ? padding : _paddingBottom;
+			var hPadding:Number = paddingL + paddingR;
+			var vPadding:Number = paddingT + paddingB;
+			target.measuredWidth = Math.ceil(measuredWidth + hPadding);
+			target.measuredHeight = Math.ceil(measuredHeight + vPadding);
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		override public function updateDisplayList(width:Number, height:Number):void
@@ -322,7 +384,14 @@ package org.hammerc.layouts
 			{
 				return;
 			}
-			updateDisplayListReal(width, height);
+			if(this.useVirtualLayout)
+			{
+				updateDisplayListVirtual(width, height);
+			}
+			else
+			{
+				updateDisplayListReal(width, height);
+			}
 		}
 		
 		/**
@@ -454,6 +523,126 @@ package org.hammerc.layouts
 		}
 		
 		/**
+		 * 更新使用虚拟布局的显示列表.
+		 */
+		private function updateDisplayListVirtual(width:Number, height:Number):void
+		{
+			if(_indexInViewCalculated)
+			{
+				_indexInViewCalculated = false;
+			}
+			else
+			{
+				getIndexInView();
+			}
+			var padding:Number = isNaN(_padding) ? 0 : _padding;
+			var paddingR:Number = isNaN(_paddingRight) ? padding : _paddingRight;
+			var paddingT:Number = isNaN(_paddingTop) ? padding : _paddingTop;
+			var paddingB:Number = isNaN(_paddingBottom) ? padding : _paddingBottom;
+			var contentWidth:Number;
+			var numElements:int = target.numElements;
+			if(_startIndex == -1 || _endIndex == -1)
+			{
+				contentWidth = getStartPosition(numElements) - _gap + paddingR;
+				target.setContentSize(Math.ceil(contentWidth), target.contentHeight);
+				return;
+			}
+			target.setVirtualElementIndicesInView(_startIndex, _endIndex);
+			//获取垂直布局参数
+			var justify:Boolean = _verticalAlign == VerticalAlign.JUSTIFY || _verticalAlign == VerticalAlign.CONTENT_JUSTIFY;
+			var contentJustify:Boolean = _verticalAlign == VerticalAlign.CONTENT_JUSTIFY;
+			var vAlign:Number = 0;
+			if(!justify)
+			{
+				if(_verticalAlign == VerticalAlign.MIDDLE)
+				{
+					vAlign = 0.5;
+				}
+				else if(_verticalAlign == VerticalAlign.BOTTOM)
+				{
+					vAlign = 1;
+				}
+			}
+			var targetHeight:Number = Math.max(0, height - paddingT - paddingB);
+			var justifyHeight:Number = Math.ceil(targetHeight);
+			var layoutElement:ILayoutElement;
+			var typicalHeight:Number = this.typicalLayoutRect ? this.typicalLayoutRect.height : 22;
+			var typicalWidth:Number = this.typicalLayoutRect ? this.typicalLayoutRect.width : 71;
+			var oldMaxH:Number = Math.max(typicalHeight, _maxElementHeight);
+			if(contentJustify)
+			{
+				for(var index:int = _startIndex; index <= _endIndex; index++)
+				{
+					layoutElement = target.getVirtualElementAt(index) as ILayoutElement;
+					if(layoutElement == null || !layoutElement.includeInLayout)
+					{
+						continue;
+					}
+					_maxElementHeight = Math.max(_maxElementHeight, layoutElement.preferredHeight);
+				}
+				justifyHeight = Math.ceil(Math.max(targetHeight, _maxElementHeight));
+			}
+			var x:Number = 0;
+			var y:Number = 0;
+			var contentHeight:Number = 0;
+			var oldElementSize:Number;
+			var needInvalidateSize:Boolean = false;
+			//对可见区域进行布局
+			for(var i:int = _startIndex; i <= _endIndex; i++)
+			{
+				var exceesHeight:Number = 0;
+				layoutElement = target.getVirtualElementAt(i) as ILayoutElement;
+				if(layoutElement == null)
+				{
+					continue;
+				}
+				else if(!layoutElement.includeInLayout)
+				{
+					_elementSizeTable[i] = 0;
+					continue;
+				}
+				if(justify)
+				{
+					y = paddingT;
+					layoutElement.setLayoutBoundsSize(NaN, justifyHeight);
+				}
+				else
+				{
+					exceesHeight = (targetHeight - layoutElement.layoutBoundsHeight) * vAlign;
+					exceesHeight = exceesHeight > 0 ? exceesHeight : 0;
+					y = paddingT + Math.round(exceesHeight);
+				}
+				if(!contentJustify)
+				{
+					_maxElementHeight = Math.max(_maxElementHeight, layoutElement.preferredHeight);
+				}
+				contentHeight = Math.max(contentHeight, layoutElement.layoutBoundsHeight);
+				if(!needInvalidateSize)
+				{
+					oldElementSize = isNaN(_elementSizeTable[i]) ? typicalWidth : _elementSizeTable[i];
+					if(oldElementSize != layoutElement.layoutBoundsWidth)
+					{
+						needInvalidateSize = true;
+					}
+				}
+				if(i == 0 && _elementSizeTable.length > 0 && _elementSizeTable[i] != layoutElement.layoutBoundsWidth)
+				{
+					this.typicalLayoutRect = null;
+				}
+				_elementSizeTable[i] = layoutElement.layoutBoundsWidth;
+				x = getStartPosition(i);
+				layoutElement.setLayoutBoundsPosition(Math.round(x), Math.round(y));
+			}
+			contentHeight += paddingT + paddingB;
+			contentWidth = getStartPosition(numElements) - _gap + paddingR;
+			target.setContentSize(Math.ceil(contentWidth), Math.ceil(contentHeight));
+			if(needInvalidateSize || oldMaxH < _maxElementHeight)
+			{
+				target.invalidateSize();
+			}
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		override protected function getElementBoundsLeftOfScrollRect(scrollRect:Rectangle):Rectangle
@@ -581,12 +770,27 @@ package org.hammerc.layouts
 		{
 			var padding:Number = isNaN(_padding) ? 0 : _padding;
 			var paddingL:Number = isNaN(_paddingLeft) ? padding : _paddingLeft;
-			var element:IUIComponent;
-			if(target != null)
+			if(!this.useVirtualLayout)
 			{
-				element = target.getElementAt(index);
+				var element:IUIComponent;
+				if(target != null)
+				{
+					element = target.getElementAt(index);
+				}
+				return element ? element.x : paddingL;
 			}
-			return element ? element.x : paddingL;
+			var typicalWidth:Number = this.typicalLayoutRect ? this.typicalLayoutRect.width : 71;
+			var startPos:Number = paddingL;
+			for(var i:int = 0; i < index; i++)
+			{
+				var eltWidth:Number = _elementSizeTable[i];
+				if(isNaN(eltWidth))
+				{
+					eltWidth = typicalWidth;
+				}
+				startPos += eltWidth + gap;
+			}
+			return startPos;
 		}
 		
 		/**
@@ -594,11 +798,150 @@ package org.hammerc.layouts
 		 */
 		private function getElementSize(index:int):Number
 		{
+			if(this.useVirtualLayout)
+			{
+				var size:Number = _elementSizeTable[index];
+				if(isNaN(size))
+				{
+					size = this.typicalLayoutRect ? this.typicalLayoutRect.width : 71;
+				}
+				return size;
+			}
 			if(target != null)
 			{
 				return target.getElementAt(index).width;
 			}
 			return 0;
+		}
+		
+		/**
+		 * 获取缓存的子对象尺寸总和.
+		 */
+		private function getElementTotalSize():Number
+		{
+			var typicalWidth:Number = this.typicalLayoutRect ? this.typicalLayoutRect.width : 71;
+			var totalSize:Number = 0;
+			var length:int = target.numElements;
+			for(var i:int = 0; i < length; i++)
+			{
+				var eltWidth:Number = _elementSizeTable[i];
+				if(isNaN(eltWidth))
+				{
+					eltWidth = typicalWidth;
+				}
+				totalSize += eltWidth+gap;
+			}
+			totalSize -= gap;
+			return totalSize;
+		}
+		
+		/**
+		 * 获取视图中第一个和最后一个元素的索引, 返回是否发生改变.
+		 */
+		private function getIndexInView():Boolean
+		{
+			if(!target || target.numElements == 0)
+			{
+				_startIndex = _endIndex = -1;
+				return false;
+			}
+			if(isNaN(target.width) || target.width == 0 || isNaN(target.height) || target.height == 0)
+			{
+				_startIndex = _endIndex = -1;
+				return false;
+			}
+			var padding:Number = isNaN(_padding) ? 0 : _padding;
+			var paddingL:Number = isNaN(_paddingLeft) ? padding : _paddingLeft;
+			var paddingR:Number = isNaN(_paddingRight) ? padding : _paddingRight;
+			var paddingT:Number = isNaN(_paddingTop) ? padding : _paddingTop;
+			var paddingB:Number = isNaN(_paddingBottom) ? padding : _paddingBottom;
+			var numElements:int = target.numElements;
+			var contentWidth:Number = getStartPosition(numElements - 1) + _elementSizeTable[numElements - 1] + paddingR;
+			var minVisibleX:Number = target.horizontalScrollPosition;
+			if(minVisibleX > contentWidth - paddingR)
+			{
+				_startIndex = -1;
+				_endIndex = -1;
+				return false;
+			}
+			var maxVisibleX:Number = target.horizontalScrollPosition + target.width;
+			if(maxVisibleX < paddingL)
+			{
+				_startIndex = -1;
+				_endIndex = -1;
+				return false;
+			}
+			var oldStartIndex:int = _startIndex;
+			var oldEndIndex:int = _endIndex;
+			_startIndex = findIndexAt(minVisibleX, 0, numElements - 1);
+			if(_startIndex == -1)
+			{
+				_startIndex = 0;
+			}
+			_endIndex = findIndexAt(maxVisibleX, 0, numElements - 1);
+			if(_endIndex == -1)
+			{
+				_endIndex = numElements - 1;
+			}
+			return oldStartIndex != _startIndex || oldEndIndex != _endIndex;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function scrollPositionChanged():void
+		{
+			super.scrollPositionChanged();
+			if(this.useVirtualLayout)
+			{
+				var changed:Boolean = getIndexInView();
+				if(changed)
+				{
+					_indexInViewCalculated = true;
+					target.invalidateDisplayList();
+				}
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function elementAdded(index:int):void
+		{
+			if(!this.useVirtualLayout)
+			{
+				return;
+			}
+			super.elementAdded(index);
+			var typicalWidth:Number = this.typicalLayoutRect ? this.typicalLayoutRect.width : 71;
+			_elementSizeTable.splice(index, 0, typicalWidth);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function elementRemoved(index:int):void
+		{
+			if(!this.useVirtualLayout)
+			{
+				return;
+			}
+			super.elementRemoved(index);
+			_elementSizeTable.splice(index, 1);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function clearVirtualLayoutCache():void
+		{
+			if(!this.useVirtualLayout)
+			{
+				return;
+			}
+			super.clearVirtualLayoutCache();
+			_elementSizeTable = [];
+			_maxElementHeight = 0;
 		}
 	}
 }

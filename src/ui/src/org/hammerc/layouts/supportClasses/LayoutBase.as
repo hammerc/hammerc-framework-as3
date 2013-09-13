@@ -4,6 +4,7 @@
  */
 package org.hammerc.layouts.supportClasses
 {
+	import flash.events.Event;
 	import flash.geom.Rectangle;
 	
 	import org.hammerc.components.supportClasses.GroupBase;
@@ -27,6 +28,9 @@ package org.hammerc.layouts.supportClasses
 		
 		private var _clipAndEnableScrolling:Boolean = false;
 		
+		private var _useVirtualLayout:Boolean = false;
+		private var _typicalLayoutRect:Rectangle;
+		
 		/**
 		 * 创建一个 <code>LayoutBase</code> 对象.
 		 */
@@ -43,6 +47,7 @@ package org.hammerc.layouts.supportClasses
 			if(_target != value)
 			{
 				_target = value;
+				this.clearVirtualLayoutCache();
 			}
 		}
 		public function get target():GroupBase
@@ -103,6 +108,53 @@ package org.hammerc.layouts.supportClasses
 		public function get clipAndEnableScrolling():Boolean
 		{
 			return _clipAndEnableScrolling;
+		}
+		
+		/**
+		 * 设置或获取配置的容器是否使用虚拟布局.
+		 * 请为与容器关联的布局的 <code>useVirtualLayout</code> 属性设置为 true.
+		 * 只有布局设置为 <code>VerticalLayout</code>, <code>HorizontalLayout</code> 或 <code>TileLayout</code> 的 <code>DataGroup</code> 或 <code>SkinnableDataContainer</code> 才支持虚拟布局.
+		 * 不支持虚拟化的布局子类必须禁止更改此属性.
+		 */
+		public function set useVirtualLayout(value:Boolean):void
+		{
+			if(_useVirtualLayout == value)
+			{
+				return;
+			}
+			_useVirtualLayout = value;
+			this.dispatchEvent(new Event("useVirtualLayoutChanged"));
+			if(_useVirtualLayout && !value)
+			{
+				this.clearVirtualLayoutCache();
+			}
+			if(this.target)
+			{
+				this.target.invalidateDisplayList();
+			}
+		}
+		public function get useVirtualLayout():Boolean
+		{
+			return _useVirtualLayout;
+		}
+		
+		/**
+		 * 设置或获取估计尚未滚动到视图中的布局元素的大小. 由虚拟布局所使用.
+		 */
+		public function set typicalLayoutRect(value:Rectangle):void
+		{
+			if(_typicalLayoutRect != value)
+			{
+				_typicalLayoutRect = value;
+				if(this.target != null)
+				{
+					this.target.invalidateSize();
+				}
+			}
+		}
+		public function get typicalLayoutRect():Rectangle
+		{
+			return _typicalLayoutRect;
 		}
 		
 		/**
@@ -415,6 +467,29 @@ package org.hammerc.layouts.supportClasses
 		 * @param height 组件的高度.
 		 */
 		public function updateDisplayList(width:Number, height:Number):void
+		{
+		}
+		
+		/**
+		 * 清理虚拟布局缓存的数据.
+		 */
+		public function clearVirtualLayoutCache():void
+		{
+		}
+		
+		/**
+		 * 在已添加布局元素之后且在验证目标的大小和显示列表之前, 由目标调用.
+		 * 按元素状态缓存的布局 (比如虚拟布局) 可以覆盖此方法以更新其缓存.
+		 */
+		public function elementAdded(index:int):void
+		{
+		}
+		
+		/**
+		 * 必须在已删除布局元素之后且在验证目标的大小和显示列表之前, 由目标调用此方法.
+		 * 按元素状态缓存的布局 (比如虚拟布局) 可以覆盖此方法以更新其缓存.
+		 */
+		public function elementRemoved(index:int):void
 		{
 		}
 	}

@@ -565,7 +565,14 @@ package org.hammerc.layouts
 			{
 				return;
 			}
-			updateMaxElementSizeReal();
+			if(this.useVirtualLayout)
+			{
+				updateMaxElementSizeVirtual();
+			}
+			else 
+			{
+				updateMaxElementSizeReal();
+			}
 		}
 		
 		/**
@@ -583,6 +590,31 @@ package org.hammerc.layouts
 				}
 				_maxElementWidth = Math.max(_maxElementWidth, elt.preferredWidth);
 				_maxElementHeight = Math.max(_maxElementHeight, elt.preferredHeight);
+			}
+		}
+		
+		/**
+		 * 更新虚拟布局的最大子对象尺寸.
+		 */
+		private function updateMaxElementSizeVirtual():void
+		{
+			if(this.typicalLayoutRect)
+			{
+				_maxElementWidth = Math.max(_maxElementWidth, this.typicalLayoutRect.width);
+				_maxElementHeight = Math.max(_maxElementHeight, this.typicalLayoutRect.height);
+			}
+			if((_startIndex != -1) && (_endIndex != -1))
+			{
+				for(var index:int = _startIndex; index <= _endIndex; index++)
+				{
+					var elt:ILayoutElement = target.getVirtualElementAt(index) as ILayoutElement;
+					if(!elt || !elt.includeInLayout)
+					{
+						continue;
+					}
+					_maxElementWidth = Math.max(_maxElementWidth, elt.preferredWidth);
+					_maxElementHeight = Math.max(_maxElementHeight, elt.preferredHeight);
+				}
 			}
 		}
 		
@@ -615,6 +647,10 @@ package org.hammerc.layouts
 				}
 				adjustForJustify(width, height);
 			}
+			if(this.useVirtualLayout)
+			{
+				calculateRowAndColumn(width, height);
+			}
 			if(_startIndex == -1 || _endIndex == -1)
 			{
 				target.setContentSize(0, 0);
@@ -628,7 +664,14 @@ package org.hammerc.layouts
 			var orientedByColumns:Boolean = (orientation == TileOrientation.COLUMNS);
 			for(var index:int = _startIndex; index <= _endIndex; index++)
 			{
-				elt = target.getElementAt(index) as ILayoutElement;
+				if(this.useVirtualLayout)
+				{
+					elt = target.getVirtualElementAt(index) as ILayoutElement;
+				}
+				else
+				{
+					elt = target.getElementAt(index) as ILayoutElement;
+				}
 				if(elt == null || !elt.includeInLayout)
 				{
 					continue;
@@ -930,6 +973,101 @@ package org.hammerc.layouts
 			var padding:Number = isNaN(_padding) ? 0 : _padding;
 			var paddingT:Number = isNaN(_paddingTop) ? padding : _paddingTop;
 			return Math.min(target.contentHeight, rowIndex * (_rowHeight + _verticalGap) + _rowHeight) + paddingT;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function scrollPositionChanged():void
+		{
+			super.scrollPositionChanged();
+			if(this.useVirtualLayout)
+			{
+				var changed:Boolean = getIndexInView();
+				if(changed)
+				{
+					_indexInViewCalculated = true;
+					target.invalidateDisplayList();
+				}
+			}
+		}
+		
+		/**
+		 * 获取视图中第一个和最后一个元素的索引, 返回是否发生改变.
+		 */
+		private function getIndexInView():Boolean
+		{
+			if(target == null || target.numElements == 0)
+			{
+				_startIndex = _endIndex = -1;
+				return false;
+			}
+			var numElements:int = target.numElements;
+			if(!this.useVirtualLayout)
+			{
+				_startIndex = 0;
+				_endIndex = numElements - 1;
+				return false;
+			}
+			if(isNaN(target.width) || target.width == 0 || isNaN(target.height) || target.height == 0)
+			{
+				_startIndex = _endIndex = -1;
+				return false;
+			}
+			var oldStartIndex:int = _startIndex;
+			var oldEndIndex:int = _endIndex;
+			var padding:Number = isNaN(_padding) ? 0 : _padding;
+			var paddingL:Number = isNaN(_paddingLeft) ? padding : _paddingLeft;
+			var paddingT:Number = isNaN(_paddingTop) ? padding : _paddingTop;
+			if(orientation == TileOrientation.COLUMNS)
+			{
+				var itemWidth:Number = _columnWidth + _horizontalGap;
+				if(itemWidth <= 0)
+				{
+					_startIndex = 0;
+					_endIndex = numElements - 1;
+					return false;
+				}
+				var minVisibleX:Number = target.horizontalScrollPosition;
+				var maxVisibleX:Number = target.horizontalScrollPosition + target.width;
+				var startColumn:int = Math.floor((minVisibleX - paddingL) / itemWidth);
+				if(startColumn < 0)
+				{
+					startColumn = 0;
+				}
+				var endColumn:int = Math.ceil((maxVisibleX - paddingL) / itemWidth);
+				if(endColumn < 0)
+				{
+					endColumn = 0;
+				}
+				_startIndex = Math.min(numElements - 1, Math.max(0, startColumn * _rowCount));
+				_endIndex = Math.min(numElements - 1, Math.max(0, endColumn * _rowCount-1));
+			}
+			else
+			{
+				var itemHeight:Number = _rowHeight + _verticalGap;
+				if(itemHeight <= 0)
+				{
+					_startIndex = 0;
+					_endIndex = numElements - 1;
+					return false;
+				}
+				var minVisibleY:Number = target.verticalScrollPosition;
+				var maxVisibleY:Number = target.verticalScrollPosition + target.height;
+				var startRow:int = Math.floor((minVisibleY - paddingT) / itemHeight);
+				if(startRow < 0)
+				{
+					startRow = 0;
+				}
+				var endRow:int = Math.ceil((maxVisibleY - paddingT) / itemHeight);
+				if(endRow < 0)
+				{
+					endRow = 0;
+				}
+				_startIndex = Math.min(numElements - 1, Math.max(0, startRow * _columnCount));
+				_endIndex = Math.min(numElements - 1, Math.max(0, endRow * _columnCount - 1));
+			}
+			return _startIndex != oldStartIndex || _endIndex != oldEndIndex;
 		}
 	}
 }

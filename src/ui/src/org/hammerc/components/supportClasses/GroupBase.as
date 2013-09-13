@@ -440,5 +440,24 @@ package org.hammerc.components.supportClasses
 		{
 			return -1;
 		}
+		
+		/**
+		 * 在支持虚拟布局的容器中, 设置容器内可见的子元素索引范围. 此方法在不支持虚拟布局的容器中无效.
+		 * 通常在即将连续调用 <code>getVirtualElementAt</code> 之前需要显式设置一次, 以便容器提前释放已经不可见的子元素.
+		 * @param startIndex 可视元素起始索引.
+		 * @param endIndex 可视元素结束索引.
+		 */
+		public function setVirtualElementIndicesInView(startIndex:int, endIndex:int):void
+		{
+		}
+		
+		/**
+		 * 支持 <code>useVirtualLayout</code> 属性的布局类在 <code>updateDisplayList</code> 中使用此方法来获取"处于视图中"的布局元素.
+		 * @param index 要检索的元素的索引.
+		 */
+		public function getVirtualElementAt(index:int):IUIComponent
+		{
+			return this.getElementAt(index);
+		}
 	}
 }
