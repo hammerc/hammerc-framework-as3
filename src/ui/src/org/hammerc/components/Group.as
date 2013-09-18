@@ -523,60 +523,46 @@ package org.hammerc.components
 			}
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function addChild(child:DisplayObject):DisplayObject
 		{
-			throw new Error("addChild()在此组件中不可用，若此组件为容器类，请使用addElement()代替");
+			throw new Error("addChild()在此组件中不可用，若此组件为容器类，请使用addElement()代替！");
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
 		{
-			throw new Error("addChildAt()在此组件中不可用，若此组件为容器类，请使用addElementAt()代替");
+			throw new Error("addChildAt()在此组件中不可用，若此组件为容器类，请使用addElementAt()代替！");
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function removeChild(child:DisplayObject):DisplayObject
 		{
-			throw new Error("removeChild()在此组件中不可用，若此组件为容器类，请使用removeElement()代替");
+			throw new Error("removeChild()在此组件中不可用，若此组件为容器类，请使用removeElement()代替！");
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function removeChildAt(index:int):DisplayObject
 		{
-			throw new Error("removeChildAt()在此组件中不可用，若此组件为容器类，请使用removeElementAt()代替");
+			throw new Error("removeChildAt()在此组件中不可用，若此组件为容器类，请使用removeElementAt()代替！");
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function setChildIndex(child:DisplayObject, index:int):void
 		{
-			throw new Error("setChildIndex()在此组件中不可用，若此组件为容器类，请使用setElementIndex()代替");
+			throw new Error("setChildIndex()在此组件中不可用，若此组件为容器类，请使用setElementIndex()代替！");
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function swapChildren(child1:DisplayObject, child2:DisplayObject):void
 		{
-			throw new Error("swapChildren()在此组件中不可用，若此组件为容器类，请使用swapElements()代替");
+			throw new Error("swapChildren()在此组件中不可用，若此组件为容器类，请使用swapElements()代替！");
 		}
 		
-		/**
-		 * 取消使用该方法.
-		 */
+		[Deprecated]
 		override public function swapChildrenAt(index1:int, index2:int):void
 		{
-			throw new Error("swapChildrenAt()在此组件中不可用，若此组件为容器类，请使用swapElementsAt()代替");
+			throw new Error("swapChildrenAt()在此组件中不可用，若此组件为容器类，请使用swapElementsAt()代替！");
 		}
 	}
 }

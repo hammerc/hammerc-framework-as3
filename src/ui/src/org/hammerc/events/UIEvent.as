@@ -55,6 +55,20 @@ package org.hammerc.events
 		public static const UPDATE_COMPLETE:String = "updateComplete";
 		
 		/**
+		 * 当组件的皮肤更改后会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType skinChanged
+		 */
+		public static const SKIN_CHANGED:String = "skinChanged";
+		
+		/**
 		 * 创建一个 <code>UIEvent</code> 对象.
 		 * @param type 事件的类型.
 		 * @param bubbles 是否参与事件流的冒泡阶段.
