@@ -22,6 +22,13 @@ package org.hammerc.archer.animation
 		function get totalFrames():int;
 		
 		/**
+		 * 获取指定帧的音效标识.
+		 * @param frame 指定的帧数.
+		 * @return 音效标识.
+		 */
+		function getSoundAt(frame:int):String;
+		
+		/**
 		 * 获取指定帧的帧标签.
 		 * @param frame 指定的帧数.
 		 * @return 帧标签.

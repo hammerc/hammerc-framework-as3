@@ -10,6 +10,26 @@ package org.hammerc.archer.animation
 	import org.hammerc.archer.events.AnimationEvent;
 	
 	/**
+	 * @eventType org.hammerc.archer.events.AnimationEvent.SOUND_EVENT
+	 */
+	[Event(name="soundEvent",type="org.hammerc.archer.events.AnimationEvent")]
+	
+	/**
+	 * @eventType org.hammerc.archer.events.AnimationEvent.FRAME_EVENT
+	 */
+	[Event(name="frameEvent",type="org.hammerc.archer.events.AnimationEvent")]
+	
+	/**
+	 * @eventType org.hammerc.archer.events.AnimationEvent.COMPLETE
+	 */
+	[Event(name="complete",type="org.hammerc.archer.events.AnimationEvent")]
+	
+	/**
+	 * @eventType org.hammerc.archer.events.AnimationEvent.LOOP_COMPLETE
+	 */
+	[Event(name="loopComplete",type="org.hammerc.archer.events.AnimationEvent")]
+	
+	/**
 	 * <code>Animation</code> 类实现了基于时间播放的动画控制对象.
 	 * @author wizardc
 	 */
@@ -28,7 +48,7 @@ package org.hammerc.archer.animation
 		/**
 		 * 记录一帧的间隔时间.
 		 */
-		protected var _frameDelay:Number;
+		protected var _frameDelay:Number = 1 / 12;
 		
 		/**
 		 * 记录当前帧.
@@ -77,7 +97,7 @@ package org.hammerc.archer.animation
 			{
 				throw new Error("目标动画对象不能设置为空！");
 			}
-			target = value;
+			_target = value;
 		}
 		public function get target():IAnimatable
 		{
@@ -94,7 +114,7 @@ package org.hammerc.archer.animation
 				value = 1;
 			}
 			_frameRate = value;
-			_frameDelay = 1000 / _frameRate;
+			_frameDelay = 1 / _frameRate;
 		}
 		public function get frameRate():Number
 		{
@@ -152,11 +172,8 @@ package org.hammerc.archer.animation
 		 */
 		public function play():void
 		{
-			if(!_isPlaying)
-			{
-				_isPlaying = true;
-				_target.showFrame(int(_currentFrame));
-			}
+			_isPlaying = true;
+			_target.showFrame(int(_currentFrame));
 		}
 		
 		/**
@@ -164,12 +181,9 @@ package org.hammerc.archer.animation
 		 */
 		public function stop():void
 		{
-			if(_isPlaying)
-			{
-				_isPlaying = false;
-				_currentFrame = int(_currentFrame);
-				_target.showFrame(int(_currentFrame));
-			}
+			_isPlaying = false;
+			_currentFrame = int(_currentFrame);
+			_target.showFrame(int(_currentFrame));
 		}
 		
 		/**
@@ -227,6 +241,11 @@ package org.hammerc.archer.animation
 			{
 				for(var i:int = beginFrame + 1; i <= endFrame; i++)
 				{
+					var soundLabel:String = _target.getSoundAt(i);
+					if(soundLabel != null && soundLabel != "")
+					{
+						this.dispatchEvent(new AnimationEvent(AnimationEvent.SOUND_EVENT, _target, soundLabel));
+					}
 					var frameLabel:String = _target.getLabelAt(i);
 					if(frameLabel != null && frameLabel != "")
 					{
