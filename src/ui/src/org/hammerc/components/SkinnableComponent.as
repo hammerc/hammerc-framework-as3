@@ -20,6 +20,16 @@ package org.hammerc.components
 	use namespace hammerc_internal;
 	
 	/**
+	 * @eventType org.hammerc.events.SkinPartEvent.PART_ADDED
+	 */
+	[Event(name="partAdded", type="org.hammerc.events.SkinPartEvent")]
+	
+	/**
+	 * @eventType org.hammerc.events.SkinPartEvent.PART_REMOVED
+	 */
+	[Event(name="partRemoved", type="org.hammerc.events.SkinPartEvent")]
+	
+	/**
 	 * <code>SkinnableComponent</code> 类定义了可设置外观组件的基类, 接受 <code>ISkin</code> 接口或任何显示对象作为皮肤.
 	 * 当皮肤为 <code>ISkin</code> 时, 将自动匹配两个实例内同名的公开属性 (显示对象), 并将皮肤的属性引用赋值到此类定义的同名属性上.
 	 * @author wizardc
@@ -200,7 +210,7 @@ package org.hammerc.components
 		/**
 		 * 匹配皮肤和主机组件的公共变量, 并完成实例的注入.
 		 * <p>此方法在附加皮肤时会自动执行一次. 若皮肤中含有延迟实例化的子部件, 在子部件实例化完成时需要从外部再次调用此方法, 完成注入.</p>
-		 */	
+		 */
 		public function findSkinParts():void
 		{
 			var curSkin:Object = this.getCurrentSkin();

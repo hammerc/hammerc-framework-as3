@@ -17,6 +17,16 @@ package org.hammerc.components
 	use namespace hammerc_internal;
 	
 	/**
+	 * @eventType org.hammerc.events.ElementExistenceEvent.ELEMENT_ADD
+	 */
+	[Event(name="elementAdd", type="org.hammerc.events.ElementExistenceEvent")]
+	
+	/**
+	 * @eventType org.hammerc.events.ElementExistenceEvent.ELEMENT_REMOVE
+	 */
+	[Event(name="elementRemove", type="org.hammerc.events.ElementExistenceEvent")]
+	
+	/**
 	 * <code>Group</code> 类实现了框架的容器, 屏蔽了原生子对象管理 API.
 	 * @author wizardc
 	 */

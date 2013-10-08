@@ -57,7 +57,7 @@ package org.hammerc.events
 		 * @param bubbles 是否参与事件流的冒泡阶段.
 		 * @param cancelable 是否可以取消事件对象.
 		 */
-		public function ElementExistenceEvent(type:String,element:IUIComponent = null, index:int = -1, bubbles:Boolean = false,cancelable:Boolean = false)
+		public function ElementExistenceEvent(type:String, element:IUIComponent = null, index:int = -1, bubbles:Boolean = false, cancelable:Boolean = false)
 		{
 			super(type, bubbles, cancelable);
 			_element = element;
