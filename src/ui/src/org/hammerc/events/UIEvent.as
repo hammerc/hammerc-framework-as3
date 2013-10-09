@@ -69,6 +69,105 @@ package org.hammerc.events
 		public static const SKIN_CHANGED:String = "skinChanged";
 		
 		/**
+		 * 当组件的值发生改变时会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType valueCommit
+		 */
+		public static const VALUE_COMMIT:String = "valueCommit";
+		
+		/**
+		 * 当用户按下 <code>ButtonBase</code> 控件时会播放该事件.
+		 * <p>如果 <code>autoRepeat</code> 属性为 true, 则只要按钮处于按下状态, 就将重复分派此事件.</p>
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType buttonDown
+		 */
+		public static const BUTTON_DOWN:String = "buttonDown";
+		
+		/**
+		 * 当组件的改变开始时会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType changeStart
+		 */
+		public static const CHANGE_START:String = "changeStart";
+		
+		/**
+		 * 当组件的正在改变中会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType changing
+		 */
+		public static const CHANGING:String = "changing";
+		
+		/**
+		 * 当组件的改变结束时会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType changeEnd
+		 */
+		public static const CHANGE_END:String = "changeEnd";
+		
+		/**
+		 * 当下拉框弹出时会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType open
+		 */
+		public static const OPEN:String = "open";
+		
+		/**
+		 * 当下拉框关闭时会播放该事件.
+		 * <p>此事件具有以下属性:</p>
+		 * <table class="innertable">
+		 *   <tr><th>Property</th><th>Value</th></tr>
+		 *   <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 *   <tr><td><code>currentTarget</code></td><td>当前正在使用某个事件侦听器处理该事件的对象.</td></tr>
+		 *   <tr><td><code>target</code></td><td>发送该事件的对象.</td></tr>
+		 * </table>
+		 * @eventType close
+		 */
+		public static const CLOSE:String = "close";
+		
+		/**
 		 * 创建一个 <code>UIEvent</code> 对象.
 		 * @param type 事件的类型.
 		 * @param bubbles 是否参与事件流的冒泡阶段.
