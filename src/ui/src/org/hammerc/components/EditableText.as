@@ -367,7 +367,7 @@ package org.hammerc.components
 			{
 				return 1;
 			}
-			var lineHeight:Number = (_textField.textHeight - 4) / numLines;
+			var lineHeight:Number = (_textField.textHeight + 4) / numLines;
 			return int(value / lineHeight) + 1;
 		}
 		
@@ -385,11 +385,11 @@ package org.hammerc.components
 			{
 				return 0;
 			}
-			var lineHeight:Number = (_textField.textHeight - 4) / numLines;
+			var lineHeight:Number = (_textField.textHeight + 4) / numLines;
 			if(scrollV == _textField.maxScrollV)
 			{
-				var offsetHeight:Number = (height - 4) % lineHeight;
-				return _textField.textHeight + offsetHeight - height;
+				var offsetHeight:Number = (this.height - 4) % lineHeight;
+				return _textField.textHeight + 4 + offsetHeight - this.height;
 			}
 			return lineHeight * (scrollV - 1);
 		}
@@ -643,7 +643,7 @@ package org.hammerc.components
 			measuredWidth = isNaN(_defaultWidth) ? DEFAULT_MEASURED_WIDTH : _defaultWidth;
 			if(_maxChars != 0)
 			{
-				measuredWidth = Math.min(measuredWidth, _textField.textWidth);
+				measuredWidth = Math.min(measuredWidth, _textField.textWidth + 5);
 			}
 			if(_multiline)
 			{
@@ -651,7 +651,7 @@ package org.hammerc.components
 			}
 			else
 			{
-				measuredHeight = _textField.textHeight;
+				measuredHeight = _textField.textHeight + 4;
 			}
 		}
 		
@@ -679,7 +679,7 @@ package org.hammerc.components
 			{
 				return;
 			}
-			setContentWidth(_textField.textWidth);
+			setContentWidth(_textField.textWidth + 5);
 			var contentHeight:Number = 0;
 			var numLines:int = _textField.numLines;
 			if(numLines == 0)
@@ -688,9 +688,9 @@ package org.hammerc.components
 			}
 			else
 			{
-				var lineHeight:Number = (_textField.textHeight - 4) / numLines;
-				var offsetHeight:Number = (height - 4) % lineHeight;
-				contentHeight = _textField.textHeight + offsetHeight;
+				var lineHeight:Number = (_textField.textHeight + 4) / numLines;
+				var offsetHeight:Number = (this.height - 4) % lineHeight;
+				contentHeight = _textField.textHeight + 4 + offsetHeight;
 			}
 			setContentHeight(contentHeight);
 		}

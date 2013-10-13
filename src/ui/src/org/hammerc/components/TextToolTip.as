@@ -112,7 +112,7 @@ package org.hammerc.components
 			var widthSlop:Number = 10;
 			var heightSlop:Number = 10;
 			_textField.wordWrap = false;
-			if(_textField.textWidth + widthSlop > TextToolTip.maxWidth)
+			if(_textField.textWidth + 5 + widthSlop > TextToolTip.maxWidth)
 			{
 				_textField.width = TextToolTip.maxWidth - widthSlop;
 				_textField.wordWrap = true;

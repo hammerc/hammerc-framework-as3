@@ -575,8 +575,8 @@ package org.hammerc.components
 			{
 				_textField.wordWrap = true;
 			}
-			_textWidth = _textField.textWidth;
-			_textHeight = _textField.textHeight;
+			_textWidth = _textField.textWidth + 5;
+			_textHeight = _textField.textHeight + 4;
 			if(_maxDisplayedLines > 0 && _textField.numLines > _maxDisplayedLines)
 			{
 				var lineM:TextLineMetrics = _textField.getLineMetrics(0);
@@ -596,7 +596,7 @@ package org.hammerc.components
 					super.toolTip = _isTruncated ? _text : null;
 				}
 			}
-			if(_textField.textHeight >= unscaledTextHeight)
+			if(_textField.textHeight + 4 >= unscaledTextHeight)
 			{
 				return;
 			}
@@ -605,7 +605,7 @@ package org.hammerc.components
 				if(_textField.numLines > 1)
 				{
 					_textField.height = unscaledTextHeight;
-					var extHeight:Number = Math.max(0, unscaledTextHeight - 4 - _textField.textHeight);
+					var extHeight:Number = Math.max(0, unscaledTextHeight - _textField.textHeight + 4);
 					this.defaultTextFormat.leading = Math.floor(extHeight/(_textField.numLines - 1));
 					_textField.setTextFormat(this.defaultTextFormat);
 					applyRangeFormat(this.defaultTextFormat.leading);
@@ -623,7 +623,7 @@ package org.hammerc.components
 				{
 					valign = 1;
 				}
-				_textField.y += Math.floor((unscaledTextHeight - _textField.textHeight) * valign);
+				_textField.y += Math.floor((unscaledTextHeight - _textField.textHeight + 4) * valign);
 				_textField.height = unscaledTextHeight - _textField.y;
 			}
 		}
@@ -646,7 +646,7 @@ package org.hammerc.components
 				lastLineIndex = 0;
 			}
 			lastLineIndex += 1;
-			if(_textField.numLines > lastLineIndex && _textField.textHeight > _textField.height)
+			if(_textField.numLines > lastLineIndex && _textField.textHeight + 4 > _textField.height)
 			{
 				var offset:int = _textField.getLineOffset(lastLineIndex);
 				originalText = originalText.substr(0, offset);

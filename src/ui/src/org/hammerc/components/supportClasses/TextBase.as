@@ -664,8 +664,8 @@ package org.hammerc.components.supportClasses
 			_textField.y = 0;
 			_textField.width = unscaledWidth;
 			_textField.height = unscaledHeight;
-			_textWidth = _textField.textWidth;
-			_textHeight = _textField.textHeight;
+			_textWidth = _textField.textWidth + 5;
+			_textHeight = _textField.textHeight + 4;
 		}
 		
 		/**
@@ -698,8 +698,8 @@ package org.hammerc.components.supportClasses
 				_text = _textField.text;
 			}
 			_htmlText = _textField.htmlText;
-			_textWidth = _textField.textWidth;
-			_textHeight = _textField.textHeight;
+			_textWidth = _textField.textWidth + 5;
+			_textHeight = _textField.textHeight + 4;
 		}
 	}
 }
