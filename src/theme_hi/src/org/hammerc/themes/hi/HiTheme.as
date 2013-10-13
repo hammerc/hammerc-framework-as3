@@ -5,8 +5,14 @@
 package org.hammerc.themes.hi
 {
 	import org.hammerc.components.Button;
+	import org.hammerc.components.CheckBox;
+	import org.hammerc.components.RadioButton;
+	import org.hammerc.components.ToggleButton;
 	import org.hammerc.skins.Theme;
 	import org.hammerc.themes.hi.skins.ButtonSkin;
+	import org.hammerc.themes.hi.skins.CheckBoxSkin;
+	import org.hammerc.themes.hi.skins.RadioButtonSkin;
+	import org.hammerc.themes.hi.skins.ToggleButtonSkin;
 	
 	/**
 	 * <code>HiTheme</code> 类为 Hi 主题类.
@@ -26,6 +32,9 @@ package org.hammerc.themes.hi
 		private function init():void
 		{
 			this.mapSkin(Button, ButtonSkin);
+			this.mapSkin(CheckBox, CheckBoxSkin);
+			this.mapSkin(RadioButton, RadioButtonSkin);
+			this.mapSkin(ToggleButton, ToggleButtonSkin);
 		}
 	}
 }

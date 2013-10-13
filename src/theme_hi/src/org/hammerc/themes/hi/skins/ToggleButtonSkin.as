@@ -14,10 +14,10 @@ package org.hammerc.themes.hi.skins
 	use namespace hammerc_internal;
 	
 	/**
-	 * <code>ButtonSkin</code> 类定义了按钮控件的皮肤.
+	 * <code>ToggleButtonSkin</code> 类定义了切换按钮控件的皮肤.
 	 * @author wizardc
 	 */
-	public class ButtonSkin extends HiSkin
+	public class ToggleButtonSkin extends HiSkin
 	{
 		/**
 		 * 皮肤子件, 按钮上的文本标签.
@@ -25,14 +25,12 @@ package org.hammerc.themes.hi.skins
 		public var labelDisplay:Label;
 		
 		/**
-		 * 创建一个 <code>ButtonSkin</code> 对象.
+		 * 创建一个 <code>ToggleButtonSkin</code> 对象.
 		 */
-		public function ButtonSkin()
+		public function ToggleButtonSkin()
 		{
 			super();
-			this.states = ["up", "over", "down", "disabled"];
-			this.minHeight = 21;
-			this.minWidth = 21;
+			this.states = ["up", "over", "down", "disabled", "upAndSelected", "overAndSelected", "downAndSelected", "disabledAndSelected"];
 		}
 		
 		/**
@@ -72,6 +70,10 @@ package org.hammerc.themes.hi.skins
 					textColor = _themeColors[1];
 					break;
 				case "down":
+				case "overAndSelected":
+				case "upAndSelected":
+				case "downAndSelected":
+				case "disabledAndSelected":
 					this.drawCurrentState(0, 0, w, h, _borderColors[2], _bottomLineColors[2], [_fillColors[4], _fillColors[5]], _cornerRadius);
 					textColor = _themeColors[1];
 					break;
@@ -80,9 +82,9 @@ package org.hammerc.themes.hi.skins
 			{
 				labelDisplay.textColor = textColor;
 				labelDisplay.applyTextFormatNow();
-				labelDisplay.filters = (this.currentState == "over" || this.currentState == "down") ? _textOverFilter : null;
+				labelDisplay.filters = (this.currentState=="over" || this.currentState == "down") ? _textOverFilter : null;
 			}
-			this.alpha = this.currentState == "disabled" ? 0.5 : 1;
+			this.alpha = this.currentState == "disabled" || this.currentState == "disabledAndSelected" ? 0.5 : 1;
 		}
 	}
 }
