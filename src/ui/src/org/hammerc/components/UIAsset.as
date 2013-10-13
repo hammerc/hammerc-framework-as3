@@ -20,6 +20,11 @@ package org.hammerc.components
 	use namespace hammerc_internal;
 	
 	/**
+	 * @eventType org.hammerc.events.UIEvent.SKIN_CHANGED
+	 */
+	[Event(name="skinChanged", type="org.hammerc.events.UIEvent")]
+	
+	/**
 	 * <code>UIAsset</code> 类实现了简单的可设置皮肤的组件, 解析后的皮肤对象会被直接添加到自身.
 	 * <p>内部鼠标事件被屏蔽.</p>
 	 * @author wizardc

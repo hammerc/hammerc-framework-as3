@@ -21,9 +21,19 @@ package org.hammerc.components
 	use namespace hammerc_internal;
 	
 	/**
-	* <code>ViewStack</code> 类实现了层级堆叠容器, 一次只显示一个子对象.
-	* @author wizardc
-	*/
+	 * @eventType org.hammerc.events.CollectionEvent.COLLECTION_CHANGE
+	 */
+	[Event(name="collectionChange", type="org.hammerc.events.CollectionEvent")]
+	
+	/**
+	 * @eventType org.hammerc.events.UIEvent.VALUE_COMMIT
+	 */
+	[Event(name="valueCommit", type="org.hammerc.events.UIEvent")]
+	
+	/**
+	 * <code>ViewStack</code> 类实现了层级堆叠容器, 一次只显示一个子对象.
+	 * @author wizardc
+	 */
 	public class ViewStack extends Group implements IViewStack, ICollection
 	{
 		/**
