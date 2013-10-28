@@ -8,7 +8,7 @@ package org.hammerc.core
 	 * <code>IViewport</code> 接口为支持视区的组件接口.
 	 * @author wizardc
 	 */
-	public interface IViewport extends IDisplayObject
+	public interface IViewport extends IUIComponent
 	{
 		/**
 		 * 视域的内容的宽度.
