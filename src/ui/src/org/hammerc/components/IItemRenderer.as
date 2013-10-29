@@ -12,6 +12,7 @@ package org.hammerc.components
 	{
 		/**
 		 * 设置或获取要呈示或编辑的数据.
+		 * <p>刷新数据时也通过赋值完成, 所以内部不要作如下判断: <code>if(_data == value)return;</code>.</p>
 		 */
 		function set data(value:Object):void;
 		function get data():Object;

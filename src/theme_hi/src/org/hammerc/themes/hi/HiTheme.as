@@ -8,6 +8,8 @@ package org.hammerc.themes.hi
 	import org.hammerc.components.CheckBox;
 	import org.hammerc.components.HScrollBar;
 	import org.hammerc.components.HSlider;
+	import org.hammerc.components.ItemRenderer;
+	import org.hammerc.components.List;
 	import org.hammerc.components.ProgressBar;
 	import org.hammerc.components.RadioButton;
 	import org.hammerc.components.Scroller;
@@ -21,6 +23,8 @@ package org.hammerc.themes.hi
 	import org.hammerc.themes.hi.skins.CheckBoxSkin;
 	import org.hammerc.themes.hi.skins.HScrollBarSkin;
 	import org.hammerc.themes.hi.skins.HSliderSkin;
+	import org.hammerc.themes.hi.skins.ItemRendererSkin;
+	import org.hammerc.themes.hi.skins.ListSkin;
 	import org.hammerc.themes.hi.skins.ProgressBarSkin;
 	import org.hammerc.themes.hi.skins.RadioButtonSkin;
 	import org.hammerc.themes.hi.skins.ScrollerSkin;
@@ -51,6 +55,8 @@ package org.hammerc.themes.hi
 			this.mapSkin(CheckBox, CheckBoxSkin);
 			this.mapSkin(HScrollBar, HScrollBarSkin);
 			this.mapSkin(HSlider, HSliderSkin);
+			this.mapSkin(ItemRenderer, ItemRendererSkin);
+			this.mapSkin(List, ListSkin);
 			this.mapSkin(ProgressBar, ProgressBarSkin);
 			this.mapSkin(RadioButton, RadioButtonSkin);
 			this.mapSkin(Scroller, ScrollerSkin);

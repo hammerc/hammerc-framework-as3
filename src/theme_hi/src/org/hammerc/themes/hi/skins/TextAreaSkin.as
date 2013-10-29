@@ -101,13 +101,13 @@ package org.hammerc.themes.hi.skins
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w, h);
-			graphics.clear();
+			this.graphics.clear();
 			//绘制边框
-			drawRoundRect(0, 0, w, h, 0, _borderColors[0], 1, verticalGradientMatrix(0, 0, w, h), GradientType.LINEAR, null, {x:1, y:2, w:w - 2, h:h - 3, r:0}); 
+			this.drawRoundRect(0, 0, w, h, 0, _borderColors[0], 1, this.verticalGradientMatrix(0, 0, w, h), GradientType.LINEAR, null, {x:1, y:2, w:w - 2, h:h - 3, r:0}); 
 			//绘制填充
-			drawRoundRect(1, 2, w - 2, h - 3, 0, 0xFFFFFF, 1, verticalGradientMatrix(1, 2, w - 2, h - 3)); 
+			this.drawRoundRect(1, 2, w - 2, h - 3, 0, 0xFFFFFF, 1, this.verticalGradientMatrix(1, 2, w - 2, h - 3)); 
 			//绘制底线
-			drawLine(1, 0, w, 0, _bottomLineColors[0]);
+			this.drawLine(1, 0, w, 0, _bottomLineColors[0]);
 		}
 	}
 }
