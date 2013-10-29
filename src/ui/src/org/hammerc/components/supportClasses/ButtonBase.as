@@ -48,7 +48,7 @@ package org.hammerc.components.supportClasses
 		private var _autoRepeatTimer:Timer;
 		
 		private var _autoRepeat:Boolean = false;
-		private var _repeatDelay:Number = 35;
+		private var _repeatDelay:Number = 500;
 		private var _repeatInterval:Number = 35;
 		
 		private var _hovered:Boolean = false;    

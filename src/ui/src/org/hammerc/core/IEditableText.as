@@ -63,7 +63,7 @@ package org.hammerc.core
 		function get selectionEndIndex():int;
 		
 		/**
-		 * 设置或获取插入点位置的索引.
+		 * 获取插入点位置的索引.
 		 */
 		function get caretIndex():int;
 		
