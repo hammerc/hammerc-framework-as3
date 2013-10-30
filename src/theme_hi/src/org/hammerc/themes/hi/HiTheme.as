@@ -13,6 +13,8 @@ package org.hammerc.themes.hi
 	import org.hammerc.components.ProgressBar;
 	import org.hammerc.components.RadioButton;
 	import org.hammerc.components.Scroller;
+	import org.hammerc.components.TabBar;
+	import org.hammerc.components.TabBarButton;
 	import org.hammerc.components.TextArea;
 	import org.hammerc.components.TextInput;
 	import org.hammerc.components.ToggleButton;
@@ -28,6 +30,8 @@ package org.hammerc.themes.hi
 	import org.hammerc.themes.hi.skins.ProgressBarSkin;
 	import org.hammerc.themes.hi.skins.RadioButtonSkin;
 	import org.hammerc.themes.hi.skins.ScrollerSkin;
+	import org.hammerc.themes.hi.skins.TabBarButtonSkin;
+	import org.hammerc.themes.hi.skins.TabBarSkin;
 	import org.hammerc.themes.hi.skins.TextAreaSkin;
 	import org.hammerc.themes.hi.skins.TextInputSkin;
 	import org.hammerc.themes.hi.skins.ToggleButtonSkin;
@@ -60,6 +64,8 @@ package org.hammerc.themes.hi
 			this.mapSkin(ProgressBar, ProgressBarSkin);
 			this.mapSkin(RadioButton, RadioButtonSkin);
 			this.mapSkin(Scroller, ScrollerSkin);
+			this.mapSkin(TabBar, TabBarSkin);
+			this.mapSkin(TabBarButton, TabBarButtonSkin);
 			this.mapSkin(TextArea, TextAreaSkin);
 			this.mapSkin(TextInput, TextInputSkin);
 			this.mapSkin(ToggleButton, ToggleButtonSkin);

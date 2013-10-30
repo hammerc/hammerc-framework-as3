@@ -4,11 +4,13 @@
  */
 package org.hammerc.components
 {
+	import org.hammerc.core.IUIComponent;
+	
 	/**
 	 * <code>IItemRenderer</code> 接口定义了列表类组件的项呈示器接口.
 	 * @author wizardc
 	 */
-	public interface IItemRenderer
+	public interface IItemRenderer extends IUIComponent
 	{
 		/**
 		 * 设置或获取要呈示或编辑的数据.

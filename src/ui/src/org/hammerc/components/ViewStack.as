@@ -148,7 +148,7 @@ package org.hammerc.components
 		 */
 		hammerc_internal function setSelectedIndex(value:int, notifyListeners:Boolean = true):void
 		{
-			if(value == selectedIndex)
+			if(value == this.selectedIndex)
 			{
 				return;
 			}
