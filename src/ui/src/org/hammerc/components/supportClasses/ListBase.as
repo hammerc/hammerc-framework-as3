@@ -82,8 +82,11 @@ package org.hammerc.components.supportClasses
 		
 		private var _dataProviderChanged:Boolean;
 		
-		private var _requireSelection:Boolean = false;
+		private var _labelField:String = "label";
+		private var _labelFunction:Function;
+		private var _labelFieldOrFunctionChanged:Boolean;
 		
+		private var _requireSelection:Boolean = false;
 		private var _requireSelectionChanged:Boolean = false;
 		
 		/**
@@ -152,6 +155,44 @@ package org.hammerc.components.supportClasses
 				value.useVirtualLayout = true;
 			}
 			super.layout = value;
+		}
+		
+		/**
+		 * 设置或获取数据项中用来显示标签文字的字段名称.
+		 * <p>若设置了 <code>labelFunction</code>, 则设置此属性无效.</p>
+		 */
+		public function set labelField(value:String):void
+		{
+			if(value == _labelField)
+			{
+				return;
+			}
+			_labelField = value;
+			_labelFieldOrFunctionChanged = true;
+			this.invalidateProperties();
+		}
+		public function get labelField():String
+		{
+			return _labelField;
+		}
+		
+		/**
+		 * 设置或获取在每个项目上运行以确定其标签的函数.
+		 * <p>示例: function <code>labelFunc(item:Object):String</code>.</p>
+		 */
+		public function set labelFunction(value:Function):void
+		{
+			if(value == _labelFunction)
+			{
+				return;
+			}
+			_labelFunction = value;
+			_labelFieldOrFunctionChanged = true;
+			this.invalidateProperties();
+		}
+		public function get labelFunction():Function
+		{
+			return _labelFunction;
 		}
 		
 		/**
@@ -340,6 +381,94 @@ package org.hammerc.components.supportClasses
 			{
 				_dispatchChangeAfterSelection = false;
 			}
+			if(_labelFieldOrFunctionChanged)
+			{
+				if(this.dataGroup != null)
+				{
+					var itemIndex:int;
+					if(this.layout != null && this.layout.useVirtualLayout)
+					{
+						for each(itemIndex in this.dataGroup.getElementIndicesInView())
+						{
+							updateRendererLabelProperty(itemIndex);
+						}
+					}
+					else
+					{
+						var n:int = dataGroup.numElements;
+						for(itemIndex = 0; itemIndex < n; itemIndex++)
+						{
+							updateRendererLabelProperty(itemIndex);
+						}
+					}
+				}
+				_labelFieldOrFunctionChanged = false;
+			}
+		}
+		
+		private function updateRendererLabelProperty(itemIndex:int):void
+		{
+			var renderer:IItemRenderer = this.dataGroup.getElementAt(itemIndex) as IItemRenderer;
+			if(renderer != null)
+			{
+				renderer.label = this.itemToLabel(renderer.data);
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function itemToLabel(item:Object):String
+		{
+			if(_labelFunction != null)
+			{
+				return _labelFunction(item);
+			}
+			if(item is String)
+			{
+				return String(item);
+			}
+			if(item is XML)
+			{
+				try
+				{
+					if(item[labelField].length() != 0)
+					{
+						item = item[labelField];
+					}
+				}
+				catch(error:Error)
+				{
+				}
+			}
+			else if(item is Object)
+			{
+				try
+				{
+					if(item[labelField] != null)
+					{
+						item = item[labelField];
+					}
+				}
+				catch(error:Error)
+				{
+				}
+			}
+			if(item is String)
+			{
+				return String(item);
+			}
+			try
+			{
+				if(item !== null)
+				{
+					return item.toString();
+				}
+			}
+			catch(error:Error)
+			{
+			}
+			return " ";
 		}
 		
 		/**

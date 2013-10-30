@@ -326,8 +326,23 @@ package org.hammerc.components
 				(renderer as IUIComponent).ownerChanged(this);
 			}
 			renderer.itemIndex = itemIndex;
+			renderer.label = itemToLabel(data);
 			renderer.data = data;
 			return renderer;
+		}
+		
+		/**
+		 * 返回可在项呈示器中显示的字符串.
+		 * @param item 项数据.
+		 * @return 在项呈示器中显示的字符串.
+		 */
+		public function itemToLabel(item:Object):String
+		{
+			if(item != null)
+			{
+				return item.toString();
+			}
+			return " ";
 		}
 	}
 }

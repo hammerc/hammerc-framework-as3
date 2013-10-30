@@ -605,7 +605,7 @@ package org.hammerc.components
 				if(_textField.numLines > 1)
 				{
 					_textField.height = unscaledTextHeight;
-					var extHeight:Number = Math.max(0, unscaledTextHeight - _textField.textHeight + 4);
+					var extHeight:Number = Math.max(0, unscaledTextHeight - _textField.textHeight - 4);
 					this.defaultTextFormat.leading = Math.floor(extHeight/(_textField.numLines - 1));
 					_textField.setTextFormat(this.defaultTextFormat);
 					applyRangeFormat(this.defaultTextFormat.leading);
@@ -623,7 +623,7 @@ package org.hammerc.components
 				{
 					valign = 1;
 				}
-				_textField.y += Math.floor((unscaledTextHeight - _textField.textHeight + 4) * valign);
+				_textField.y += Math.floor((unscaledTextHeight - _textField.textHeight - 4) * valign);
 				_textField.height = unscaledTextHeight - _textField.y;
 			}
 		}

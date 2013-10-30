@@ -17,7 +17,6 @@ package org.hammerc.components
 		private var _allowDeselection:Boolean = true;
 		
 		private var _data:Object;
-		private var _dataChangedFlag:Boolean = false;
 		
 		private var _itemIndex:int;
 		
@@ -56,16 +55,6 @@ package org.hammerc.components
 		{
 			_data = value;
 			this.dispatchEvent(new Event("dataChange"));
-			if(this.initialized || this.hasParent)
-			{
-				_dataChangedFlag = false;
-				this.label = this.itemToLabel(_data);
-			}
-			else
-			{
-				_dataChangedFlag = true;
-				this.invalidateProperties();
-			}
 		}
 		public function get data():Object
 		{
@@ -95,41 +84,5 @@ package org.hammerc.components
 			}
 			super.buttonReleased();
 		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		override protected function commitProperties():void
-		{
-			super.commitProperties();
-			if(_dataChangedFlag)
-			{
-				_dataChangedFlag = false;
-				this.label = this.itemToLabel(_data);
-			}
-		}
-		
-		/**
-		 * 根据数据获取对应要显示的字符串.
-		 * @param item 项目数据.
-		 * @return 对应的字符串.
-		 */
-		protected function itemToLabel(item:Object):String
-		{
-			if(item == null)
-			{
-				return "";
-			}
-			else if(item is String)
-			{
-				return String(item);
-			}
-			else if(item.hasOwnProperty("label"))
-			{
-				return String(item.label);
-			}
-			return item.toString();
-		}
-		
 	}
 }

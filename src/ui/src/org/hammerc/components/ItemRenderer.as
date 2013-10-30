@@ -47,7 +47,6 @@ package org.hammerc.components
 			if(this.initialized || this.hasParent)
 			{
 				_dataChangedFlag = false;
-				this.label = this.itemToLabel(_data);
 				this.dataChanged();
 			}
 			else
@@ -99,31 +98,8 @@ package org.hammerc.components
 			if(_dataChangedFlag)
 			{
 				_dataChangedFlag = false;
-				this.label = this.itemToLabel(_data);
 				this.dataChanged();
 			}
-		}
-		
-		/**
-		 * 根据数据获取对应要显示的字符串.
-		 * @param item 项目数据.
-		 * @return 对应的字符串.
-		 */
-		protected function itemToLabel(item:Object):String
-		{
-			if(item == null)
-			{
-				return "";
-			}
-			else if(item is String)
-			{
-				return String(item);
-			}
-			else if(item.hasOwnProperty("label"))
-			{
-				return String(item.label);
-			}
-			return item.toString();
 		}
 		
 		/**

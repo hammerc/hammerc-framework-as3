@@ -13,6 +13,12 @@ package org.hammerc.components
 	public interface IItemRenderer extends IUIComponent
 	{
 		/**
+		 * 要在项呈示器中显示的字符串.
+		 */
+		function set label(value:String):void;
+		function get label():String;
+		
+		/**
 		 * 设置或获取要呈示或编辑的数据.
 		 * <p>刷新数据时也通过赋值完成, 所以内部不要作如下判断: <code>if(_data == value)return;</code>.</p>
 		 */

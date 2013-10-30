@@ -6,6 +6,8 @@ package org.hammerc.themes.hi
 {
 	import org.hammerc.components.Button;
 	import org.hammerc.components.CheckBox;
+	import org.hammerc.components.ComboBox;
+	import org.hammerc.components.DropDownList;
 	import org.hammerc.components.HScrollBar;
 	import org.hammerc.components.HSlider;
 	import org.hammerc.components.ItemRenderer;
@@ -23,6 +25,8 @@ package org.hammerc.themes.hi
 	import org.hammerc.skins.Theme;
 	import org.hammerc.themes.hi.skins.ButtonSkin;
 	import org.hammerc.themes.hi.skins.CheckBoxSkin;
+	import org.hammerc.themes.hi.skins.ComboBoxSkin;
+	import org.hammerc.themes.hi.skins.DropDownListSkin;
 	import org.hammerc.themes.hi.skins.HScrollBarSkin;
 	import org.hammerc.themes.hi.skins.HSliderSkin;
 	import org.hammerc.themes.hi.skins.ItemRendererSkin;
@@ -57,6 +61,8 @@ package org.hammerc.themes.hi
 		{
 			this.mapSkin(Button, ButtonSkin);
 			this.mapSkin(CheckBox, CheckBoxSkin);
+			this.mapSkin(ComboBox, ComboBoxSkin);
+			this.mapSkin(DropDownList, DropDownListSkin);
 			this.mapSkin(HScrollBar, HScrollBarSkin);
 			this.mapSkin(HSlider, HSliderSkin);
 			this.mapSkin(ItemRenderer, ItemRendererSkin);
