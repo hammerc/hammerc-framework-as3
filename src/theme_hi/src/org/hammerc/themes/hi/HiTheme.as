@@ -4,24 +4,6 @@
  */
 package org.hammerc.themes.hi
 {
-	import org.hammerc.components.Button;
-	import org.hammerc.components.CheckBox;
-	import org.hammerc.components.ComboBox;
-	import org.hammerc.components.DropDownList;
-	import org.hammerc.components.HScrollBar;
-	import org.hammerc.components.HSlider;
-	import org.hammerc.components.ItemRenderer;
-	import org.hammerc.components.List;
-	import org.hammerc.components.ProgressBar;
-	import org.hammerc.components.RadioButton;
-	import org.hammerc.components.Scroller;
-	import org.hammerc.components.TabBar;
-	import org.hammerc.components.TabBarButton;
-	import org.hammerc.components.TextArea;
-	import org.hammerc.components.TextInput;
-	import org.hammerc.components.ToggleButton;
-	import org.hammerc.components.VScrollBar;
-	import org.hammerc.components.VSlider;
 	import org.hammerc.skins.Theme;
 	import org.hammerc.themes.hi.skins.ButtonSkin;
 	import org.hammerc.themes.hi.skins.CheckBoxSkin;
@@ -31,6 +13,7 @@ package org.hammerc.themes.hi
 	import org.hammerc.themes.hi.skins.HSliderSkin;
 	import org.hammerc.themes.hi.skins.ItemRendererSkin;
 	import org.hammerc.themes.hi.skins.ListSkin;
+	import org.hammerc.themes.hi.skins.PanelSkin;
 	import org.hammerc.themes.hi.skins.ProgressBarSkin;
 	import org.hammerc.themes.hi.skins.RadioButtonSkin;
 	import org.hammerc.themes.hi.skins.ScrollerSkin;
@@ -39,6 +22,7 @@ package org.hammerc.themes.hi
 	import org.hammerc.themes.hi.skins.TextAreaSkin;
 	import org.hammerc.themes.hi.skins.TextInputSkin;
 	import org.hammerc.themes.hi.skins.ToggleButtonSkin;
+	import org.hammerc.themes.hi.skins.TreeItemRendererSkin;
 	import org.hammerc.themes.hi.skins.VScrollBarSkin;
 	import org.hammerc.themes.hi.skins.VSliderSkin;
 	
@@ -59,24 +43,27 @@ package org.hammerc.themes.hi
 		
 		private function init():void
 		{
-			this.mapSkin(Button, ButtonSkin);
-			this.mapSkin(CheckBox, CheckBoxSkin);
-			this.mapSkin(ComboBox, ComboBoxSkin);
-			this.mapSkin(DropDownList, DropDownListSkin);
-			this.mapSkin(HScrollBar, HScrollBarSkin);
-			this.mapSkin(HSlider, HSliderSkin);
-			this.mapSkin(ItemRenderer, ItemRendererSkin);
-			this.mapSkin(List, ListSkin);
-			this.mapSkin(ProgressBar, ProgressBarSkin);
-			this.mapSkin(RadioButton, RadioButtonSkin);
-			this.mapSkin(Scroller, ScrollerSkin);
-			this.mapSkin(TabBar, TabBarSkin);
-			this.mapSkin(TabBarButton, TabBarButtonSkin);
-			this.mapSkin(TextArea, TextAreaSkin);
-			this.mapSkin(TextInput, TextInputSkin);
-			this.mapSkin(ToggleButton, ToggleButtonSkin);
-			this.mapSkin(VScrollBar, VScrollBarSkin);
-			this.mapSkin(VSlider, VSliderSkin);
+			this.mapSkin("org.hammerc.components::Button", ButtonSkin);
+			this.mapSkin("org.hammerc.components::CheckBox", CheckBoxSkin);
+			this.mapSkin("org.hammerc.components::ComboBox", ComboBoxSkin);
+			this.mapSkin("org.hammerc.components::DropDownList", DropDownListSkin);
+			this.mapSkin("org.hammerc.components::HScrollBar", HScrollBarSkin);
+			this.mapSkin("org.hammerc.components::HSlider", HSliderSkin);
+			this.mapSkin("org.hammerc.components::ItemRenderer", ItemRendererSkin);
+			this.mapSkin("org.hammerc.components::List", ListSkin);
+			this.mapSkin("org.hammerc.components::Panel", PanelSkin);
+			this.mapSkin("org.hammerc.components::ProgressBar", ProgressBarSkin);
+			this.mapSkin("org.hammerc.components::RadioButton", RadioButtonSkin);
+			this.mapSkin("org.hammerc.components::Scroller", ScrollerSkin);
+			this.mapSkin("org.hammerc.components::TabBar", TabBarSkin);
+			this.mapSkin("org.hammerc.components::TabBarButton", TabBarButtonSkin);
+			this.mapSkin("org.hammerc.components::TextArea", TextAreaSkin);
+			this.mapSkin("org.hammerc.components::TextInput", TextInputSkin);
+			this.mapSkin("org.hammerc.components::ToggleButton", ToggleButtonSkin);
+			this.mapSkin("org.hammerc.components::Tree", ListSkin);
+			this.mapSkin("org.hammerc.components::TreeItemRenderer", TreeItemRendererSkin);
+			this.mapSkin("org.hammerc.components::VScrollBar", VScrollBarSkin);
+			this.mapSkin("org.hammerc.components::VSlider", VSliderSkin);
 		}
 	}
 }

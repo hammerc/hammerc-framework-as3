@@ -95,7 +95,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("ElementExistenceEvent", "type", "bubbles", "cancelable", "element", "index");
+			return this.formatToString("ElementExistenceEvent", "type", "bubbles", "cancelable", "element", "index");
 		}
 	}
 }

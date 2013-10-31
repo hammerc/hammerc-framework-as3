@@ -77,7 +77,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("MoveEvent", "type", "bubbles", "cancelable", "oldX", "oldY");
+			return this.formatToString("MoveEvent", "type", "bubbles", "cancelable", "oldX", "oldY");
 		}
 	}
 }

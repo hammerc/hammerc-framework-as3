@@ -21,6 +21,31 @@ package org.hammerc.collections
 	public class ObjectCollection extends EventDispatcher implements ITreeCollection
 	{
 		/**
+		 * 给 parent 的子项以及子孙项赋值父级引用.
+		 * @param parent 要遍历子项的 parent 对象.
+		 * @param childrenKey 要从 parent 中获取子项列表的属性名, 属性值为一个数组 或 Vector.
+		 * @param parentKey 要给子项赋值父级引用的属性名.
+		 */
+		public static function assignParent(parent:Object, childrenKey:String = "children", parentKey:String = "parent"):void
+		{
+			if(!parent.hasOwnProperty(childrenKey))
+			{
+				return;
+			}
+			for each(var child:Object in parent[childrenKey])
+			{
+				try
+				{
+					child[parentKey] = parent;
+				}
+				catch(error:Error)
+				{
+				}
+				assignParent(child);
+			}
+		}
+		
+		/**
 		 * 记录子集的键名.
 		 */
 		protected var _childrenKey:String;
@@ -52,26 +77,11 @@ package org.hammerc.collections
 		
 		/**
 		 * 创建一个 <code>ObjectCollection</code> 对象.
-		 * @param source 数据源.
-		 * @param openNodes 打开的父节点数组.
 		 * @param childrenKey 子集的键名.
 		 * @param parentKey 父集的键名.
 		 */
-		public function ObjectCollection(source:Object = null,openNodes:Array = null, childrenKey:String = "children", parentKey:String = "parent")
+		public function ObjectCollection(childrenKey:String = "children", parentKey:String = "parent")
 		{
-			if(openNodes != null)
-			{
-				_openNodes = openNodes.concat();
-			}
-			if(source != null)
-			{
-				_source = source;
-				if(_showRoot)
-				{
-					_nodeList.push(_source);
-				}
-				this.addChildren(_source, _nodeList);
-			}
 			_childrenKey = childrenKey;
 			_parentKey = parentKey;
 		}

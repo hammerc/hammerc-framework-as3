@@ -111,7 +111,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("PopUpEvent", "type", "bubbles", "cancelable", "popUp", "modal");
+			return this.formatToString("PopUpEvent", "type", "bubbles", "cancelable", "popUp", "modal");
 		}
 	}
 }

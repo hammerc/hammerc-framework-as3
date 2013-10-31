@@ -84,7 +84,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("ToolTipEvent", "type", "bubbles", "cancelable", "toolTip");
+			return this.formatToString("ToolTipEvent", "type", "bubbles", "cancelable", "toolTip");
 		}
 	}
 }

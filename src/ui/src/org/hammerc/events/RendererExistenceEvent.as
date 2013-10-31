@@ -108,7 +108,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("RendererExistenceEvent", "type", "bubbles", "cancelable", "data", "index", "renderer");
+			return this.formatToString("RendererExistenceEvent", "type", "bubbles", "cancelable", "data", "index", "renderer");
 		}
 	}
 }

@@ -150,7 +150,7 @@ package org.hammerc.events
 		 */
 		override public function clone():Event
 		{
-			var cloneEvent:ListEvent = new ListEvent(type, bubbles, cancelable, localX, localY, relatedObject, ctrlKey, altKey, shiftKey, buttonDown, delta, itemIndex, item, itemRenderer);
+			var cloneEvent:ListEvent = new ListEvent(this.type, this.bubbles, this.cancelable, this.localX, this.localY, this.relatedObject, this.ctrlKey, this.altKey, this.shiftKey, this.buttonDown, this.delta, this.itemIndex, this.item, this.itemRenderer);
 			cloneEvent.relatedObject = this.relatedObject;
 			return cloneEvent;
 		}
@@ -161,7 +161,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("ListEvent", "type", "bubbles", "cancelable", "localX", "localY", "relatedObject", "ctrlKey", "altKey", "shiftKey", "buttonDown", "delta", "item", "itemRenderer", "itemIndex");
+			return this.formatToString("ListEvent", "type", "bubbles", "cancelable", "localX", "localY", "relatedObject", "ctrlKey", "altKey", "shiftKey", "buttonDown", "delta", "item", "itemRenderer", "itemIndex");
 		}
 	}
 }

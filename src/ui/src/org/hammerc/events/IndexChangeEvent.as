@@ -84,7 +84,7 @@ package org.hammerc.events
 		 */
 		override public function clone():Event
 		{
-			return new IndexChangeEvent(type, bubbles, cancelable, oldIndex, newIndex);
+			return new IndexChangeEvent(this.type, this.bubbles, this.cancelable, this.oldIndex, this.newIndex);
 		}
 		
 		/**
@@ -93,7 +93,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("IndexChangeEvent", "type", "bubbles", "cancelable", "oldIndex", "newIndex");
+			return this.formatToString("IndexChangeEvent", "type", "bubbles", "cancelable", "oldIndex", "newIndex");
 		}
 	}
 }

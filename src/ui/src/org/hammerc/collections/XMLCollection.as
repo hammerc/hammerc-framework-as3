@@ -44,7 +44,7 @@ package org.hammerc.collections
 		 * @param source 数据源.
 		 * @param openNodes 打开的父节点数组.
 		 */
-		public function XMLCollection(source:XML = null,openNodes:Array = null)
+		public function XMLCollection(source:XML = null, openNodes:Array = null)
 		{
 			if(openNodes != null)
 			{
@@ -139,7 +139,7 @@ package org.hammerc.collections
 		 * @param parent 要处理的对象.
 		 * @param list 会被添加到的数组.
 		 */
-		protected function addChildren(parent:Object,list:Array):void
+		protected function addChildren(parent:Object, list:Array):void
 		{
 			var children:XMLList = parent.children();
 			for each(var child:XML in children)

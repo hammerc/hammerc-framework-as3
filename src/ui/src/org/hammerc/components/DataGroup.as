@@ -969,7 +969,7 @@ package org.hammerc.components
 			}
 			var index:int = 0;
 			var length:int = _dataProvider.length;
-			for(var i:int=0; i < length; i++)
+			for(var i:int = 0; i < length; i++)
 			{
 				var item:Object = _dataProvider.getItemAt(i);
 				var rendererClass:Class = itemToRendererClass(item);

@@ -77,7 +77,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("ResizedEvent", "type", "bubbles", "cancelable", "oldWidth", "oldHeight");
+			return this.formatToString("ResizedEvent", "type", "bubbles", "cancelable", "oldWidth", "oldHeight");
 		}
 	}
 }

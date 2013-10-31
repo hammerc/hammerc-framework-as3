@@ -226,7 +226,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("DragEvent", "type", "bubbles", "cancelable", "dragInitiator", "dragData", "localX", "localY", "relatedObject", "ctrlKey", "altKey", "shiftKey");
+			return this.formatToString("DragEvent", "type", "bubbles", "cancelable", "dragInitiator", "dragData", "localX", "localY", "relatedObject", "ctrlKey", "altKey", "shiftKey");
 		}
 	}
 }

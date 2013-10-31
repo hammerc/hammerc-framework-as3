@@ -77,7 +77,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("TrackBaseEvent", "type", "bubbles", "cancelable");
+			return this.formatToString("TrackBaseEvent", "type", "bubbles", "cancelable");
 		}
 	}
 }

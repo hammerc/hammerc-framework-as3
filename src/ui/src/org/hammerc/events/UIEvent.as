@@ -193,7 +193,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("UIEvent", "type", "bubbles", "cancelable");
+			return this.formatToString("UIEvent", "type", "bubbles", "cancelable");
 		}
 	}
 }

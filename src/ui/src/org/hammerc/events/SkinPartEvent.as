@@ -93,7 +93,7 @@ package org.hammerc.events
 		 */
 		override public function toString():String
 		{
-			return formatToString("SkinPartEvent", "type", "bubbles", "cancelable", "partName", "instance");
+			return this.formatToString("SkinPartEvent", "type", "bubbles", "cancelable", "partName", "instance");
 		}
 	}
 }
