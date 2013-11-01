@@ -12,8 +12,11 @@ package org.hammerc.components
 	import org.hammerc.core.IUIComponent;
 	import org.hammerc.core.PopUpPosition;
 	import org.hammerc.core.UIComponent;
+	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.managers.PopUpManager;
 	import org.hammerc.utils.callLater;
+	
+	use namespace hammerc_internal;
 	
 	/**
 	 * <code>PopUpAnchor</code> 类实现用于定位布局中的弹出控件或下拉控件的功能.
@@ -261,6 +264,23 @@ package org.hammerc.components
 					registrationPoint.y = (this.height - this.popUp.layoutBoundsHeight) * 0.5;
 					break;
 				case PopUpPosition.TOP_LEFT:
+					break;
+				case PopUpPosition.DROP_DOWN_LIST:
+					var pos:Point = new Point();
+					pos.y = this.height + this.popUp.layoutBoundsHeight;
+					pos = this.localToGlobal(pos);
+					pos = this.popUp.parent.globalToLocal(pos);
+					var outOfBounds:Boolean = pos.y < stage.stageHeight;
+					if(outOfBounds)
+					{
+						registrationPoint.x = 0;
+						registrationPoint.y = this.height;
+					}
+					else
+					{
+						registrationPoint.x = 0;
+						registrationPoint.y = -this.popUp.layoutBoundsHeight;
+					}
 					break;
 			}
 			registrationPoint = this.localToGlobal(registrationPoint);

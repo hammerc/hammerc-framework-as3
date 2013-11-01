@@ -80,6 +80,10 @@ package org.hammerc.components.supportClasses
 		 */
 		override protected function buttonReleased():void
 		{
+			if(!this.enabled)
+			{
+				return;
+			}
 			super.buttonReleased();
 			if(!this._autoSelected)
 			{

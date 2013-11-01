@@ -134,7 +134,7 @@ package org.hammerc.components
 			{
 				return;
 			}
-			onGetSkin(skin, skinName);
+			this.onGetSkin(skin, skinName);
 			if(this.hasEventListener(UIEvent.SKIN_CHANGED))
 			{
 				this.dispatchEvent(new UIEvent(UIEvent.SKIN_CHANGED));

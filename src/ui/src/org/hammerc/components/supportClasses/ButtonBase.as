@@ -216,7 +216,7 @@ package org.hammerc.components.supportClasses
 		}
 		public function get stickyHighlighting():Boolean
 		{
-			return _stickyHighlighting
+			return _stickyHighlighting;
 		}
 		
 		/**

@@ -200,7 +200,7 @@ package org.hammerc.components
 		{
 			if(!this.enabled || this.selected)
 			{
-				return; 
+				return;
 			}
 			if(_radioButtonGroup == null)
 			{

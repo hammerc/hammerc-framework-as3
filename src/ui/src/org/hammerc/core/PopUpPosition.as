@@ -4,6 +4,8 @@
  */
 package org.hammerc.core
 {
+	use namespace hammerc_internal;
+	
 	/**
 	 * <code>PopUpPosition</code> 类定义弹出位置的常量值. 该常量决定目标对象相对于父级组件的弹出位置.
 	 * @author wizardc
@@ -39,5 +41,10 @@ package org.hammerc.core
 		 * 在组件右边弹出.
 		 */
 		public static const RIGHT:String = "right";
+		
+		/**
+		 * 优先在组件下方弹出, 如果空间不够则在组件上方弹出.
+		 */
+		hammerc_internal static const DROP_DOWN_LIST:String = "dropDownList";
 	}
 }

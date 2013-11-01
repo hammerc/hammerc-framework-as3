@@ -146,7 +146,7 @@ package org.hammerc.themes.hi.skins
 			_popUp.right = 0;
 			_popUp.top = 0;
 			_popUp.bottom = 0;
-			_popUp.popUpPosition = PopUpPosition.BELOW;
+			_popUp.popUpPosition = PopUpPosition.DROP_DOWN_LIST;
 			_popUp.popUpWidthMatchesAnchorWidth = true;
 			_popUp.popUp = dropDown;
 			this.addElement(_popUp);
