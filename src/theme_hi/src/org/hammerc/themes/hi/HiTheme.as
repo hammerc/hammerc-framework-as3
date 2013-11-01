@@ -5,6 +5,7 @@
 package org.hammerc.themes.hi
 {
 	import org.hammerc.skins.Theme;
+	import org.hammerc.themes.hi.skins.AlertSkin;
 	import org.hammerc.themes.hi.skins.ButtonSkin;
 	import org.hammerc.themes.hi.skins.CheckBoxSkin;
 	import org.hammerc.themes.hi.skins.ComboBoxSkin;
@@ -21,6 +22,7 @@ package org.hammerc.themes.hi
 	import org.hammerc.themes.hi.skins.TabBarSkin;
 	import org.hammerc.themes.hi.skins.TextAreaSkin;
 	import org.hammerc.themes.hi.skins.TextInputSkin;
+	import org.hammerc.themes.hi.skins.TitleWindowSkin;
 	import org.hammerc.themes.hi.skins.ToggleButtonSkin;
 	import org.hammerc.themes.hi.skins.TreeItemRendererSkin;
 	import org.hammerc.themes.hi.skins.VScrollBarSkin;
@@ -43,6 +45,7 @@ package org.hammerc.themes.hi
 		
 		private function init():void
 		{
+			this.mapSkin("org.hammerc.components::Alert", AlertSkin);
 			this.mapSkin("org.hammerc.components::Button", ButtonSkin);
 			this.mapSkin("org.hammerc.components::CheckBox", CheckBoxSkin);
 			this.mapSkin("org.hammerc.components::ComboBox", ComboBoxSkin);
@@ -59,6 +62,7 @@ package org.hammerc.themes.hi
 			this.mapSkin("org.hammerc.components::TabBarButton", TabBarButtonSkin);
 			this.mapSkin("org.hammerc.components::TextArea", TextAreaSkin);
 			this.mapSkin("org.hammerc.components::TextInput", TextInputSkin);
+			this.mapSkin("org.hammerc.components::TitleWindow", TitleWindowSkin);
 			this.mapSkin("org.hammerc.components::ToggleButton", ToggleButtonSkin);
 			this.mapSkin("org.hammerc.components::Tree", ListSkin);
 			this.mapSkin("org.hammerc.components::TreeItemRenderer", TreeItemRendererSkin);
