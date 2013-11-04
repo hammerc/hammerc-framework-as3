@@ -42,6 +42,14 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function get defaultStyleName():String
+		{
+			return "VScrollBar";
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		override public function set viewport(newViewport:IViewport):void
 		{
 			const oldViewport:IViewport = super.viewport;

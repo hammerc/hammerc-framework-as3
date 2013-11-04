@@ -15,6 +15,9 @@ package org.hammerc.components
 	import org.hammerc.skins.IStateClient;
 	import org.hammerc.skins.SkinLayout;
 	import org.hammerc.skins.Theme;
+	import org.hammerc.styles.IStyleClient;
+	import org.hammerc.styles.StyleDeclaration;
+	import org.hammerc.styles.StyleManager;
 	import org.hammerc.utils.SkinPartUtil;
 	
 	use namespace hammerc_internal;
@@ -34,7 +37,7 @@ package org.hammerc.components
 	 * 当皮肤为 <code>ISkin</code> 时, 将自动匹配两个实例内同名的公开属性 (显示对象), 并将皮肤的属性引用赋值到此类定义的同名属性上.
 	 * @author wizardc
 	 */
-	public class SkinnableComponent extends UIAsset
+	public class SkinnableComponent extends UIAsset implements IStyleClient
 	{
 		/**
 		 * 默认的皮肤解析适配器.
@@ -83,6 +86,26 @@ package org.hammerc.components
 		 * 非 <code>ISkin</code> 接口皮肤对象的布局类.
 		 */
 		private var _layout:SkinLayout;
+		
+		/**
+		 * 记录样式名称.
+		 */
+		private var _styleName:String;
+		
+		/**
+		 * 记录样式设置的属性.
+		 */
+		private var _styleDeclarationProperties:Object = new Object();
+		
+		/**
+		 * 记录当前的样式描述对象.
+		 */
+		private var _styleDeclaration:StyleDeclaration;
+		
+		/**
+		 * 记录样式是否改变的标志.
+		 */
+		private var _styleIsDirty:Boolean = false;
 		
 		/**
 		 * 创建一个 <code>SkinnableComponent</code> 对象.
@@ -158,6 +181,7 @@ package org.hammerc.components
 			{
 				_skin = skin as DisplayObject;
 				this.addToDisplayListAt(_skin, 0);
+				this.invalidateSkinStyle();
 			}
 			else
 			{
@@ -428,6 +452,89 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * 获取默认的样式名称.
+		 */
+		protected function get defaultStyleName():String
+		{
+			return null;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function set styleName(value:String):void
+		{
+			_styleName = value;
+		}
+		public function get styleName():String
+		{
+			return _styleName;
+		}
+		
+		/**
+		 * 标记当前需要重新验证皮肤样式.
+		 */
+		public function invalidateSkinStyle():void
+		{
+			if(_styleIsDirty)
+			{
+				return;
+			}
+			_styleIsDirty = true;
+			this.invalidateProperties();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function setStyle(styleProp:String, newValue:*):void
+		{
+			if(_styleDeclaration == null)
+			{
+				_styleDeclarationProperties[styleProp] = newValue;
+			}
+			else
+			{
+				_styleDeclaration.setStyle(styleProp, newValue);
+				this.invalidateSkinStyle();
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function getStyle(styleProp:String):*
+		{
+			if(_styleDeclaration == null)
+			{
+				return _styleDeclarationProperties[styleProp];
+			}
+			else
+			{
+				return _styleDeclaration.getStyle(styleProp);
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function clearStyle(styleProp:String):*
+		{
+			var value:*;
+			if(_styleDeclaration == null)
+			{
+				value = _styleDeclarationProperties[styleProp];
+				delete _styleDeclarationProperties[styleProp];
+			}
+			else
+			{
+				value = _styleDeclaration.clearStyle(styleProp);
+				this.invalidateSkinStyle();
+			}
+			return value;
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		override protected function commitProperties():void
@@ -438,6 +545,37 @@ package org.hammerc.components
 				_stateIsDirty = false;
 				this.validateSkinState();
 			}
+			if(_styleDeclaration == null)
+			{
+				createStyle();
+				_styleIsDirty = true;
+			}
+			if(_styleIsDirty && this.skin is ISkin)
+			{
+				_styleIsDirty = false;
+				(this.skin as ISkin).validateCurrentStyle(_styleDeclaration);
+			}
+		}
+		
+		private function createStyle():void
+		{
+			if(this.styleName == null || this.styleName == "")
+			{
+				this.styleName = this.defaultStyleName;
+			}
+			if(this.styleName != null && this.styleName != "")
+			{
+				_styleDeclaration = StyleManager.getStyleDeclaration(this.styleName);
+			}
+			if(_styleDeclaration == null)
+			{
+				_styleDeclaration = new StyleDeclaration();
+			}
+			for(var key:String in _styleDeclarationProperties)
+			{
+				_styleDeclaration.setStyle(key, _styleDeclarationProperties[key]);
+			}
+			_styleDeclarationProperties = null;
 		}
 		
 		/**

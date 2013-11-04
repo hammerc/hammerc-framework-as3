@@ -174,6 +174,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "Alert";
+		}
+		
+		/**
 		 * 设置或获取文本内容.
 		 */
 		public function set contentText(value:String):void

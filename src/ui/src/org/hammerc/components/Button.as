@@ -27,5 +27,13 @@ package org.hammerc.components
 		{
 			return Button;
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "Button";
+		}
 	}
 }

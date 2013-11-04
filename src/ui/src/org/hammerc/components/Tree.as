@@ -52,6 +52,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "Tree";
+		}
+		
+		/**
 		 * 设置或获取数据项中用来确定图标 <code>skinName</code> 属性值的字段名称.
 		 * <p>若设置了 <code>iconFunction</code>, 则设置此属性无效.</p>
 		 */

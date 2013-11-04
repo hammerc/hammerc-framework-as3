@@ -27,5 +27,13 @@ package org.hammerc.components
 		{
 			return ToggleButton;
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "ToggleButton";
+		}
 	}
 }

@@ -63,6 +63,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "TitleWindow";
+		}
+		
+		/**
 		 * 设置或获取是否显示关闭按钮.
 		 */
 		public function set showCloseButton(value:Boolean):void

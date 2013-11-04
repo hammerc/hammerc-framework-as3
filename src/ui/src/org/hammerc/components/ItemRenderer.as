@@ -41,6 +41,14 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function get defaultStyleName():String
+		{
+			return "ItemRenderer";
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function set data(value:Object):void
 		{
 			_data = value;

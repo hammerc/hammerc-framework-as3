@@ -50,6 +50,14 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function get defaultStyleName():String
+		{
+			return "TabBar";
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		override public function set requireSelection(value:Boolean):void
 		{
 			if(value == this.requireSelection)

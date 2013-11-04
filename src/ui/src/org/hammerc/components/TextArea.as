@@ -46,6 +46,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "TextArea";
+		}
+		
+		/**
 		 * 设置或获取控件的默认宽度 (使用字号为单位测量). 若同时设置了 <code>maxChars</code> 属性, 将会根据两者测量结果的最小值作为测量宽度.
 		 */
 		public function set widthInChars(value:Number):void

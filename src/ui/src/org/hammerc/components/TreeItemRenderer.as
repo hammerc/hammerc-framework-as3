@@ -62,6 +62,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "TreeItemRenderer";
+		}
+		
+		/**
 		 * 子节点相对父节点的缩进值, 以像素为单位.
 		 */
 		public function set indentation(value:Number):void

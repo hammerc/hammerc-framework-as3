@@ -53,6 +53,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "ProgressBar";
+		}
+		
+		/**
 		 * 设置或获取进度条文本格式化回调函数.
 		 * <p>示例：<br/>
 		 * labelFunction(value:Number,maximum:Number):String;</p>

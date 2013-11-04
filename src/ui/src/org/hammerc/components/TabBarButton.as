@@ -37,6 +37,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "TabBarButton";
+		}
+		
+		/**
 		 * 设置或获取用户单击当前选定的按钮时是否会取消其选择.
 		 */
 		public function set allowDeselection(value:Boolean):void

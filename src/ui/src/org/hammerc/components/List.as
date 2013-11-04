@@ -49,6 +49,14 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function get defaultStyleName():String
+		{
+			return "List";
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function createChildren():void
 		{
 			if(this.itemRenderer == null)

@@ -42,6 +42,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "DropDownList";
+		}
+		
+		/**
 		 * 设置或获取当没有选中项时要显示的字符串.
 		 */
 		public function set prompt(value:String):void

@@ -42,6 +42,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "Panel";
+		}
+		
+		/**
 		 * 设置或获取标题文本内容.
 		 */
 		public function set title(value:String):void 

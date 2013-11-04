@@ -73,6 +73,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "ComboBox";
+		}
+		
+		/**
 		 * 设置或获取当用户在提示区域中输入字符时, 用于根据输入文字返回匹配的数据项索引列表的回调函数.
 		 * <p>示例: <code>function myMatchingFunction(comboBox:ComboBox, inputText:String):Vector.&lt;int&gt;</code></p>
 		 */

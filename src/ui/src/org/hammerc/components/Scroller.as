@@ -86,6 +86,14 @@ package org.hammerc.components
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		override protected function get defaultStyleName():String
+		{
+			return "Scroller";
+		}
+		
+		/**
 		 * 设置或获取垂直滚动条显示策略.
 		 */
 		public function set verticalScrollPolicy(value:String):void

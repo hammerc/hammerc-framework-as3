@@ -33,6 +33,14 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function get defaultStyleName():String
+		{
+			return "VSlider";
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function pointToValue(x:Number, y:Number):Number
 		{
 			if(thumb == null || track == null)

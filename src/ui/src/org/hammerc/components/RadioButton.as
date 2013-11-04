@@ -60,6 +60,14 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function get defaultStyleName():String
+		{
+			return "RadioButton";
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		override public function get enabled():Boolean
 		{
 			if(!super.enabled)

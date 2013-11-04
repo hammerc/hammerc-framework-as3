@@ -7,6 +7,7 @@ package org.hammerc.skins
 	import org.hammerc.components.Group;
 	import org.hammerc.components.SkinnableComponent;
 	import org.hammerc.core.hammerc_internal;
+	import org.hammerc.styles.StyleDeclaration;
 	
 	use namespace hammerc_internal;
 	
@@ -30,6 +31,8 @@ package org.hammerc.skins
 		 * 记录当前视图状态是否发生改变.
 		 */
 		hammerc_internal var _currentStateChanged:Boolean;
+		
+		private var _styleProperties:Array = [];
 		
 		/**
 		 * 创建一个 <code>SkinBase</code> 对象.
@@ -115,6 +118,19 @@ package org.hammerc.skins
 		}
 		
 		/**
+		 * 设置或获取此组件定义的可用样式数组.
+		 * <p>仅该数组定义过的样式属性名称会调用到 <code>commitCurrentStyle</code> 方法中.</p>
+		 */
+		public function set styleProperties(value:Array):void
+		{
+			_styleProperties = value;
+		}
+		public function get styleProperties():Array
+		{
+			return _styleProperties;
+		}
+		
+		/**
 		 * @inheritDoc
 		 */
 		override protected function commitProperties():void
@@ -135,6 +151,35 @@ package org.hammerc.skins
 		 * 应用当前的视图状态.
 		 */
 		protected function commitCurrentState():void
+		{
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function validateCurrentStyle(styleDeclaration:StyleDeclaration):void
+		{
+			for each (var property:String in _styleProperties)
+			{
+				var value:* = styleDeclaration.getStyle(property);
+				if(value != null && value != undefined)
+				{
+					this.commitCurrentStyle(property, true, value);
+				}
+				else
+				{
+					this.commitCurrentStyle(property, false);
+				}
+			}
+		}
+		
+		/**
+		 * 应用当前的视图样式.
+		 * @param styleProperty 样式属性名称.
+		 * @param hasSet 该样式是否被明确设置过.
+		 * @param value 设置的样式值.
+		 */
+		protected function commitCurrentStyle(styleProperty:String, hasSet:Boolean, value:* = null):void
 		{
 		}
 	}
