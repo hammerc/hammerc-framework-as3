@@ -51,13 +51,17 @@ package org.hammerc.themes.hi.skins
 			(track as UIAsset).skinName = ProgressBarTrackSkin;
 			(track as UIAsset).left = 0;
 			(track as UIAsset).right = 0;
+			(track as UIAsset).top = 0;
+			(track as UIAsset).bottom = 0;
 			this.addElement((track as UIAsset));
 			thumb = new UIAsset();
 			(thumb as UIAsset).skinName = ProgressBarThumbSkin;
+			(thumb as UIAsset).top = 0;
+			(thumb as UIAsset).bottom = 0;
 			this.addElement((thumb as UIAsset));
 			labelDisplay = new Label();
-			labelDisplay.y = 14;
 			labelDisplay.horizontalCenter = 0;
+			labelDisplay.verticalCenter = 0;
 			this.addElement(labelDisplay);
 		}
 	}
