@@ -139,7 +139,7 @@ package org.hammerc.managers.dragClasses
 			var i:int;
 			var point:Point = new Point(event.localX, event.localY);
 			var stagePoint:Point = DisplayObject(event.target).localToGlobal(point);
-			point = parent.globalToLocal(stagePoint);
+			point = this.parent.globalToLocal(stagePoint);
 			var mouseX:Number = point.x;
 			var mouseY:Number = point.y;
 			x = mouseX - _offsetX;

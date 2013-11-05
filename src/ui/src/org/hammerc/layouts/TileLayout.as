@@ -11,7 +11,7 @@ package org.hammerc.layouts
 	import org.hammerc.layouts.supportClasses.LayoutBase;
 	
 	/**
-	 * <code>TileLayout</code> 类定义了水平布局.
+	 * <code>TileLayout</code> 类定义了格子布局.
 	 * @author wizardc
 	 */
 	public class TileLayout extends LayoutBase
@@ -446,7 +446,7 @@ package org.hammerc.layouts
 			_columnCount = savedColumnCount;
 			_rowCount = savedRowCount;
 			_columnWidth = savedColumnWidth;
-			_rowHeight = savedRowHeight; 
+			_rowHeight = savedRowHeight;
 		}
 		
 		/**
@@ -584,7 +584,7 @@ package org.hammerc.layouts
 			for(var index:int = 0; index < numElements; index++)
 			{
 				var elt:ILayoutElement = target.getElementAt(index) as ILayoutElement;
-				if(!elt || !elt.includeInLayout)
+				if(elt == null || !elt.includeInLayout)
 				{
 					continue;
 				}
@@ -608,7 +608,7 @@ package org.hammerc.layouts
 				for(var index:int = _startIndex; index <= _endIndex; index++)
 				{
 					var elt:ILayoutElement = target.getVirtualElementAt(index) as ILayoutElement;
-					if(!elt || !elt.includeInLayout)
+					if(elt == null || !elt.includeInLayout)
 					{
 						continue;
 					}
@@ -646,6 +646,7 @@ package org.hammerc.layouts
 					return;
 				}
 				adjustForJustify(width, height);
+				getIndexInView();
 			}
 			if(this.useVirtualLayout)
 			{
@@ -656,6 +657,7 @@ package org.hammerc.layouts
 				target.setContentSize(0, 0);
 				return;
 			}
+			target.setVirtualElementIndicesInView(_startIndex, _endIndex);
 			var elt:ILayoutElement;
 			var x:Number;
 			var y:Number;

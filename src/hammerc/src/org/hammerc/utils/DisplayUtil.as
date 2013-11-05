@@ -8,6 +8,7 @@ package org.hammerc.utils
 	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.geom.Point;
 	
 	/**
@@ -181,7 +182,7 @@ package org.hammerc.utils
 			{
 				return;
 			}
-			if(target.hitTestPoint(point.x, point.y, true))
+			if(target is Stage || target.hitTestPoint(point.x, point.y, true))
 			{
 				if(target is InteractiveObject && (target as InteractiveObject).mouseEnabled)
 				{
@@ -195,7 +196,14 @@ package org.hammerc.utils
 						var num:int = container.numChildren;
 						for(var i:int = 0; i < num; i++)
 						{
-							getObjectsUnderPoint(container.getChildAt(i), point, displayList);
+							try
+							{
+								var child:DisplayObject = container.getChildAt(i);
+								getObjectsUnderPoint(child, point, displayList);
+							}
+							catch(error:Error)
+							{
+							}
 						}
 					}
 				}
