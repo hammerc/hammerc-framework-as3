@@ -226,17 +226,17 @@ package org.hammerc.tween
 					this[name] = _variables[name];
 				}
 			}
+			//是否覆写之前的数据
+			if(_overwrite == TweenOverwrite.OVERWRITE)
+			{
+				TweenManager.hammerc_internal::overwriteTween(this);
+			}
 			//获取记录数据
 			if(TweenManager.hammerc_internal::masterMap[_target] == null)
 			{
 				TweenManager.hammerc_internal::masterMap[_target] = new Vector.<TweenItem>();
 			}
 			var propertyList:Vector.<TweenItem> = TweenManager.hammerc_internal::masterMap[_target];
-			//是否覆写之前的数据
-			if(_overwrite == TweenOverwrite.OVERWRITE)
-			{
-				propertyList.length = 0;
-			}
 			var plugin:ITweenPlugin;
 			//添加每个缓动项目
 			for(var key:String in _variables)

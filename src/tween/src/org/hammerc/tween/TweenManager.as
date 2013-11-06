@@ -66,6 +66,31 @@ package org.hammerc.tween
 			}
 		}
 		
+		/**
+		 * 覆写指定缓动之前的数据.
+		 * @param tween 要覆写之前数据的缓动对象.
+		 */
+		hammerc_internal static function overwriteTween(tween:AbstractTween):void
+		{
+			var target:Object = tween.target;
+			//移除之前的作用于同一目标对象的所有缓动对象
+			for (var i:int = 0; i < _tweenList.length; i++)
+			{
+				var item:AbstractTween = _tweenList[i] as AbstractTween;
+				if(item != null)
+				{
+					//排除当前的缓动对象, 同时作用于同一目标的对象要移除
+					if(item != tween && item.target == target)
+					{
+						_tweenList.splice(i, 1);
+						i--;
+					}
+				}
+			}
+			//删除目标对象所有记录的属性
+			delete hammerc_internal::masterMap[target];
+		}
+		
 		private static function update(event:Event):void
 		{
 			var nowTime:Number = getTimer() * .001;
