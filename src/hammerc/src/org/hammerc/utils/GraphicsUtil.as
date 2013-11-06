@@ -128,5 +128,35 @@ package org.hammerc.utils
 			graphics.curveTo(xw, y + s, xw, y + topRightRadius);
 			graphics.lineTo(xw, yh - bottomRightRadius);
 		}
+		
+		/**
+		 * 绘制一个扇形, 按顺时针进行绘制.
+		 * @param graphics 要绘制到的对象.
+		 * @param x 中心点 x 坐标.
+		 * @param y 中心点 y 坐标.
+		 * @param radius 半径.
+		 * @param angleFrom 开始的角度.
+		 * @param angleTo 结束的角度.
+		 * @param precision 精度, 精度越大线条越近似弧线. 做 CD 遮罩时可设置为 0.1 以提高效率.
+		 */
+		public static function drawSector(graphics:Graphics, x:Number, y:Number, radius:Number, angleFrom:Number, angleTo:Number, precision:Number = 1):void
+		{
+			angleFrom = angleFrom % 360;
+			angleTo = angleTo % 360;
+			const degreeToRadian:Number = 0.0174532925;
+			var angleDiff:Number = (angleTo - angleFrom) % 360;
+			var steps:Number = Math.abs(Math.round(angleDiff * precision));
+			var angle:Number = angleFrom;
+			var px:Number = x + radius * Math.cos(angle * degreeToRadian);
+			var py:Number = y + radius * Math.sin(angle * degreeToRadian);
+			graphics.moveTo(px, py);
+			for(var i:int = 1; i <= steps; i++)
+			{
+				var radian:Number = (angleFrom + angleDiff / steps * i) * degreeToRadian;
+				graphics.lineTo(x + radius * Math.cos(radian), y + radius * Math.sin(radian));
+			}
+			graphics.lineTo(x, y);
+			graphics.lineTo(px, py);
+		}
 	}
 }
