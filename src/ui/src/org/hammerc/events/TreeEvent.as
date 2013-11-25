@@ -6,7 +6,7 @@ package org.hammerc.events
 {
 	import flash.events.Event;
 	
-	import org.hammerc.components.TreeItemRenderer;
+	import org.hammerc.components.ITreeItemRenderer;
 	
 	/**
 	 * <code>TreeEvent</code> 类定义了树形组件的事件.
@@ -72,7 +72,7 @@ package org.hammerc.events
 		public static const ITEM_OPENING:String = "itemOpening";
 		
 		private var _item:Object;
-		private var _itemRenderer:TreeItemRenderer;
+		private var _itemRenderer:ITreeItemRenderer;
 		private var _itemIndex:int;
 		private var _opening:Boolean;
 		
@@ -85,7 +85,7 @@ package org.hammerc.events
 		 * @param item 触发鼠标事件的项呈示器数据源项.
 		 * @param itemRenderer 触发鼠标事件的项呈示器.
 		 */
-		public function TreeEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = true, itemIndex:int = -1, item:Object = null, itemRenderer:TreeItemRenderer = null)
+		public function TreeEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = true, itemIndex:int = -1, item:Object = null, itemRenderer:ITreeItemRenderer = null)
 		{
 			super(type, bubbles, cancelable);
 			_item = item;
@@ -104,7 +104,7 @@ package org.hammerc.events
 		/**
 		 * 获取触发鼠标事件的项呈示器.
 		 */
-		public function get itemRenderer():TreeItemRenderer
+		public function get itemRenderer():ITreeItemRenderer
 		{
 			return _itemRenderer;
 		}

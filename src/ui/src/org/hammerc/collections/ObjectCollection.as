@@ -242,21 +242,24 @@ package org.hammerc.collections
 		 */
 		protected function openNode(item:Object):void
 		{
-			var index:int = _nodeList.indexOf(item);
-			if(index != -1 && _openNodes.indexOf(item) == -1)
+			if(_openNodes.indexOf(item) == -1)
 			{
 				_openNodes.push(item);
-				var list:Array = new Array();
-				this.addChildren(item, list);
-				var i:int = index;
-				while(list.length != 0)
+				var index:int = _nodeList.indexOf(item);
+				if(index != -1)
 				{
-					i++;
-					var node:Object = list.shift();
-					_nodeList.splice(i, 0, node);
-					this.dispatchCollectEvent(CollectionKind.ADD, [node], null, i);
+					var list:Array = new Array();
+					this.addChildren(item, list);
+					var i:int = index;
+					while(list.length != 0)
+					{
+						i++;
+						var node:Object = list.shift();
+						_nodeList.splice(i, 0, node);
+						this.dispatchCollectEvent(CollectionKind.ADD, [node], null, i);
+					}
+					this.dispatchCollectEvent(CollectionKind.OPEN, [item], null, index, index);
 				}
-				this.dispatchCollectEvent(CollectionKind.OPEN, [item], null, index, index);
 			}
 		}
 		
@@ -305,6 +308,57 @@ package org.hammerc.collections
 				depth--;
 			}
 			return depth;
+		}
+		
+		/**
+		 * 删除指定节点.
+		 * @param item 要删除的节点.
+		 */
+		public function removeItem(item:Object):void
+		{
+			if(this.isItemOpen(item))
+			{
+				this.closeNode(item);
+			}
+			if(item == null)
+			{
+				return;
+			}
+			var parent:Object = item[_parentKey];
+			if(parent == null)
+			{
+				return;
+			}
+			var list:Array = parent[_childrenKey];
+			if(list == null)
+			{
+				return;
+			}
+			var index:int = list.indexOf(item);
+			if(index != -1)
+			{
+				list.splice(index, 1);
+			}
+			item[_parentKey] = null;
+			index = _nodeList.indexOf(item);
+			if(index != -1)
+			{
+				_nodeList.splice(index, 1);
+				this.dispatchCollectEvent(CollectionKind.REMOVE, [item], null, index);
+			}
+		}
+		
+		/**
+		 * 通知视图, 某个项目的属性已更新.
+		 * @param item 更新的节点.
+		 */
+		public function itemUpdated(item:Object):void
+		{
+			var index:int = getItemIndex(item);
+			if(index != -1)
+			{
+				this.dispatchCollectEvent(CollectionKind.UPDATE, [item], null, index);
+			}
 		}
 		
 		/**

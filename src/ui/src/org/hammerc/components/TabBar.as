@@ -130,31 +130,6 @@ package org.hammerc.components
 		}
 		
 		/**
-		 * 根据索引获取对应的 ItemRender.
-		 */
-		private function getItemRenderer(index:int):IUIComponent
-		{
-			if(dataGroup == null || (index < 0) || (index >= dataGroup.numElements))
-			{
-				return null;
-			}
-			return dataGroup.getElementAt(index);
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		override protected function itemSelected(index:int, selected:Boolean):void
-		{
-			super.itemSelected(index, selected);
-			const renderer:IItemRenderer = getItemRenderer(index) as IItemRenderer;
-			if(renderer != null)
-			{
-				renderer.selected = selected;
-			}
-		}
-		
-		/**
 		 * @inheritDoc
 		 */
 		override protected function dataGroup_rendererAddHandler(event:RendererExistenceEvent):void

@@ -92,7 +92,7 @@ package org.hammerc.layouts
 		private var _horizontalAlign:String = HorizontalAlign.LEFT;
 		private var _verticalAlign:String = VerticalAlign.TOP;
 		
-		private var _gap:int = 6;
+		private var _gap:Number = 6;
 		
 		private var _padding:Number = 0;
 		private var _paddingLeft:Number = NaN;
@@ -175,8 +175,9 @@ package org.hammerc.layouts
 		/**
 		 * 设置或获取布局元素之间的水平空间 (以像素为单位).
 		 */
-		public function set gap(value:int):void
+		public function set gap(value:Number):void
 		{
+			value = isNaN(value) ? 0 : value;
 			if(_gap != value)
 			{
 				_gap = value;
@@ -187,7 +188,7 @@ package org.hammerc.layouts
 				}
 			}
 		}
-		public function get gap():int
+		public function get gap():Number
 		{
 			return _gap;
 		}
@@ -471,11 +472,11 @@ package org.hammerc.layouts
 			excessWidth = excessWidth > 0 ? excessWidth : 0;
 			if(_horizontalAlign == HorizontalAlign.CENTER)
 			{
-				x = paddingL + Math.round(excessWidth * 0.5);
+				x = paddingL + excessWidth * 0.5;
 			}
 			else if(_horizontalAlign == HorizontalAlign.RIGHT)
 			{
-				x = paddingL + Math.round(excessWidth);
+				x = paddingL + excessWidth;
 			}
 			var maxX:Number = paddingL;
 			var maxY:Number = paddingT;
@@ -510,7 +511,7 @@ package org.hammerc.layouts
 					layoutElement.setLayoutBoundsSize(widthDic[layoutElement], layoutElementHeight);
 					exceesHeight = (targetHeight - layoutElement.layoutBoundsHeight) * vAlign;
 					exceesHeight = exceesHeight > 0 ? exceesHeight : 0;
-					y = paddingT + Math.round(exceesHeight);
+					y = paddingT + exceesHeight;
 				}
 				layoutElement.setLayoutBoundsPosition(Math.round(x), Math.round(y));
 				dx = Math.ceil(layoutElement.layoutBoundsWidth);
@@ -610,7 +611,7 @@ package org.hammerc.layouts
 				{
 					exceesHeight = (targetHeight - layoutElement.layoutBoundsHeight) * vAlign;
 					exceesHeight = exceesHeight > 0 ? exceesHeight : 0;
-					y = paddingT + Math.round(exceesHeight);
+					y = paddingT + exceesHeight;
 				}
 				if(!contentJustify)
 				{

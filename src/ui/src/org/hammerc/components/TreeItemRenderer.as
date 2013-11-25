@@ -51,6 +51,15 @@ package org.hammerc.components
 		public function TreeItemRenderer()
 		{
 			super();
+			this.addEventListener(MouseEvent.MOUSE_DOWN, onItemMouseDown, false, int.MAX_VALUE);
+		}
+		
+		private function onItemMouseDown(event:MouseEvent):void
+		{
+			if(event.target == disclosureButton)
+			{
+				event.stopImmediatePropagation();
+			}
 		}
 		
 		/**

@@ -183,7 +183,7 @@ package org.hammerc.components
 			{
 				this.setSelectedIndex(index, false);
 			}
-			else if(index <= this.selectedIndex)
+			else if(index <= this.selectedIndex && this.initialized)
 			{
 				this.setSelectedIndex(selectedIndex + 1);
 			}

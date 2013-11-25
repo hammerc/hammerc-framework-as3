@@ -98,6 +98,7 @@ package org.hammerc.layouts
 		 */
 		public function set horizontalGap(value:Number):void
 		{
+			value = isNaN(value) ? 0 : value;
 			if(value != _horizontalGap)
 			{
 				_explicitHorizontalGap = value;
@@ -119,6 +120,7 @@ package org.hammerc.layouts
 		 */
 		public function set verticalGap(value:Number):void
 		{
+			value = isNaN(value) ? 0 : value;
 			if(value != _verticalGap)
 			{
 				_explicitVerticalGap = value;
@@ -456,6 +458,15 @@ package org.hammerc.layouts
 		{
 			_rowCount = _columnCount = -1;
 			var numElements:int = target.numElements;
+			var count:int = numElements;
+			for(var index:int = 0; index < count; index++)
+			{
+				var elt:ILayoutElement = target.getElementAt(index) as ILayoutElement;
+				if(elt != null && !elt.includeInLayout)
+				{
+					numElements--;
+				}
+			}
 			if(numElements == 0)
 			{
 				_rowCount = _columnCount = 0;
@@ -664,15 +675,16 @@ package org.hammerc.layouts
 			var columnIndex:int;
 			var rowIndex:int;
 			var orientedByColumns:Boolean = (orientation == TileOrientation.COLUMNS);
-			for(var index:int = _startIndex; index <= _endIndex; index++)
+			var index:int = _startIndex;
+			for(var i:int = _startIndex; i <= _endIndex; i++)
 			{
 				if(this.useVirtualLayout)
 				{
-					elt = target.getVirtualElementAt(index) as ILayoutElement;
+					elt = target.getVirtualElementAt(i) as ILayoutElement;
 				}
 				else
 				{
-					elt = target.getElementAt(index) as ILayoutElement;
+					elt = target.getElementAt(i) as ILayoutElement;
 				}
 				if(elt == null || !elt.includeInLayout)
 				{
@@ -699,6 +711,7 @@ package org.hammerc.layouts
 				x = columnIndex * (_columnWidth + _horizontalGap) + paddingL;
 				y = rowIndex * (_rowHeight + _verticalGap) + paddingT;
 				sizeAndPositionElement(elt, x, y, _columnWidth, rowHeight);
+				index++;
 			}
 			var hPadding:Number = paddingL + paddingR;
 			var vPadding:Number = paddingT + paddingB;

@@ -18,6 +18,7 @@ package org.hammerc.utils
 
 import flash.display.Shape;
 import flash.events.Event;
+import flash.events.UncaughtErrorEvent;
 
 import org.hammerc.core.HammercGlobals;
 
@@ -81,6 +82,29 @@ class DelayCaller extends Shape
 	}
 	
 	private function callbackHandler(event:Event):void
+	{
+		if(HammercGlobals.catchCallLaterExceptions)
+		{
+			try
+			{
+				doCallBackFunction(event);
+			}
+			catch(error:Error)
+			{
+				if(HammercGlobals.stage != null)
+				{
+					var errorEvent:UncaughtErrorEvent = new UncaughtErrorEvent("callLaterError", false, true, error.getStackTrace());
+					HammercGlobals.stage.dispatchEvent(errorEvent);
+				}
+			}
+		}
+		else
+		{
+			doCallBackFunction(event);
+		}
+	}
+	
+	private function doCallBackFunction(event:Event):void
 	{
 		var onRender:Boolean = event.type == Event.RENDER;
 		var methodInfo:MethodInfo;

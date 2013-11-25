@@ -25,6 +25,11 @@ package org.hammerc.core
 		public static var useUpdateAfterEvent:Boolean = true;
 		
 		/**
+		 * 一个全局标志, 是否屏蔽失效验证阶段和 <code>callLater</code> 方法延迟调用的所有报错. 建议在发行版中启用, 避免因为一处报错引起全局的延迟调用失效.
+		 */
+		public static var catchCallLaterExceptions:Boolean = false;
+		
+		/**
 		 * 记录舞台.
 		 */
 		private static var _stage:Stage;

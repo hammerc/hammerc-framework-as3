@@ -104,7 +104,7 @@ package org.hammerc.components
 		{
 			if(this.itemRenderer == null)
 			{
-				this.itemRenderer = TreeItemRenderer;
+				this.itemRenderer = ITreeItemRenderer;
 			}
 			super.createChildren();
 		}
@@ -177,7 +177,7 @@ package org.hammerc.components
 		override protected function dataGroup_rendererAddHandler(event:RendererExistenceEvent):void
 		{
 			super.dataGroup_rendererAddHandler(event);
-			if(event.renderer is TreeItemRenderer)
+			if(event.renderer is ITreeItemRenderer)
 			{
 				event.renderer.addEventListener(TreeEvent.ITEM_OPENING, onItemOpening);
 			}
@@ -188,7 +188,7 @@ package org.hammerc.components
 		 */
 		private function onItemOpening(event:TreeEvent):void
 		{
-			var renderer:TreeItemRenderer = event.itemRenderer;
+			var renderer:ITreeItemRenderer = event.itemRenderer;
 			var item:Object = event.item;
 			if(renderer == null || !(dataProvider is ITreeCollection))
 			{
@@ -210,7 +210,7 @@ package org.hammerc.components
 		override protected function dataGroup_rendererRemoveHandler(event:RendererExistenceEvent):void
 		{
 			super.dataGroup_rendererRemoveHandler(event);
-			if(event.renderer is TreeItemRenderer)
+			if(event.renderer is ITreeItemRenderer)
 			{
 				event.renderer.removeEventListener(TreeEvent.ITEM_OPENING, onItemOpening);
 			}
@@ -250,7 +250,7 @@ package org.hammerc.components
 			super.dataProvider_collectionChangeHandler(event);
 			if(event.kind == CollectionKind.OPEN || event.kind == CollectionKind.CLOSE)
 			{
-				var renderer:TreeItemRenderer = this.dataGroup ? this.dataGroup.getElementAt(event.location) as TreeItemRenderer : null;
+				var renderer:ITreeItemRenderer = this.dataGroup ? this.dataGroup.getElementAt(event.location) as ITreeItemRenderer : null;
 				if(renderer != null)
 				{
 					this.updateRenderer(renderer, event.location, event.items[0]);
@@ -299,7 +299,7 @@ package org.hammerc.components
 		 */
 		private function updateRendererIconProperty(itemIndex:int):void
 		{
-			var renderer:TreeItemRenderer = this.dataGroup.getElementAt(itemIndex) as TreeItemRenderer; 
+			var renderer:ITreeItemRenderer = this.dataGroup.getElementAt(itemIndex) as ITreeItemRenderer; 
 			if(renderer != null)
 			{
 				renderer.iconSkinName = this.itemToIcon(renderer.data);

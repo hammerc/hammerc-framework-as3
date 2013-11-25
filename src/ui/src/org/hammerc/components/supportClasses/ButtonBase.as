@@ -51,13 +51,13 @@ package org.hammerc.components.supportClasses
 		private var _repeatDelay:Number = 500;
 		private var _repeatInterval:Number = 35;
 		
-		private var _hovered:Boolean = false;    
+		private var _hovered:Boolean = false;
 		
 		private var _keepDown:Boolean = false;
 		
 		private var _label:String = "";
 		
-		private var _mouseCaptured:Boolean = false; 
+		private var _mouseCaptured:Boolean = false;
 		
 		private var _stickyHighlighting:Boolean = false;
 		

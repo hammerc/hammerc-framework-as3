@@ -94,7 +94,7 @@ package org.hammerc.components.supportClasses
 		 */
 		hammerc_internal var _proposedSelectedIndex:int = NO_PROPOSED_SELECTION;
 		
-		private var _selectedIndex:int = NO_SELECTION;
+		hammerc_internal var _selectedIndex:int = NO_SELECTION;
 		
 		/**
 		 * 是否允许自定义的选中项.
@@ -104,7 +104,7 @@ package org.hammerc.components.supportClasses
 		/**
 		 * 索引改变后是否需要抛出事件.
 		 */
-		private var _dispatchChangeAfterSelection:Boolean = false;
+		hammerc_internal var _dispatchChangeAfterSelection:Boolean = false;
 		
 		/**
 		 * 在属性提交前缓存真实选中项的数据源.
@@ -377,10 +377,6 @@ package org.hammerc.components.supportClasses
 					this.dispatchEvent(new UIEvent(UIEvent.VALUE_COMMIT));
 				}
 			}
-			if(_dispatchChangeAfterSelection)
-			{
-				_dispatchChangeAfterSelection = false;
-			}
 			if(_labelFieldOrFunctionChanged)
 			{
 				if(this.dataGroup != null)
@@ -560,6 +556,7 @@ package org.hammerc.components.supportClasses
 				if(this.requireSelection && _proposedSelectedIndex == NO_SELECTION && this.dataProvider != null && this.dataProvider.length > 0)
 				{
 					_proposedSelectedIndex = NO_PROPOSED_SELECTION;
+					_dispatchChangeAfterSelection = false;
 					return false;
 				}
 			}
@@ -571,6 +568,7 @@ package org.hammerc.components.supportClasses
 				{
 					this.itemSelected(_proposedSelectedIndex, false);
 					_proposedSelectedIndex = NO_PROPOSED_SELECTION;
+					_dispatchChangeAfterSelection = false;
 					return false;
 				}
 			}

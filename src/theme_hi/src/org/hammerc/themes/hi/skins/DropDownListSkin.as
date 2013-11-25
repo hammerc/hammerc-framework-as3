@@ -62,7 +62,7 @@ package org.hammerc.themes.hi.skins
 		public function DropDownListSkin()
 		{
 			super();
-			this.states = ["open", "normal", "disabled"];
+			this.states = ["normal", "open", "disabled"];
 		}
 		
 		/**
@@ -138,7 +138,10 @@ package org.hammerc.themes.hi.skins
 					_popUp.displayPopUp = true;
 					break;
 				case "normal":
-					_popUp.displayPopUp = false;
+					if(_popUp != null)
+					{
+						_popUp.displayPopUp = false;
+					}
 					break;
 				case "disabled":
 					break;

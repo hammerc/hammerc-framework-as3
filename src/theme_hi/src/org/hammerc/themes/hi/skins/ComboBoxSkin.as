@@ -60,7 +60,7 @@ package org.hammerc.themes.hi.skins
 		public function ComboBoxSkin()
 		{
 			super();
-			this.states = ["open", "normal", "disabled"];
+			this.states = ["normal", "open", "disabled"];
 		}
 		
 		/**
