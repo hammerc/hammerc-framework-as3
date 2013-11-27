@@ -169,6 +169,14 @@ package org.hammerc.archer.ds
 		}
 		
 		/**
+		 * 清空数据.
+		 */
+		public function clear():void
+		{
+			_data = new Array();
+		}
+		
+		/**
 		 * 获取本对象的字符串描述.
 		 * @return 本对象的字符串描述.
 		 */
