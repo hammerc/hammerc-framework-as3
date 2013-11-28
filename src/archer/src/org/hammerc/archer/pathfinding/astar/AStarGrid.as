@@ -54,7 +54,7 @@ package org.hammerc.archer.pathfinding.astar
 				_grid[i] = new Vector.<AStarNode>(_rows, true);
 				for(var j:int = 0; j < _rows; j++)
 				{
-					_grid[i][j] = this.createAStarNode(i, j);
+					_grid[i][j] = this.createNode(i, j);
 				}
 			}
 		}
@@ -65,7 +65,7 @@ package org.hammerc.archer.pathfinding.astar
 		 * @param y 该格子在地图上的第几行.
 		 * @return 需要记录数据的格子对象.
 		 */
-		protected function createAStarNode(x:int, y:int):AStarNode
+		protected function createNode(x:int, y:int):AStarNode
 		{
 			return new AStarNode(x, y);
 		}

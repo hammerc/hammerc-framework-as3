@@ -140,7 +140,7 @@ package org.hammerc.archer.pathfinding.astar
 				{
 					var test:AStarNode = node._aroundLinks[i].node;
 					var cost:Number = node._aroundLinks[i].cost;
-					var g:Number = node._g + cost;
+					var g:Number = node._g + (cost * test.costMultiplier);
 					var h:Number = _heuristic(test, _endNode);
 					var f:Number = g + h;
 					if(test._checked)

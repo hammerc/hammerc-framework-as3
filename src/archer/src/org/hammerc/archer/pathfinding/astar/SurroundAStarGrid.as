@@ -27,7 +27,7 @@ package org.hammerc.archer.pathfinding.astar
 		/**
 		 * @inheritDoc
 		 */
-		override protected function createAStarNode(x:int, y:int):AStarNode
+		override protected function createNode(x:int, y:int):AStarNode
 		{
 			return new SurroundAStarNode(x, y);
 		}
