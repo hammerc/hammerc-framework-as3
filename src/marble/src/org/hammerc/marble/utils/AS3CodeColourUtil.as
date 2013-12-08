@@ -29,7 +29,7 @@ package org.hammerc.marble.utils
 		];
 		
 		private static const KEYWORDS:Array = [
-			{color:"#0033FF", words:["import", "public", "private", "protected", "internal", "set", "get", "if", "else", "switch", "case", "break", "default", "for", "each", "in", "continue", "do", "while", "is", "as", "typeof", "instanceof", "use", "with", "return", "true", "false", "null", "void", "try", "catch", "finally", "throw", "new", "delete", "static", "final", "const", "dynamic", "extends", "implements"]}, 
+			{color:"#0033FF", words:["import", "public", "private", "protected", "internal", "set", "get", "if", "else", "switch", "case", "break", "default", "for", "each", "in", "continue", "do", "while", "is", "as", "typeof", "instanceof", "use", "with", "return", "true", "false", "null", "void", "try", "catch", "finally", "throw", "new", "delete", "static", "final", "const", "dynamic", "extends", "implements", "override"]}, 
 			{color:"#6699CC", words:["var"]}, 
 			{color:"#339966", words:["function"]}, 
 			{color:"#9900CC", words:["package", "class", "interface"]}, 
@@ -49,7 +49,7 @@ package org.hammerc.marble.utils
 		];
 		
 		private static const SPACES:Array = [
-			{regex:"\r", html:"<br/>"}, 
+			{regex:"\n", html:"<br/>"}, 
 			{regex:"\t", html:"&nbsp;&nbsp;&nbsp;&nbsp;"}, 
 		];
 		
