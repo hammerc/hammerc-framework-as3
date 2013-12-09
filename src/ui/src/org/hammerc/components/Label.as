@@ -483,7 +483,7 @@ package org.hammerc.components
 			{
 				return;
 			}
-			var useLeading:Boolean = Boolean(expLeading);
+			var useLeading:Boolean = expLeading != null;
 			for(var beginIndex:* in _rangeFormatDic)
 			{
 				var endDic:Dictionary = _rangeFormatDic[beginIndex] as Dictionary;
@@ -640,12 +640,20 @@ package org.hammerc.components
 			var truncationIndicator:String = "...";
 			var originalText:String = text;
 			var expLeading:Object = verticalAlign == VerticalAlign.JUSTIFY ? 0 : null;
-			var lastLineIndex:int = _textField.getLineIndexAtPoint(2, _textField.height - 2);
-			if(lastLineIndex < 0)
+			try
 			{
-				lastLineIndex = 0;
+				var lineM:TextLineMetrics = _textField.getLineMetrics(0);
+				var realTextHeight:Number = _textField.height;
+				var lastLineIndex:int =int(realTextHeight / lineM.height);
 			}
-			lastLineIndex += 1;
+			catch(error:Error)
+			{
+				lastLineIndex = 1;
+			}
+			if(lastLineIndex < 1)
+			{
+				lastLineIndex = 1;
+			}
 			if(_textField.numLines > lastLineIndex && _textField.textHeight + 4 > _textField.height)
 			{
 				var offset:int = _textField.getLineOffset(lastLineIndex);

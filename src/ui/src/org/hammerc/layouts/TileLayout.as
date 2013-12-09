@@ -609,11 +609,10 @@ package org.hammerc.layouts
 		 */
 		private function updateMaxElementSizeVirtual():void
 		{
-			if(this.typicalLayoutRect)
-			{
-				_maxElementWidth = Math.max(_maxElementWidth, this.typicalLayoutRect.width);
-				_maxElementHeight = Math.max(_maxElementHeight, this.typicalLayoutRect.height);
-			}
+			var typicalHeight:Number = this.typicalLayoutRect ? this.typicalLayoutRect.height : 22;
+			var typicalWidth:Number = this.typicalLayoutRect ? this.typicalLayoutRect.width : 22;
+			_maxElementWidth = Math.max(_maxElementWidth, typicalWidth);
+			_maxElementHeight = Math.max(_maxElementHeight, typicalHeight);
 			if((_startIndex != -1) && (_endIndex != -1))
 			{
 				for(var index:int = _startIndex; index <= _endIndex; index++)

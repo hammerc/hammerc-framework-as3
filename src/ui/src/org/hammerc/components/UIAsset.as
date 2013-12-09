@@ -51,6 +51,8 @@ package org.hammerc.components
 		 */
 		hammerc_internal var _skin:DisplayObject;
 		
+		private var _createChildrenCalled:Boolean = false;
+		
 		private var _skinNameChanged:Boolean = false;
 		private var _scaleSkin:Boolean = true;
 		
@@ -74,7 +76,7 @@ package org.hammerc.components
 			}
 			_skinName = value;
 			_skinNameExplicitlySet = true;
-			if(this.initialized || this.hasParent)
+			if(_createChildrenCalled)
 			{
 				_skinNameChanged = false;
 				parseSkinName();
@@ -199,6 +201,7 @@ package org.hammerc.components
 				_skinNameChanged = false;
 				parseSkinName();
 			}
+			_createChildrenCalled = true;
 		}
 		
 		/**
