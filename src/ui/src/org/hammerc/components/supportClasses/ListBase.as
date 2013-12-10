@@ -178,7 +178,7 @@ package org.hammerc.components.supportClasses
 		
 		/**
 		 * 设置或获取在每个项目上运行以确定其标签的函数.
-		 * <p>示例: function <code>labelFunc(item:Object):String</code>.</p>
+		 * <p>示例: <code>function labelFunc(item:Object):String</code>.</p>
 		 */
 		public function set labelFunction(value:Function):void
 		{

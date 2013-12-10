@@ -14,10 +14,12 @@ package org.hammerc.themes.hi
 	import org.hammerc.themes.hi.skins.HSliderSkin;
 	import org.hammerc.themes.hi.skins.ItemRendererSkin;
 	import org.hammerc.themes.hi.skins.ListSkin;
+	import org.hammerc.themes.hi.skins.NumericStepperSkin;
 	import org.hammerc.themes.hi.skins.PanelSkin;
 	import org.hammerc.themes.hi.skins.ProgressBarSkin;
 	import org.hammerc.themes.hi.skins.RadioButtonSkin;
 	import org.hammerc.themes.hi.skins.ScrollerSkin;
+	import org.hammerc.themes.hi.skins.SpinnerSkin;
 	import org.hammerc.themes.hi.skins.TabBarButtonSkin;
 	import org.hammerc.themes.hi.skins.TabBarSkin;
 	import org.hammerc.themes.hi.skins.TextAreaSkin;
@@ -54,10 +56,12 @@ package org.hammerc.themes.hi
 			this.mapSkin("org.hammerc.components::HSlider", HSliderSkin);
 			this.mapSkin("org.hammerc.components::ItemRenderer", ItemRendererSkin);
 			this.mapSkin("org.hammerc.components::List", ListSkin);
+			this.mapSkin("org.hammerc.components::NumericStepper", NumericStepperSkin);
 			this.mapSkin("org.hammerc.components::Panel", PanelSkin);
 			this.mapSkin("org.hammerc.components::ProgressBar", ProgressBarSkin);
 			this.mapSkin("org.hammerc.components::RadioButton", RadioButtonSkin);
 			this.mapSkin("org.hammerc.components::Scroller", ScrollerSkin);
+			this.mapSkin("org.hammerc.components::Spinner", SpinnerSkin);
 			this.mapSkin("org.hammerc.components::TabBar", TabBarSkin);
 			this.mapSkin("org.hammerc.components::TabBarButton", TabBarButtonSkin);
 			this.mapSkin("org.hammerc.components::TextArea", TextAreaSkin);
