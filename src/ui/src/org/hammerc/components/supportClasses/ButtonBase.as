@@ -77,7 +77,7 @@ package org.hammerc.components.supportClasses
 			super();
 			this.mouseChildren = false;
 			this.buttonMode = true;
-			this.useHandCursor = true;
+			this.useHandCursor = false;
 			this.focusEnabled = true;
 			this.autoMouseEnabled = false;
 			this.addHandlers();

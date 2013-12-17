@@ -77,7 +77,7 @@ package org.hammerc.managers
 		private function addedToStageHandler(event:Event):void
 		{
 			(event.target as DisplayObject).addEventListener(Event.RENDER, renderHandler);
-			this.callRepaint(event.target as IRepaint);
+			(event.target as IRepaint).repaint();
 		}
 		
 		private function removedFromStageHandler(event:Event):void
