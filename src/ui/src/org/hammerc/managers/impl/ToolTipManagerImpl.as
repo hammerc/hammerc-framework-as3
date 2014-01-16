@@ -209,6 +209,11 @@ package org.hammerc.managers.impl
 					hideImmediately(target);
 				}
 			}
+			else if(hasNew && this.currentToolTip != null && this.currentTarget === target)
+			{
+				_currentTipData = newToolTip;
+				initializeTip();
+			}
 		}
 		
 		/**

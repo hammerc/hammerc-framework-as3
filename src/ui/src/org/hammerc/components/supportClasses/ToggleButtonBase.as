@@ -85,7 +85,7 @@ package org.hammerc.components.supportClasses
 				return;
 			}
 			super.buttonReleased();
-			if(!this._autoSelected)
+			if(!this._autoSelected || !this.enabled)
 			{
 				return;
 			}

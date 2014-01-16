@@ -44,6 +44,8 @@ package org.hammerc.components
 		
 		private var _viewport:IViewport;
 		
+		private var _useMouseWheelDelta:Boolean = true;
+		
 		private var _minViewportInset:Number = 0;
 		
 		private var _measuredSizeIncludesScrollBars:Boolean = true;
@@ -144,6 +146,30 @@ package org.hammerc.components
 		public function get viewport():IViewport
 		{
 			return _viewport;
+		}
+		
+		/**
+		 * 设置或获取是否使用鼠标滚轮滚动一次时是否按滚轮滚动的值来设定.
+		 */
+		public function set useMouseWheelDelta(value:Boolean):void
+		{
+			if(_useMouseWheelDelta == value)
+			{
+				return;
+			}
+			_useMouseWheelDelta = value;
+			if(horizontalScrollBar != null)
+			{
+				horizontalScrollBar._useMouseWheelDelta = _useMouseWheelDelta;
+			}
+			if(verticalScrollBar != null)
+			{
+				verticalScrollBar._useMouseWheelDelta = _useMouseWheelDelta;
+			}
+		}
+		public function get useMouseWheelDelta():Boolean
+		{
+			return _useMouseWheelDelta;
 		}
 		
 		/**
@@ -442,11 +468,13 @@ package org.hammerc.components
 			if(instance == verticalScrollBar)
 			{
 				verticalScrollBar.viewport = this.viewport;
+				verticalScrollBar._useMouseWheelDelta = _useMouseWheelDelta;
 				_contentGroup.addElement(verticalScrollBar);
 			}
 			else if(instance == horizontalScrollBar)
 			{
 				horizontalScrollBar.viewport = this.viewport;
+				horizontalScrollBar._useMouseWheelDelta = _useMouseWheelDelta;
 				_contentGroup.addElement(horizontalScrollBar);
 			}
 		}

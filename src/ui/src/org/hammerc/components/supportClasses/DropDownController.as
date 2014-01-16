@@ -315,6 +315,10 @@ package org.hammerc.components.supportClasses
 			{
 				addCloseTriggers();
 				_isOpen = true;
+				if(this.openButton != null)
+				{
+					this.openButton.keepDown(true);
+				}
 				this.dispatchEvent(new UIEvent(UIEvent.OPEN));
 			}
 		}
@@ -327,6 +331,10 @@ package org.hammerc.components.supportClasses
 			if(this.isOpen)
 			{   
 				_isOpen = false;
+				if(this.openButton != null)
+				{
+					this.openButton.keepDown(false);
+				}
 				var dde:UIEvent = new UIEvent(UIEvent.CLOSE, false, true);
 				if(!commit)
 				{

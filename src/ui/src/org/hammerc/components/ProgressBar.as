@@ -5,10 +5,12 @@
 package org.hammerc.components
 {
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 	import flash.geom.Point;
 	
 	import org.hammerc.components.supportClasses.Range;
 	import org.hammerc.core.UIComponent;
+	import org.hammerc.events.MoveEvent;
 	import org.hammerc.events.ResizeEvent;
 	
 	/**
@@ -35,6 +37,8 @@ package org.hammerc.components
 		private var _labelFunction:Function;
 		
 		private var _direction:String = ProgressBarDirection.LEFT_TO_RIGHT;
+		
+		private var _trackResizedOrMoved:Boolean = false;
 		
 		/**
 		 * 创建一个 <code>ProgressBar</code> 对象.
@@ -135,7 +139,8 @@ package org.hammerc.components
 			{
 				if(track is UIComponent)
 				{
-					track.addEventListener(ResizeEvent.RESIZE, onTrackResize);
+					track.addEventListener(ResizeEvent.RESIZE, onTrackResizeOrMove);
+					track.addEventListener(MoveEvent.MOVE, onTrackResizeOrMove);
 				}
 			}
 		}
@@ -149,14 +154,28 @@ package org.hammerc.components
 			{
 				if(track is UIComponent)
 				{
-					track.removeEventListener(ResizeEvent.RESIZE, onTrackResize);
+					track.removeEventListener(ResizeEvent.RESIZE, onTrackResizeOrMove);
+					track.removeEventListener(MoveEvent.MOVE, onTrackResizeOrMove);
 				}
 			}
 		}
 		
-		private function onTrackResize(event:ResizeEvent):void
+		private function onTrackResizeOrMove(event:Event):void
 		{
-			this.updateSkinDisplayList();
+			_trackResizedOrMoved = true;
+			this.invalidateProperties();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			if(_trackResizedOrMoved)
+			{
+				this.updateSkinDisplayList();
+			}
 		}
 		
 		/**
@@ -164,6 +183,7 @@ package org.hammerc.components
 		 */
 		protected function updateSkinDisplayList():void
 		{
+			_trackResizedOrMoved = false;
 			var currentValue:Number = isNaN(this.value) ? 0 : this.value;
 			var maxValue:Number = isNaN(this.maximum) ? 0 : this.maximum;
 			if(thumb != null && track != null)

@@ -244,7 +244,7 @@ package org.hammerc.components
 			{
 				return;
 			}
-			var nSteps:uint = Math.abs(event.delta);
+			var nSteps:uint = _useMouseWheelDelta ? Math.abs(event.delta) : 1;
 			var navigationUnit:uint;
 			navigationUnit = (event.delta < 0) ? NavigationUnit.DOWN : NavigationUnit.UP;
 			for(var vStep:int = 0; vStep < nSteps; vStep++)

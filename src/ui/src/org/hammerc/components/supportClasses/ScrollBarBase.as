@@ -84,6 +84,11 @@ package org.hammerc.components.supportClasses
 		private var _viewport:IViewport;
 		
 		/**
+		 * 是否使用鼠标滚轮滚动一次时是否按滚轮滚动的值来设定.
+		 */
+		hammerc_internal var _useMouseWheelDelta:Boolean;
+		
+		/**
 		 * 创建一个 <code>ScrollBarBase</code> 对象.
 		 */
 		public function ScrollBarBase()

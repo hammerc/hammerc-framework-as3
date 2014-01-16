@@ -167,6 +167,10 @@ package org.hammerc.components
 		 */
 		override public function setVirtualElementIndicesInView(startIndex:int, endIndex:int):void
 		{
+			if(this.layout == null || !this.layout.useVirtualLayout)
+			{
+				return;
+			}
 			_virtualRendererIndices = new Vector.<int>();
 			for(var i:int = startIndex; i <= endIndex; i++)
 			{
@@ -474,9 +478,12 @@ package org.hammerc.components
 					break;
 				case CollectionKind.RESET:
 				case CollectionKind.REFRESH:
-					for(var index:* in _indexToRenderer)
+					if(this.layout != null && this.layout.useVirtualLayout)
 					{
-						freeRendererByIndex(index);
+						for(var index:* in _indexToRenderer)
+						{
+							freeRendererByIndex(index);
+						}
 					}
 					_dataProviderChanged = true;
 					this.invalidateProperties();

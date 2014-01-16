@@ -321,7 +321,9 @@ package org.hammerc.components
 		{
 			super.createTextField();
 			_textField.wordWrap = true;
+			_textField.multiline = true;
 			_textField.visible = false;
+			_textField.mouseWheelEnabled = false;
 		}
 		
 		/**

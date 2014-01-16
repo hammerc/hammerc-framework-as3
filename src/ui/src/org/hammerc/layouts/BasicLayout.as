@@ -4,6 +4,8 @@
  */
 package org.hammerc.layouts
 {
+	import flash.geom.Rectangle;
+	
 	import org.hammerc.core.ILayoutElement;
 	import org.hammerc.layouts.supportClasses.LayoutBase;
 	
@@ -13,6 +15,8 @@ package org.hammerc.layouts
 	 */
 	public class BasicLayout extends LayoutBase
 	{
+		private var _mouseWheelSpeed:uint = 20;
+		
 		/**
 		 * 创建一个 <code>BasicLayout</code> 对象.
 		 */
@@ -26,6 +30,66 @@ package org.hammerc.layouts
 		 */
 		override public function set useVirtualLayout(value:Boolean):void
 		{
+		}
+		
+		/**
+		 * 设置或获取鼠标滚轮每次滚动时目标容器改变的像素距离.
+		 */
+		public function set mouseWheelSpeed(value:uint):void
+		{
+			if(value == 0)
+			{
+				value = 1;
+			}
+			_mouseWheelSpeed = value;
+		}
+		public function get mouseWheelSpeed():uint
+		{
+			return _mouseWheelSpeed;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function getElementBoundsLeftOfScrollRect(scrollRect:Rectangle):Rectangle
+		{
+			var bounds:Rectangle = new Rectangle();
+			bounds.left = scrollRect.left - _mouseWheelSpeed;
+			bounds.right = scrollRect.left;
+			return bounds;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function getElementBoundsRightOfScrollRect(scrollRect:Rectangle):Rectangle
+		{
+			var bounds:Rectangle = new Rectangle();
+			bounds.left = scrollRect.right;
+			bounds.right = scrollRect.right + _mouseWheelSpeed;
+			return bounds;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function getElementBoundsAboveScrollRect(scrollRect:Rectangle):Rectangle
+		{
+			var bounds:Rectangle = new Rectangle();
+			bounds.top = scrollRect.top - _mouseWheelSpeed;
+			bounds.bottom = scrollRect.top;
+			return bounds;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function getElementBoundsBelowScrollRect(scrollRect:Rectangle):Rectangle
+		{
+			var bounds:Rectangle = new Rectangle();
+			bounds.top = scrollRect.bottom;
+			bounds.bottom = scrollRect.bottom + _mouseWheelSpeed;
+			return bounds;
 		}
 		
 		/**
