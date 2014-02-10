@@ -391,7 +391,7 @@ package org.hammerc.marble.utils
 			{
 				return result;
 			}
-			extension = extension != null ? extension.toLowerCase() : "";
+			extension = extension != null ? extension.toLowerCase() : null;
 			findFiles(file, result, extension, filterFunc);
 			return result;
 		}
