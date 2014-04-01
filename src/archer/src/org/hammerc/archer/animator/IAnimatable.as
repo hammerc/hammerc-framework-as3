@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.archer.animation
+package org.hammerc.archer.animator
 {
 	/**
 	 * <code>IAnimatable</code> 接口定义了基于时间播放的动画对象应有的属性及方法.

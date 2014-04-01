@@ -6,7 +6,7 @@ package org.hammerc.archer.events
 {
 	import flash.events.Event;
 	
-	import org.hammerc.archer.animation.IAnimatable;
+	import org.hammerc.archer.animator.IAnimatable;
 	
 	/**
 	 * <code>AnimationEvent</code> 类为动画的事件类.

@@ -2,10 +2,10 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.archer.animation
+package org.hammerc.archer.animator
 {
 	/**
-	 * <code>IAnimatable</code> 接口定义了动画控制应有的属性及方法.
+	 * <code>IAnimationController</code> 接口定义了动画控制应有的属性及方法.
 	 * @author wizardc
 	 */
 	public interface IAnimationController

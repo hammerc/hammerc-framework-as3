@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.archer.animation
+package org.hammerc.archer.animator
 {
 	import flash.events.EventDispatcher;
 	
@@ -30,10 +30,10 @@ package org.hammerc.archer.animation
 	[Event(name="loopComplete",type="org.hammerc.archer.events.AnimationEvent")]
 	
 	/**
-	 * <code>Animation</code> 类实现了基于时间播放的动画控制对象.
+	 * <code>IAnimator</code> 类实现了基于时间播放的动画控制对象.
 	 * @author wizardc
 	 */
-	public class Animation extends EventDispatcher implements IAnimation
+	public class Animator extends EventDispatcher implements IAnimator
 	{
 		private var _clockManager:IClockManager;
 		private var _target:IAnimatable;
@@ -56,10 +56,10 @@ package org.hammerc.archer.animation
 		protected var _currentFrame:Number = 1;
 		
 		/**
-		 * 创建一个 <code>Animation</code> 对象.
+		 * 创建一个 <code>IAnimator</code> 对象.
 		 * @param target 目标动画对象.
 		 */
-		public function Animation(target:IAnimatable)
+		public function Animator(target:IAnimatable)
 		{
 			super(this);
 			this.target = target;
