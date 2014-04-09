@@ -25,13 +25,13 @@ package org.hammerc.archer.animator
 		 * 跳到指定帧并播放.
 		 * @param frame 帧索引, 从 1 开始.
 		 */
-		function gotoAndPlay(frame:int):void;
+		function gotoAndPlay(frame:Number):void;
 		
 		/**
 		 * 跳到指定帧并停止.
 		 * @param frame 帧索引, 从 1 开始.
 		 */
-		function gotoAndStop(frame:int):void;
+		function gotoAndStop(frame:Number):void;
 		
 		/**
 		 * 开始播放.

@@ -170,12 +170,13 @@ package org.hammerc.data
 		 * 对该本地记录数据中的每一个键执行函数.
 		 * @param callback 要对每一个键运行的函数.
 		 * @param thisObject 用作函数的 this 的对象.
+		 * @param args 回掉的参数.
 		 */
-		public function eachKey(callback:Function, thisObject:* = null):void
+		public function eachKey(callback:Function, thisObject:* = null, ...args):void
 		{
 			if(_hashMap != null)
 			{
-				_hashMap.eachKey(callback, thisObject);
+				_hashMap.eachKey.apply(null, [callback, thisObject].concat(args));
 			}
 		}
 		
@@ -183,12 +184,14 @@ package org.hammerc.data
 		 * 对该本地记录数据中的每一个值执行函数.
 		 * @param callback 要对每一个值运行的函数.
 		 * @param thisObject 用作函数的 this 的对象.
+		 * @param args 回掉的参数.
 		 */
-		public function eachValue(callback:Function, thisObject:* = null):void
+		public function eachValue(callback:Function, thisObject:* = null, ...args):void
 		{
 			if(_hashMap != null)
 			{
-				_hashMap.eachValue(callback, thisObject);
+				_hashMap.eachValue.apply(null, [callback, thisObject].concat(args));
+				
 			}
 		}
 		

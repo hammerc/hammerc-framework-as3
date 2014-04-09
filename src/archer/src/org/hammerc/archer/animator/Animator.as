@@ -152,7 +152,7 @@ package org.hammerc.archer.animator
 		/**
 		 * @inheritDoc
 		 */
-		public function gotoAndPlay(frame:int):void
+		public function gotoAndPlay(frame:Number):void
 		{
 			_currentFrame = frame;
 			this.play();
@@ -161,7 +161,7 @@ package org.hammerc.archer.animator
 		/**
 		 * @inheritDoc
 		 */
-		public function gotoAndStop(frame:int):void
+		public function gotoAndStop(frame:Number):void
 		{
 			_currentFrame = frame;
 			this.stop();

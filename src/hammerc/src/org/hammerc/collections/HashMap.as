@@ -111,13 +111,14 @@ package org.hammerc.collections
 		 * 对该哈希表中的每一个键执行函数.
 		 * @param callback 要对每一个键运行的函数.
 		 * @param thisObject 用作函数的 this 的对象.
+		 * @param args 回掉的参数.
 		 */
-		public function eachKey(callback:Function, thisObject:* = null):void
+		public function eachKey(callback:Function, thisObject:* = null, ...args):void
 		{
 			var keys:Array = this.keys();
 			for each(var key:* in keys)
 			{
-				callback.call(thisObject, key);
+				callback.apply(thisObject, [key].concat(args));
 			}
 		}
 		
@@ -125,13 +126,14 @@ package org.hammerc.collections
 		 * 对该哈希表中的每一个值执行函数.
 		 * @param callback 要对每一个值运行的函数.
 		 * @param thisObject 用作函数的 this 的对象.
+		 * @param args 回掉的参数.
 		 */
-		public function eachValue(callback:Function, thisObject:* = null):void
+		public function eachValue(callback:Function, thisObject:* = null, ...args):void
 		{
 			var values:Array = this.values();
 			for each(var value:* in values)
 			{
-				callback.call(thisObject, value);
+				callback.apply(thisObject, [value].concat(args));
 			}
 		}
 		
