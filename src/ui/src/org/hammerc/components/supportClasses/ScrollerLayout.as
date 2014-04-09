@@ -233,29 +233,9 @@ package org.hammerc.components.supportClasses
 				{
 					var contentSize:Point = getLayoutContentSize(viewport);
 					var viewportPreferredW:Number =  viewport.preferredWidth;
-					var viewportContentW:Number = contentSize.x;
-					var viewportW:Number = viewport.layoutBoundsWidth;
-					var currentSizeNoHSB:Boolean = !isNaN(viewportW) && ((viewportW + SDT) > viewportContentW);
-					if(hAuto && !showHSB && ((viewportPreferredW + SDT) <= viewportContentW) && currentSizeNoHSB)
-					{
-						measuredW += viewportW;
-					}
-					else
-					{
-						measuredW += Math.max(viewportPreferredW, (showHSB) ? hsb.minWidth : 0);
-					}
+					measuredW += Math.max(viewportPreferredW, (showHSB) ? hsb.minWidth : 0);
 					var viewportPreferredH:Number = viewport.preferredHeight;
-					var viewportContentH:Number = contentSize.y;
-					var viewportH:Number = viewport.layoutBoundsHeight;  
-					var currentSizeNoVSB:Boolean = !isNaN(viewportH) && ((viewportH + SDT) > viewportContentH);
-					if(vAuto && !showVSB && ((viewportPreferredH + SDT) <= viewportContentH) && currentSizeNoVSB)
-					{
-						measuredH += viewportH;
-					}
-					else
-					{
-						measuredH += Math.max(viewportPreferredH, (showVSB) ? vsb.minHeight : 0);
-					}
+					measuredH += Math.max(viewportPreferredH, (showVSB) ? vsb.minHeight : 0);
 				}
 				else
 				{

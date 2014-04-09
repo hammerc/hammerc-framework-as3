@@ -189,6 +189,7 @@ package org.hammerc.components
 			}
 			var newSkin:Object = this.getCurrentSkin();
 			this.attachSkin(newSkin);
+			this.invalidateSkinState();
 			this.invalidateSize();
 			this.invalidateDisplayList();
 		}

@@ -15,7 +15,7 @@ package org.hammerc.components
 	import org.hammerc.collections.ICollection;
 	import org.hammerc.components.supportClasses.GroupBase;
 	import org.hammerc.core.IInvalidating;
-	import org.hammerc.skins.ISkinnableClient;
+	import org.hammerc.core.ILayoutElement;
 	import org.hammerc.core.IUIComponent;
 	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.events.CollectionEvent;
@@ -23,6 +23,7 @@ package org.hammerc.components
 	import org.hammerc.layouts.HorizontalAlign;
 	import org.hammerc.layouts.VerticalLayout;
 	import org.hammerc.layouts.supportClasses.LayoutBase;
+	import org.hammerc.skins.ISkinnableClient;
 	
 	use namespace hammerc_internal;
 	
@@ -321,6 +322,7 @@ package org.hammerc.components
 				setItemRenderSkinName(renderer);
 			}
 			super.addChild(renderer as DisplayObject);
+			renderer.setLayoutBoundsSize(NaN, NaN);
 			return renderer;
 		}
 		
@@ -794,6 +796,7 @@ package org.hammerc.components
 				{
 					this.layout.clearVirtualLayoutCache();
 				}
+				setTypicalLayoutRect(null);
 				_useVirtualLayoutChanged = false;
 				_itemRendererChanged = false;
 				if(_dataProvider != null)
@@ -913,15 +916,12 @@ package org.hammerc.components
 				return;
 			}
 			_createNewRendererFlag = true;
-			var displayObj:DisplayObject = typicalRenderer as DisplayObject;
 			this.updateRenderer(typicalRenderer, 0, _typicalItem);
 			if(typicalRenderer is IInvalidating)
 			{
 				(typicalRenderer as IInvalidating).validateNow();
 			}
-			var w:Number = isNaN(displayObj.width) ? 0 : displayObj.width;
-			var h:Number = isNaN(displayObj.height) ? 0 : displayObj.height;
-			var rect:Rectangle = new Rectangle(0, 0, Math.abs(w * displayObj.scaleX), Math.abs(h * displayObj.scaleY));
+			var rect:Rectangle = new Rectangle(0, 0, typicalRenderer.preferredWidth, typicalRenderer.preferredHeight);
 			recycle(typicalRenderer);
 			setTypicalLayoutRect(rect);
 			_createNewRendererFlag = false;
@@ -987,10 +987,6 @@ package org.hammerc.components
 				}
 				_indexToRenderer[index] = renderer;
 				this.updateRenderer(renderer, index, item);
-				if(renderer is IInvalidating)
-				{
-					(renderer as IInvalidating).validateNow();
-				}
 				this.dispatchEvent(new RendererExistenceEvent(RendererExistenceEvent.RENDERER_ADD, item, index, renderer));
 				index++;
 			}
