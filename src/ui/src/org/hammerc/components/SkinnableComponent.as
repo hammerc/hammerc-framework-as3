@@ -541,11 +541,6 @@ package org.hammerc.components
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
-			if(_stateIsDirty)
-			{
-				_stateIsDirty = false;
-				this.validateSkinState();
-			}
 			if(_styleDeclaration == null)
 			{
 				createStyle();
@@ -555,6 +550,11 @@ package org.hammerc.components
 			{
 				_styleIsDirty = false;
 				(this.skin as ISkin).validateCurrentStyle(_styleDeclaration);
+			}
+			if(_stateIsDirty)
+			{
+				_stateIsDirty = false;
+				this.validateSkinState();
 			}
 		}
 		
