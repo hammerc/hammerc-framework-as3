@@ -62,11 +62,11 @@ package org.hammerc.display
 		 */
 		public function GraphicsScaleBitmap(bitmapData:BitmapData = null, scale9Grid:Rectangle = null, drawMode:int = 3, smoothing:Boolean = false)
 		{
-			_bitmapData = bitmapData;
-			_scale9Grid = scale9Grid;
-			_drawMode = drawMode;
-			_smoothing = smoothing;
 			RepaintManager.getInstance().register(this);
+			this.bitmapData = bitmapData;
+			this.scale9Grid = scale9Grid;
+			this.drawMode = drawMode;
+			this.smoothing = smoothing;
 		}
 		
 		/**
