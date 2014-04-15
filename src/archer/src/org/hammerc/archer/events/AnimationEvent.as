@@ -58,9 +58,9 @@ package org.hammerc.archer.events
 		 *   <tr><td><code>animatable</code></td><td>目标动画对象.</td></tr>
 		 *   <tr><td><code>label</code></td><td>当前帧上的标签.</td></tr>
 		 * </table>
-		 * @eventType complete
+		 * @eventType playComplete
 		 */
-		public static const COMPLETE:String = "complete";
+		public static const PLAY_COMPLETE:String = "playComplete";
 		
 		/**
 		 * 重复播放时每播放完一遍时触发.

@@ -20,9 +20,9 @@ package org.hammerc.archer.animator
 	[Event(name="frameEvent",type="org.hammerc.archer.events.AnimationEvent")]
 	
 	/**
-	 * @eventType org.hammerc.archer.events.AnimationEvent.COMPLETE
+	 * @eventType org.hammerc.archer.events.AnimationEvent.PLAY_COMPLETE
 	 */
-	[Event(name="complete",type="org.hammerc.archer.events.AnimationEvent")]
+	[Event(name="playComplete",type="org.hammerc.archer.events.AnimationEvent")]
 	
 	/**
 	 * @eventType org.hammerc.archer.events.AnimationEvent.LOOP_COMPLETE
@@ -212,22 +212,23 @@ package org.hammerc.archer.animator
 						lastFrame = 1;
 						_currentFrame -= _target.totalFrames;
 					}
+					_target.showFrame(int(_currentFrame));
 					this.dispatchFrameEvent(lastFrame, _currentFrame);
 				}
 				else
 				{
+					_isPlaying = false;
 					_currentFrame = _target.totalFrames;
+					_target.showFrame(int(_currentFrame));
 					this.dispatchFrameEvent(lastFrame, _currentFrame);
-					this.stop();
-					this.dispatchEvent(new AnimationEvent(AnimationEvent.COMPLETE, _target));
+					this.dispatchEvent(new AnimationEvent(AnimationEvent.PLAY_COMPLETE, _target));
 				}
 			}
 			else
 			{
+				_target.showFrame(int(_currentFrame));
 				this.dispatchFrameEvent(lastFrame, _currentFrame);
 			}
-			//显示帧
-			_target.showFrame(int(_currentFrame));
 		}
 		
 		/**
