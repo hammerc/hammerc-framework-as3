@@ -21,8 +21,9 @@ package org.hammerc.utils
 		
 		/**
 		 * 创建一个 <code>WeakReference</code> 对象.
+		 * @param target 弱引用的代理对象.
 		 */
-		public function WeakReference(target:*)
+		public function WeakReference(target:* = null)
 		{
 			this.target = target;
 		}
