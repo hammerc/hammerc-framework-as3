@@ -204,15 +204,21 @@ package org.hammerc.archer.animator
 			{
 				if(_repeatPlay)
 				{
+					var lastFrameList:Array = new Array();
 					//补全跳过的帧
 					while(_currentFrame >= endFrame)
 					{
-						this.dispatchFrameEvent(lastFrame, _target.totalFrames);
-						this.dispatchEvent(new AnimationEvent(AnimationEvent.LOOP_COMPLETE, _target));
+						lastFrameList.push(lastFrame);
 						lastFrame = 1;
 						_currentFrame -= _target.totalFrames;
 					}
 					_target.showFrame(int(_currentFrame));
+					//补全需要播放的事件
+					for each(var frame:Number in lastFrameList)
+					{
+						this.dispatchFrameEvent(frame, _target.totalFrames);
+						this.dispatchEvent(new AnimationEvent(AnimationEvent.LOOP_COMPLETE, _target));
+					}
 					this.dispatchFrameEvent(lastFrame, _currentFrame);
 				}
 				else
