@@ -4,6 +4,8 @@
  */
 package org.hammerc.debug
 {
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -26,12 +28,13 @@ package org.hammerc.debug
 		private const BG_COLOR:uint = 0x000000;
 		private const BG_AlPHA:Number = 0.5;
 		
-		private const VIEWER_WIDTH:int = 200;
-		private const DIAGRAM_HEIGHT:int = 100;
-		private const TEXT_HEIGHT:int = 16;
+		private const VIEWER_WIDTH:int = 150;
+		private const DIAGRAM_HEIGHT:int = 80;
+		private const TEXT_HEIGHT:int = 100;
 		
 		private const FPS_COLOR:uint = 0x00ff00;
 		private const MEM_COLOR:uint = 0xffff00;
+		private const OTHER_COLOR:uint = 0x00ffff;
 		
 		private var _diagram:Shape;
 		private var _textField:TextField;
@@ -39,16 +42,22 @@ package org.hammerc.debug
 		private var _frameCount:int = 0;
 		private var _previousTime:uint = 0;
 		private var _fps:String;
+		private var _interval:int;
 		
 		private var _diagramTime:uint = 0;
 		private var _fpsList:Vector.<Number>;
 		private var _memoryList:Vector.<uint>;
 		
+		private var _showChildren:Boolean;
+		private var _children:int;
+		
 		/**
 		 * 创建一个 <code>Stats</code> 对象.
+		 * @param showChildren 是否显示当前舞台的所有显示对象的数量.
 		 */
-		public function Stats()
+		public function Stats(showChildren:Boolean = false)
 		{
+			this.showChildren = showChildren;
 			init();
 		}
 		
@@ -69,6 +78,7 @@ package org.hammerc.debug
 			_textField = new TextField();
 			_textField.defaultTextFormat = textFormat;
 			_textField.selectable = false;
+			_textField.multiline = true;
 			_textField.width = VIEWER_WIDTH;
 			_textField.height = TEXT_HEIGHT;
 			_textField.y = DIAGRAM_HEIGHT;
@@ -82,6 +92,7 @@ package org.hammerc.debug
 		{
 			var frameReta:String = this.stage.frameRate.toFixed(1);
 			_fps = frameReta + "/" + frameReta;
+			_interval = 0;
 			_previousTime = _diagramTime = getTimer();
 			_fpsList = new Vector.<Number>();
 			_memoryList = new Vector.<uint>();
@@ -94,6 +105,18 @@ package org.hammerc.debug
 		{
 			this.removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			this.stage.removeEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+		}
+		
+		/**
+		 * 设置或获取是否显示当前舞台的所有显示对象的数量.
+		 */
+		public function set showChildren(value:Boolean):void
+		{
+			_showChildren = value;
+		}
+		public function get showChildren():Boolean
+		{
+			return _showChildren;
 		}
 		
 		/**
@@ -115,14 +138,34 @@ package org.hammerc.debug
 			_frameCount++;
 			if(_frameCount >= this.stage.frameRate)
 			{
-				_fps = Number(1000 / (getTimer() - _previousTime) * this.stage.frameRate).toFixed(1) + "/" + this.stage.frameRate.toFixed(1);
+				_interval = getTimer() - _previousTime;
+				_fps = Number(1000 / _interval * this.stage.frameRate).toFixed(1) + "/" + this.stage.frameRate.toFixed(1);
+				_interval /= this.stage.frameRate;
 				_previousTime = getTimer();
 				_frameCount = 0;
+				if(_showChildren)
+				{
+					_children = 0;
+					calculateChildren(this.stage);
+				}
 			}
 			//绘制可视图例
 			showDiagramInfo();
 			//显示文本
 			showTextInfo();
+		}
+		
+		private function calculateChildren(container:DisplayObjectContainer):void
+		{
+			_children += container.numChildren;
+			for(var i:int = 0; i < container.numChildren; i++)
+			{
+				var display:DisplayObject = container.getChildAt(i);
+				if(display is DisplayObjectContainer)
+				{
+					calculateChildren(display as DisplayObjectContainer);
+				}
+			}
 		}
 		
 		private function showDiagramInfo():void
@@ -179,7 +222,16 @@ package org.hammerc.debug
 		{
 			if(this.visible)
 			{
-				_textField.htmlText = "<textFormat tabStops='80'><font color='#" + FPS_COLOR.toString(16) + "'>FPS: " + _fps + "</font><tab/><font color='#" + MEM_COLOR.toString(16) + "'>MEM: " + getMemoryInfo() + "</font></textFormat>";
+				var html:Array = new Array();
+				html.push("<textFormat tabStops='60'>");
+				html.push("<font color='#" + FPS_COLOR.toString(16) + "'>FPS:<tab/>" + _fps + "</font>");
+				html.push("<font color='#" + MEM_COLOR.toString(16) + "'>Memory:<tab/>" + getMemoryInfo() + "</font>");
+				html.push("<font color='#" + OTHER_COLOR.toString(16) + "'>Interval:<tab/>" + _interval + "ms</font>");
+				html.push("<font color='#" + OTHER_COLOR.toString(16) + "'>Width:<tab/>" + this.stage.stageWidth + "px</font>");
+				html.push("<font color='#" + OTHER_COLOR.toString(16) + "'>Height:<tab/>" + this.stage.stageHeight + "px</font>");
+				html.push("<font color='#" + OTHER_COLOR.toString(16) + "'>Children:<tab/>" + (_showChildren ? _children : "Invalid") + "</font>");
+				html.push("</textFormat>");
+				_textField.htmlText = html.join("<br/>");
 			}
 		}
 		
