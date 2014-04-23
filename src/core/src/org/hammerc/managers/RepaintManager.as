@@ -53,10 +53,12 @@ package org.hammerc.managers
 			{
 				throw new Error("参数\"repaint\"必须是\"DisplayObject\"类的子类！");
 			}
-			if((repaint as DisplayObject).stage != null)
+			var display:DisplayObject = repaint as DisplayObject;
+			if(display.stage != null)
 			{
-				(repaint as DisplayObject).stage.invalidate();
+				display.stage.invalidate();
 			}
+			display.addEventListener(Event.EXIT_FRAME, renderHandler);
 		}
 		
 		/**
@@ -87,6 +89,10 @@ package org.hammerc.managers
 		
 		private function renderHandler(event:Event):void
 		{
+			if(event.type == Event.EXIT_FRAME)
+			{
+				(event.target as DisplayObject).removeEventListener(Event.EXIT_FRAME, renderHandler);
+			}
 			(event.target as IRepaint).repaint();
 		}
 	}
