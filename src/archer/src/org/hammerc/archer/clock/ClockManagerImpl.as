@@ -16,6 +16,7 @@ package org.hammerc.archer.clock
 	{
 		private var _initialized:Boolean = false;
 		
+		private var _paused:Boolean = false;
 		private var _runningRate:Number = 1;
 		private var _lastTime:Number = 0;
 		private var _clientList:Vector.<IClockClient>;
@@ -28,6 +29,18 @@ package org.hammerc.archer.clock
 		public function ClockManagerImpl()
 		{
 			super();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function set paused(value:Boolean):void
+		{
+			_paused = value;
+		}
+		public function get paused():Boolean
+		{
+			return _paused;
 		}
 		
 		/**
@@ -87,8 +100,13 @@ package org.hammerc.archer.clock
 		 */
 		protected function update(event:Event):void
 		{
+			if(_paused)
+			{
+				return;
+			}
 			var nowTime:Number = getTimer() * .001;
 			var passedTime:Number = nowTime - _lastTime;
+			_lastTime = nowTime;
 			var length:int = _clientList.length;
 			if(length == 0)
 			{
@@ -119,7 +137,6 @@ package org.hammerc.archer.clock
 				}
 				_clientList.length = currentIndex;
 			}
-			_lastTime = nowTime;
 		}
 		
 		/**

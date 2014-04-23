@@ -11,6 +11,12 @@ package org.hammerc.archer.clock
 	public interface IClockManager
 	{
 		/**
+		 * 设置或获取当前时钟管理器是否暂停.
+		 */
+		function set paused(value:Boolean):void;
+		function get paused():Boolean;
+		
+		/**
 		 * 设置或获取时钟运行的速率.
 		 */
 		function set runningRate(value:Number):void;
