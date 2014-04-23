@@ -4,6 +4,8 @@
  */
 package org.hammerc.archer.frame
 {
+	import org.hammerc.core.Injector;
+	
 	/**
 	 * <code>FrameManager</code> 类为帧执行管理器.
 	 * @author wizardc
@@ -16,7 +18,14 @@ package org.hammerc.archer.frame
 		{
 			if(_impl == null)
 			{
-				_impl = new FrameManagerImpl();
+				try
+				{
+					_impl = Injector.getInstance(IFrameManager);
+				}
+				catch(error:Error)
+				{
+					_impl = new FrameManagerImpl();
+				}
 			}
 			return _impl;
 		}
