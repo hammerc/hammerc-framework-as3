@@ -6,6 +6,8 @@ package org.hammerc.utils
 {
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
 	
 	/**
 	 * <code>Int64</code> 类提供 64 位带符号整型数字的支持.
@@ -41,42 +43,42 @@ package org.hammerc.utils
 		
 		/**
 		 * 从字节流中读取一个 64 位的带符号整数, 会读取 8 个字节.
-		 * @param bytes 要读取的字节流.
+		 * @param input 要读取的字节流.
 		 * @return 64 位的带符号整数.
 		 */
-		public static function readInt64(bytes:ByteArray):Int64
+		public static function readInt64(input:IDataInput):Int64
 		{
 			var low:uint;
 			var high:uint;
-			if(bytes.endian == Endian.LITTLE_ENDIAN)
+			if(input.endian == Endian.LITTLE_ENDIAN)
 			{
-				low = bytes.readUnsignedInt();
-				high = bytes.readUnsignedInt();
+				low = input.readUnsignedInt();
+				high = input.readUnsignedInt();
 			}
 			else
 			{
-				high = bytes.readUnsignedInt();
-				low = bytes.readUnsignedInt();
+				high = input.readUnsignedInt();
+				low = input.readUnsignedInt();
 			}
 			return new Int64(low, high);
 		}
 		
 		/**
 		 * 向字节流写入一个 64 位的带符号整数, 会写入 8 个字节.
-		 * @param bytes 要写入的字节流.
+		 * @param output 要写入的字节流.
 		 * @param value 要写入的 64 位的带符号整数.
 		 */
-		public static function writeInt64(bytes:ByteArray, value:Int64):void
+		public static function writeInt64(output:IDataOutput, value:Int64):void
 		{
-			if(bytes.endian == Endian.LITTLE_ENDIAN)
+			if(output.endian == Endian.LITTLE_ENDIAN)
 			{
-				bytes.writeUnsignedInt(value.low);
-				bytes.writeUnsignedInt(value.high);
+				output.writeUnsignedInt(value.low);
+				output.writeUnsignedInt(value.high);
 			}
 			else
 			{
-				bytes.writeUnsignedInt(value.high);
-				bytes.writeUnsignedInt(value.low);
+				output.writeUnsignedInt(value.high);
+				output.writeUnsignedInt(value.low);
 			}
 		}
 		

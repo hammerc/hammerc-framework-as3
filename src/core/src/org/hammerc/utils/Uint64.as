@@ -6,67 +6,69 @@ package org.hammerc.utils
 {
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
 	
 	/**
 	 * <code>Uint64</code> 类提供 64 位无符号整型数字的支持.
 	 * <p>注意: 本类仅有记录数字的功能, 不支持运算.</p>
 	 * @author wizardc
 	 */
-	public class Uint64
+	public class UInt64
 	{
 		/**
 		 * 该常量表示数字 0.
 		 */
-		public static const ZERO:Uint64 = new Uint64();
+		public static const ZERO:UInt64 = new UInt64();
 		
 		/**
 		 * 该常量表示数字 1.
 		 */
-		public static const ONE:Uint64 = new Uint64(1);
+		public static const ONE:UInt64 = new UInt64(1);
 		
 		/**
 		 * 该常量表示 <code>Uint64</code> 数字的最大值.
 		 */
-		public static const MAX_VALUE:Uint64 = new Uint64(uint.MAX_VALUE, uint.MAX_VALUE);
+		public static const MAX_VALUE:UInt64 = new UInt64(uint.MAX_VALUE, uint.MAX_VALUE);
 		
 		/**
 		 * 从字节流中读取一个 64 位的无符号整数, 会读取 8 个字节.
-		 * @param bytes 要读取的字节流.
+		 * @param input 要读取的字节流.
 		 * @return 64 位的无符号整数.
 		 */
-		public static function readUnsignedInt64(bytes:ByteArray):Uint64
+		public static function readUnsignedInt64(input:IDataInput):UInt64
 		{
 			var low:uint;
 			var high:uint;
-			if(bytes.endian == Endian.LITTLE_ENDIAN)
+			if(input.endian == Endian.LITTLE_ENDIAN)
 			{
-				low = bytes.readUnsignedInt();
-				high = bytes.readUnsignedInt();
+				low = input.readUnsignedInt();
+				high = input.readUnsignedInt();
 			}
 			else
 			{
-				high = bytes.readUnsignedInt();
-				low = bytes.readUnsignedInt();
+				high = input.readUnsignedInt();
+				low = input.readUnsignedInt();
 			}
-			return new Uint64(low, high);
+			return new UInt64(low, high);
 		}
 		
 		/**
 		 * 向字节流写入一个 64 位的无符号整数, 会写入 8 个字节.
-		 * @param bytes 要写入的字节流.
+		 * @param output 要写入的字节流.
 		 * @param value 要写入的 64 位的无符号整数.
 		 */
-		public static function writeUnsignedInt64(bytes:ByteArray, value:Uint64):void
+		public static function writeUnsignedInt64(output:IDataOutput, value:UInt64):void
 		{
-			if(bytes.endian == Endian.LITTLE_ENDIAN)
+			if(output.endian == Endian.LITTLE_ENDIAN)
 			{
-				bytes.writeUnsignedInt(value.low);
-				bytes.writeUnsignedInt(value.high);
+				output.writeUnsignedInt(value.low);
+				output.writeUnsignedInt(value.high);
 			}
 			else
 			{
-				bytes.writeUnsignedInt(value.high);
-				bytes.writeUnsignedInt(value.low);
+				output.writeUnsignedInt(value.high);
+				output.writeUnsignedInt(value.low);
 			}
 		}
 		
@@ -76,7 +78,7 @@ package org.hammerc.utils
 		 * @param radix 表示要分析的数字的基数 (基) 的整数.
 		 * @return 64 位的无符号整数.
 		 */
-		public static function parseUint64(value:String, radix:uint = 10):Uint64
+		public static function parseUint64(value:String, radix:uint = 10):UInt64
 		{
 			value = value.toLowerCase();
 			const div:Number = 4294967296;
@@ -93,7 +95,7 @@ package org.hammerc.utils
 				high = high * radix + int(low / div);
 				low = low % div;
 			}
-			return new Uint64(low, high);
+			return new UInt64(low, high);
 		}
 		
 		private var _low:uint;
@@ -104,7 +106,7 @@ package org.hammerc.utils
 		 * @param low 低位数字.
 		 * @param high 高位数字.
 		 */
-		public function Uint64(low:uint = 0, high:uint = 0)
+		public function UInt64(low:uint = 0, high:uint = 0)
 		{
 			_low = low;
 			_high = high;
@@ -139,7 +141,7 @@ package org.hammerc.utils
 		 * @param value 需要判断的数字.
 		 * @return 两个数字大小是否相同.
 		 */
-		public function equals(value:Uint64):Boolean
+		public function equals(value:UInt64):Boolean
 		{
 			if(value == null)
 			{
@@ -204,9 +206,9 @@ package org.hammerc.utils
 		 * 复制本对象的副本.
 		 * @return 与本对象一致的副本.
 		 */
-		public function clone():Uint64
+		public function clone():UInt64
 		{
-			return new Uint64(_low, _high);
+			return new UInt64(_low, _high);
 		}
 	}
 }
