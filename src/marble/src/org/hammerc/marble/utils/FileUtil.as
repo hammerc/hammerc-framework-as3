@@ -18,6 +18,16 @@ package org.hammerc.marble.utils
 	public class FileUtil
 	{
 		/**
+		 * 系统路径分隔符.
+		 */
+		public static const SEPARATOR:String = File.separator;
+		
+		/**
+		 * 系统换行符.
+		 */
+		public static const LINE_SEPARATOR:String = File.lineEnding;
+		
+		/**
 		 * 保存数据到指定文件.
 		 * @param path 文件完整路径名.
 		 * @param data 要保存的数据.
@@ -479,6 +489,36 @@ package org.hammerc.marble.utils
 		public static function escapeUrl(url:String):String
 		{
 			return url == null ? "" : url.split("\\").join("/");
+		}
+		
+		/**
+		 * 格式化路径为当前系统可使用的路径, 去掉末尾的路径分隔符.
+		 * @param path 带格式化的路径.
+		 * @return 格式化的路径.
+		 */
+		public static function formatPath(path:String):String
+		{
+			path = path.replace("\\", SEPARATOR);
+			path = path.replace("/", SEPARATOR);
+			var index:int = path.lastIndexOf(SEPARATOR);
+			if(index == path.length - 1)
+			{
+				path = path.substring(0, path.length - 1);
+			}
+			return path;
+		}
+		
+		/**
+		 * 统一换行符为系统默认的换行符.
+		 * @param source 带处理文本.
+		 * @return 处理后的文本.
+		 */
+		public static function unifyEnter(source:String):String
+		{
+			source = source.replace(/\r\n/g, "\r");
+			source = source.replace(/\n/g, "\r");
+			source = source.replace(/\r/g, LINE_SEPARATOR);
+			return source;
 		}
 	}
 }
