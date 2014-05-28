@@ -10,7 +10,7 @@ package org.hammerc.utils
 	import flash.utils.IDataOutput;
 	
 	/**
-	 * <code>Uint64</code> 类提供 64 位无符号整型数字的支持.
+	 * <code>UInt64</code> 类提供 64 位无符号整型数字的支持.
 	 * <p>注意: 本类仅有记录数字的功能, 不支持运算.</p>
 	 * @author wizardc
 	 */
@@ -27,7 +27,7 @@ package org.hammerc.utils
 		public static const ONE:UInt64 = new UInt64(1);
 		
 		/**
-		 * 该常量表示 <code>Uint64</code> 数字的最大值.
+		 * 该常量表示 <code>UInt64</code> 数字的最大值.
 		 */
 		public static const MAX_VALUE:UInt64 = new UInt64(uint.MAX_VALUE, uint.MAX_VALUE);
 		
@@ -78,7 +78,7 @@ package org.hammerc.utils
 		 * @param radix 表示要分析的数字的基数 (基) 的整数.
 		 * @return 64 位的无符号整数.
 		 */
-		public static function parseUint64(value:String, radix:uint = 10):UInt64
+		public static function parseUInt64(value:String, radix:uint = 10):UInt64
 		{
 			value = value.toLowerCase();
 			const div:Number = 4294967296;
@@ -102,7 +102,7 @@ package org.hammerc.utils
 		private var _high:uint;
 		
 		/**
-		 * 创建一个 <code>Uint64</code> 对象.
+		 * 创建一个 <code>UInt64</code> 对象.
 		 * @param low 低位数字.
 		 * @param high 高位数字.
 		 */
@@ -184,20 +184,20 @@ package org.hammerc.utils
 				throw new RangeError("基数必须介于2到36之间，当前为" + radix + "！");
 			}
 			var result:String = "";
-			var lowUint:uint = _low;
-			var highUint:uint = _high;
+			var lowUInt:uint = _low;
+			var highUInt:uint = _high;
 			var highRemain:Number;
 			var lowRemain:Number;
 			var tempNum:Number;
-			const maxLowUint:Number = 4294967296;
-			while(highUint != 0 || lowUint != 0)
+			const maxLowUInt:Number = 4294967296;
+			while(highUInt != 0 || lowUInt != 0)
 			{
-				highRemain = highUint % radix;
-				tempNum = highRemain * maxLowUint + lowUint;
+				highRemain = highUInt % radix;
+				tempNum = highRemain * maxLowUInt + lowUInt;
 				lowRemain = tempNum % radix;
 				result = lowRemain.toString(radix) + result;
-				highUint = (highUint - highRemain) / radix;
-				lowUint = (tempNum - lowRemain) / radix;
+				highUInt = (highUInt - highRemain) / radix;
+				lowUInt = (tempNum - lowRemain) / radix;
 			}
 			return result;
 		}
