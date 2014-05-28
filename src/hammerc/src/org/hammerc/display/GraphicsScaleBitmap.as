@@ -49,6 +49,11 @@ package org.hammerc.display
 		protected var _smoothing:Boolean;
 		
 		/**
+		 * 记录是否使用延时渲染.
+		 */
+		protected var _useDelay:Boolean;
+		
+		/**
 		 * 记录在下一次重绘方法被调用时是否需要进行重绘.
 		 */
 		protected var _changed:Boolean = false;
@@ -59,14 +64,16 @@ package org.hammerc.display
 		 * @param scale9Grid 九切片的数据.
 		 * @param drawMode 绘制模式.
 		 * @param smoothing 在缩放时是否对位图进行平滑处理.
+		 * @param useDelay 是否使用延时渲染.
 		 */
-		public function GraphicsScaleBitmap(bitmapData:BitmapData = null, scale9Grid:Rectangle = null, drawMode:int = 3, smoothing:Boolean = false)
+		public function GraphicsScaleBitmap(bitmapData:BitmapData = null, scale9Grid:Rectangle = null, drawMode:int = 3, smoothing:Boolean = false, useDelay:Boolean = true)
 		{
 			RepaintManager.getInstance().register(this);
 			this.bitmapData = bitmapData;
 			this.scale9Grid = scale9Grid;
 			this.drawMode = drawMode;
 			this.smoothing = smoothing;
+			this.useDelay = useDelay;
 		}
 		
 		/**
@@ -195,12 +202,34 @@ package org.hammerc.display
 		}
 		
 		/**
+		 * 设置或获取是否使用延时渲染.
+		 */
+		public function set useDelay(value:Boolean):void
+		{
+			if(_useDelay != value)
+			{
+				_useDelay = value;
+			}
+		}
+		public function get useDelay():Boolean
+		{
+			return _useDelay;
+		}
+		
+		/**
 		 * 侦听下次显示列表的绘制.
 		 */
 		protected function callRedraw():void
 		{
-			_changed = true;
-			RepaintManager.getInstance().callRepaint(this);
+			if(_useDelay)
+			{
+				_changed = true;
+				RepaintManager.getInstance().callRepaint(this);
+			}
+			else
+			{
+				this.drawBitmap();
+			}
 		}
 		
 		/**
