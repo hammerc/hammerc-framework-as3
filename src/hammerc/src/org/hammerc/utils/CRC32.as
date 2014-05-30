@@ -15,51 +15,68 @@ package org.hammerc.utils
 		/**
 		 * 记录下有用的所有信息, 实际计算时可加快算法速度.
 		 */
-		private static var _crcTable:Array = makeCrcTable();
+		private static var _crcTable:Array = initCRCTable();
 		
 		/**
 		 * 使用查表法, 计算出需要的数据.
 		 * @return 预先计算出的需要的数据.
 		 */
-		private static function makeCrcTable():Array
+		private static function initCRCTable():Array
 		{
 			var crcTable:Array = new Array(256);
-			for(var n:int = 0; n < 256; n++)
+			for(var i:int = 0; i < 256; i++)
 			{
-				var c:uint = n;
-				for(var k:int = 8; --k >= 0;)
+				var crc:uint = i;
+				for(var j:int = 0; j < 8; j++)
 				{
-					if((c & 1) != 0)
-					{
-						c = 0xedb88320 ^ (c >>> 1);
-					}
-					else
-					{
-						c = c >>> 1;
-					}
+					crc = (crc & 1) ? (crc >>> 1) ^ 0xEDB88320 : (crc >>> 1);
 				}
-				crcTable[n] = c;
+				crcTable[i] = crc;
 			}
 			return crcTable;
 		}
 		
+		private var _crc32:uint;
+		
+		/**
+		 * 创建一个 <code>CRC32</code> 对象.
+		 */
+		public function CRC32()
+		{
+		}
+		
+		/**
+		 * 获取校验码.
+		 */
+		public function get value():uint
+		{
+			return _crc32 & 0xFFFFFFFF;
+		}
+		
 		/**
 		 * 计算指定字节数组的效验码, 相同的字节数组获取的效验码一致, 否则说明字节数组被更改.
-		 * @param bytes 要计算的字节数组.
-		 * @return 对应的效验码.
+		 * @param buffer 要计算的字节数组.
+		 * @param offset 处理的偏移量.
+		 * @param length 处理的长度.
 		 */
-		public static function getCRC32(bytes:ByteArray):uint
+		public function update(buffer:ByteArray, offset:uint = 0, length:uint = 0):void
 		{
-			var crc:uint = 0;
-			var off:uint = 0;
-			var len:uint = bytes.length;
-			var c:uint = ~crc;
-			while(--len >= 0)
+			offset = offset != 0 ? offset : 0;
+			length = length != 0 ? length : buffer.length;
+			var crc:uint = ~_crc32;
+			for(var i:int = offset; i < length; i++)
 			{
-				c = _crcTable[(c ^ bytes[off++]) & 0xff] ^ (c >>> 8);
+				crc = _crcTable[(crc ^ buffer[i]) & 0xFF] ^ (crc >>> 8);
 			}
-			crc = ~c;
-			return crc & 0xffffffff;
+			_crc32 = ~crc;
+		}
+		
+		/**
+		 * 重置校验码.
+		 */
+		public function reset():void
+		{
+			_crc32 = 0;
 		}
 	}
 }
