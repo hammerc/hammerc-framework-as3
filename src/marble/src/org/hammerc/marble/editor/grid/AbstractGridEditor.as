@@ -430,7 +430,7 @@ package org.hammerc.marble.editor.grid
 		protected function drawEndHandler(event:GridDrawEvent):void
 		{
 			var bitmapData:BitmapData = _gridData.clone();
-			if(_gridDataRecordList.length == this.undoStep)
+			if(_undoIndex == this.undoStep - 1)
 			{
 				//队列已满, 移除第一个位图
 				_gridDataRecordList.shift();
@@ -455,7 +455,7 @@ package org.hammerc.marble.editor.grid
 				return false;
 			}
 			_undoIndex--;
-			_gridData = _gridDataRecordList[_undoIndex];
+			_gridData = _gridDataRecordList[_undoIndex].clone();
 			this.callRedraw();
 			return true;
 		}
@@ -470,7 +470,7 @@ package org.hammerc.marble.editor.grid
 				return false;
 			}
 			_undoIndex++;
-			_gridData = _gridDataRecordList[_undoIndex];
+			_gridData = _gridDataRecordList[_undoIndex].clone();
 			this.callRedraw();
 			return true;
 		}
@@ -482,7 +482,7 @@ package org.hammerc.marble.editor.grid
 		{
 			_undoIndex = 0;
 			_gridDataRecordList.length = 0;
-			_gridDataRecordList.push(_gridData);
+			_gridDataRecordList.push(_gridData.clone());
 		}
 		
 		/**
