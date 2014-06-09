@@ -498,8 +498,8 @@ package org.hammerc.marble.utils
 		 */
 		public static function formatPath(path:String):String
 		{
-			path = path.replace("\\", SEPARATOR);
-			path = path.replace("/", SEPARATOR);
+			path = path.replace(/\\\\/g, SEPARATOR);
+			path = path.replace(/\//g, SEPARATOR);
 			var index:int = path.lastIndexOf(SEPARATOR);
 			if(index == path.length - 1)
 			{

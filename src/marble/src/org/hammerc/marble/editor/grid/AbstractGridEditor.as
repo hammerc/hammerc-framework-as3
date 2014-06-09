@@ -224,7 +224,7 @@ package org.hammerc.marble.editor.grid
 		 */
 		public function set drawType(value:int):void
 		{
-			if(_drawType = value)
+			if(_drawType == value)
 			{
 				_drawType = value;
 				if(_gridTool != null)
