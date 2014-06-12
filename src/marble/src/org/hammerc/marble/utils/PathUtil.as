@@ -19,7 +19,8 @@ package org.hammerc.marble.utils
 		 */
 		public static function getPathWithoutName(path:String):String
 		{
-			return path.substr(0, path.lastIndexOf("\\") + 1);
+			path = escapeUrl(path);
+			return path.substr(0, path.lastIndexOf("/") + 1);
 		}
 		
 		/**
@@ -30,7 +31,8 @@ package org.hammerc.marble.utils
 		 */
 		public static function getNameByPath(path:String, extension:Boolean = true):String
 		{
-			var fileName:String = path.substr(path.lastIndexOf("\\") + 1);
+			path = escapeUrl(path);
+			var fileName:String = path.substr(path.lastIndexOf("/") + 1);
 			if(extension)
 			{
 				return fileName;
@@ -57,6 +59,16 @@ package org.hammerc.marble.utils
 				return null;
 			}
 			return fileName.substr(index + 1);
+		}
+		
+		/**
+		 * 转换 url 中的反斜杠为斜杠.
+		 * @param url 需要处理的 url.
+		 * @return 转换后的 url.
+		 */
+		public static function escapeUrl(url:String):String
+		{
+			return url == null ? "" : url.split("\\").join("/");
 		}
 		
 		/**

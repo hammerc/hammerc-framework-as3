@@ -16,7 +16,7 @@ package org.hammerc.display
 	 * <p>与 <code>ScaleBitmap</code> 类的创建新位图不同, <code>GraphicsScaleBitmap</code> 类使用矢量填充来实现位图九切片, 因此更加节省内存.</p>
 	 * @author wizardc
 	 */
-	public class GraphicsScaleBitmap extends Shape implements IRepaint
+	public class GraphicsScaleBitmap extends Shape implements IScaleBitmap
 	{
 		/**
 		 * 位图的宽度.
@@ -77,7 +77,7 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 设置或获取当前显示的位图对象.
+		 * @inheritDoc
 		 */
 		public function set bitmapData(value:BitmapData):void
 		{
@@ -103,7 +103,7 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 设置或获取位图的宽度.
+		 * @inheritDoc
 		 */
 		override public function set width(value:Number):void
 		{
@@ -119,7 +119,7 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 设置或获取位图的高度.
+		 * @inheritDoc
 		 */
 		override public function set height(value:Number):void
 		{
@@ -135,7 +135,7 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 设置或获取九切片的数据.
+		 * @inheritDoc
 		 */
 		override public function set scale9Grid(value:Rectangle):void
 		{
@@ -166,7 +166,7 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 设置或获取绘制模式.
+		 * @inheritDoc
 		 */
 		public function set drawMode(value:int):void
 		{
@@ -202,7 +202,7 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 设置或获取是否使用延时渲染.
+		 * @inheritDoc
 		 */
 		public function set useDelay(value:Boolean):void
 		{
@@ -226,10 +226,6 @@ package org.hammerc.display
 				_changed = true;
 				RepaintManager.getInstance().callRepaint(this);
 			}
-			else
-			{
-				this.drawBitmap();
-			}
 		}
 		
 		/**
@@ -245,9 +241,9 @@ package org.hammerc.display
 		}
 		
 		/**
-		 * 根据设定绘制位图并进行显示.
+		 * @inheritDoc
 		 */
-		protected function drawBitmap():void
+		public function drawBitmap():void
 		{
 			this.graphics.clear();
 			//存在源图片同时宽度高度有效时绘制
