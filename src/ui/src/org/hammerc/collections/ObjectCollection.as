@@ -41,7 +41,7 @@ package org.hammerc.collections
 				catch(error:Error)
 				{
 				}
-				assignParent(child);
+				assignParent(child, childrenKey, parentKey);
 			}
 		}
 		

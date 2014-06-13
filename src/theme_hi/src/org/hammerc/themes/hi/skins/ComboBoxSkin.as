@@ -113,7 +113,10 @@ package org.hammerc.themes.hi.skins
 					_popUp.displayPopUp = true;
 					break;
 				case "normal":
-					_popUp.displayPopUp = false;
+					if(_popUp != null)
+					{
+						_popUp.displayPopUp = false;
+					}
 					break;
 				case "disabled":
 					break;

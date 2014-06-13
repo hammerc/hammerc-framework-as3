@@ -215,24 +215,21 @@ package org.hammerc.components
 			{
 				return;
 			}
-			var w:Number;
-			var h:Number;
-			if(popUpWidthMatchesAnchorWidth)
+			if(this.popUpWidthMatchesAnchorWidth)
 			{
-				w = unscaledWidth;
+				this.popUp.width = unscaledWidth;
 			}
-			if(popUpHeightMatchesAnchorHeight)
+			if(this.popUpHeightMatchesAnchorHeight)
 			{
-				h = unscaledHeight;
+				this.popUp.width = unscaledHeight;
 			}
-			this.popUp.setLayoutBoundsSize(w, h);
 			if(this.popUp is IInvalidating)
 			{
 				(this.popUp as IInvalidating).validateNow();
 			}
 			var popUpPoint:Point = calculatePopUpPosition();
-			popUp.x = popUpPoint.x;
-			popUp.y = popUpPoint.y;
+			this.popUp.x = popUpPoint.x;
+			this.popUp.y = popUpPoint.y;
 		}
 		
 		/**
