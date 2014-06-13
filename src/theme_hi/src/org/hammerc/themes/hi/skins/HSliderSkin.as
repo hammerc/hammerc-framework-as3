@@ -48,7 +48,7 @@ package org.hammerc.themes.hi.skins
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			track = new Button;
+			track = new Button();
 			track.left = 0;
 			track.right = 0;
 			track.top = 0;
@@ -58,7 +58,7 @@ package org.hammerc.themes.hi.skins
 			track.tabEnabled = false;
 			track.skinName = HSliderTrackSkin;
 			this.addElement(track);
-			trackHighlight = new UIAsset;
+			trackHighlight = new UIAsset();
 			trackHighlight.top = 0;
 			trackHighlight.bottom = 0;
 			trackHighlight.minWidth = 33;
