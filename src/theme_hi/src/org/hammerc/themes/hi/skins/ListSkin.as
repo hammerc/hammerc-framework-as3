@@ -44,7 +44,6 @@ package org.hammerc.themes.hi.skins
 		{
 			super.createChildren();
 			dataGroup = new DataGroup();
-			dataGroup.itemRenderer = ItemRenderer;
 			var layout:VerticalLayout = new VerticalLayout();
 			layout.gap = 0;
 			layout.horizontalAlign = HorizontalAlign.CONTENT_JUSTIFY;

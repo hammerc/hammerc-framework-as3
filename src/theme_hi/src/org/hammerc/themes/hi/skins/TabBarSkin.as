@@ -44,7 +44,6 @@ package org.hammerc.themes.hi.skins
 			dataGroup = new DataGroup();
 			dataGroup.percentWidth = 100;
 			dataGroup.percentHeight = 100;
-			dataGroup.itemRenderer = TabBarButton;
 			var layout:HorizontalLayout = new HorizontalLayout();
 			layout.gap = -1;
 			layout.horizontalAlign = HorizontalAlign.JUSTIFY;

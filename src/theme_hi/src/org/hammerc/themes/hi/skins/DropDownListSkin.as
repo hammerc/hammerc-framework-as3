@@ -20,6 +20,7 @@ package org.hammerc.themes.hi.skins
 	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.events.ResizeEvent;
 	import org.hammerc.layouts.HorizontalAlign;
+	import org.hammerc.layouts.VerticalAlign;
 	import org.hammerc.layouts.VerticalLayout;
 	import org.hammerc.skins.IStateClient;
 	import org.hammerc.themes.hi.HiSkin;
@@ -54,7 +55,7 @@ package org.hammerc.themes.hi.skins
 		
 		private var _popUp:PopUpAnchor;
 		private var _scroller:Scroller;
-		private var _backgroud:UIComponent;
+		private var _popUpBackground:UIComponent;
 		
 		/**
 		 * 创建一个 <code>DropDownListSkin</code> 对象.
@@ -81,7 +82,7 @@ package org.hammerc.themes.hi.skins
 			openButton.addEventListener("stateChanged", onStateChange);
 			this.addElement(openButton);
 			labelDisplay = new Label();
-			labelDisplay.verticalAlign = "middle";
+			labelDisplay.verticalAlign = VerticalAlign.MIDDLE;
 			labelDisplay.maxDisplayedLines = 1;
 			labelDisplay.mouseEnabled = false;
 			labelDisplay.mouseChildren = false;
@@ -114,7 +115,7 @@ package org.hammerc.themes.hi.skins
 		{
 			var w:Number = isNaN(dropDown.width) ? 0 : dropDown.width;
 			var h:Number = isNaN(dropDown.height) ? 0 : dropDown.height;
-			var g:Graphics = _backgroud.graphics;
+			var g:Graphics = _popUpBackground.graphics;
 			g.clear();
 			var crr1:Number = _cornerRadius > 0 ? _cornerRadius - 1 : 0;
 			this.drawRoundRect(0, 0, w, h, _cornerRadius, _borderColors[0], 1, this.verticalGradientMatrix(0, 0, w, h), GradientType.LINEAR, null, {x:1, y:1, w:w - 2, h:h - 2, r:crr1}, g); 
@@ -165,8 +166,8 @@ package org.hammerc.themes.hi.skins
 			_scroller.viewport = dataGroup;
 			dropDown = new Group();
 			dropDown.addEventListener(ResizeEvent.RESIZE, onResize);
-			_backgroud = new UIComponent;
-			dropDown.addElement(_backgroud);
+			_popUpBackground = new UIComponent;
+			dropDown.addElement(_popUpBackground);
 			dropDown.addElement(_scroller);
 			onResize();
 			_popUp = new PopUpAnchor();

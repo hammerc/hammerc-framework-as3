@@ -65,17 +65,17 @@ package org.hammerc.components
 		private var _stateIsDirty:Boolean = false;
 		
 		/**
-		 * 旧的滤镜列表
+		 * 旧的滤镜列表.
 		 */
 		private var _oldFilters:Array;
 		
 		/**
-		 * 被替换过灰色滤镜的标志
+		 * 被替换过灰色滤镜的标志.
 		 */
 		private var _grayFilterIsSet:Boolean = false;
 		
 		/**
-		 * 记录在 enabled 属性发生改变时是否自动开启或禁用鼠标事件的响应
+		 * 记录在 enabled 属性发生改变时是否自动开启或禁用鼠标事件的响应.
 		 */
 		private var _autoMouseEnabled:Boolean = true;
 		
@@ -360,7 +360,7 @@ package org.hammerc.components
 			{
 				if(_grayFilterIsSet)
 				{
-					filters = _oldFilters;
+					this.filters = _oldFilters;
 					_oldFilters = null;
 					_grayFilterIsSet = false;
 				}
@@ -369,8 +369,8 @@ package org.hammerc.components
 			{
 				if(!hasState && !_grayFilterIsSet)
 				{
-					_oldFilters = filters;
-					filters = _grayFilters;
+					_oldFilters = this.filters;
+					this.filters = _grayFilters;
 					_grayFilterIsSet = true;
 				}
 			}

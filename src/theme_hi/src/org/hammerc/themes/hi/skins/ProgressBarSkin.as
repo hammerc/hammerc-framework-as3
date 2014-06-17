@@ -4,8 +4,6 @@
  */
 package org.hammerc.themes.hi.skins
 {
-	import flash.display.DisplayObject;
-	
 	import org.hammerc.components.Label;
 	import org.hammerc.components.UIAsset;
 	import org.hammerc.themes.hi.HiSkin;
@@ -19,12 +17,12 @@ package org.hammerc.themes.hi.skins
 		/**
 		 * 皮肤子件, 进度高亮显示对象.
 		 */
-		public var thumb:DisplayObject;
+		public var thumb:UIAsset;
 		
 		/**
 		 * 皮肤子件, 轨道显示对象, 用于确定 thumb 要覆盖的区域.
 		 */
-		public var track:DisplayObject;
+		public var track:UIAsset;
 		
 		/**
 		 * 皮肤子件, 进度条文本.
@@ -48,17 +46,17 @@ package org.hammerc.themes.hi.skins
 		{
 			super.createChildren();
 			track = new UIAsset();
-			(track as UIAsset).skinName = ProgressBarTrackSkin;
-			(track as UIAsset).left = 0;
-			(track as UIAsset).right = 0;
-			(track as UIAsset).top = 0;
-			(track as UIAsset).bottom = 0;
-			this.addElement((track as UIAsset));
+			track.skinName = ProgressBarTrackSkin;
+			track.left = 0;
+			track.right = 0;
+			track.top = 0;
+			track.bottom = 0;
+			this.addElement(track);
 			thumb = new UIAsset();
-			(thumb as UIAsset).skinName = ProgressBarThumbSkin;
-			(thumb as UIAsset).top = 0;
-			(thumb as UIAsset).bottom = 0;
-			this.addElement((thumb as UIAsset));
+			thumb.skinName = ProgressBarThumbSkin;
+			thumb.top = 0;
+			thumb.bottom = 0;
+			this.addElement(thumb);
 			labelDisplay = new Label();
 			labelDisplay.horizontalCenter = 0;
 			labelDisplay.verticalCenter = 0;
