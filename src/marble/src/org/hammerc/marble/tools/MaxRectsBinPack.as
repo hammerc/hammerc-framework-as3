@@ -7,8 +7,7 @@ package org.hammerc.marble.tools
 	import flash.geom.Rectangle;
 	
 	/**
-	 * <code>MaxRectsBinPack</code> 类实现 MaxRects 图片排列算法, 可以将多个大小不同的
-	 * 图片尽量多的压入指定大小的整图中, 使用图片尺寸信息而非直接使用位图.
+	 * <code>MaxRectsBinPack</code> 类实现 MaxRects 图片排列算法, 可以将多个大小不同的图片尽量多的压入指定大小的整图中, 使用图片尺寸信息而非直接使用位图.
 	 * <p>本类算法实现来自 <b>杜增强.COM</b> 地址: <a href="http://www.duzengqiang.com/blog/post/971.html">http://www.duzengqiang.com/blog/post/971.html</a>.</p>
 	 * @author wizardc
 	 */
