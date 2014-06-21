@@ -12,8 +12,9 @@ package org.hammerc.debug
 	{
 		/**
 		 * 每当有日志消息到达时会触发该方法.
+		 * @param channel 接收到日志消息的通道.
 		 * @param data 接收到的日志消息.
 		 */
-		function dataArrival(data:String):void;
+		function dataArrival(channel:uint, data:String):void;
 	}
 }
