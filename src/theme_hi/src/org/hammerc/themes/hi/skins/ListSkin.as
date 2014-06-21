@@ -7,7 +7,6 @@ package org.hammerc.themes.hi.skins
 	import flash.display.GradientType;
 	
 	import org.hammerc.components.DataGroup;
-	import org.hammerc.components.ItemRenderer;
 	import org.hammerc.components.Scroller;
 	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.layouts.HorizontalAlign;
@@ -65,7 +64,8 @@ package org.hammerc.themes.hi.skins
 		{
 			super.updateDisplayList(w, h);
 			this.graphics.clear();
-			this.drawRoundRect(x, y, w, h, 0, _borderColors[0], 1, this.verticalGradientMatrix(x, y, w, h), GradientType.LINEAR, null, {x:x + 1, y:y + 1, w:w - 2, h:h - 2, r:0}); 
+			this.drawRoundRect(x, y, w, h, 0, _themeColors[1], 1);
+			this.drawRoundRect(x, y, w, h, 0, _borderColors[0], 1, this.verticalGradientMatrix(x, y, w, h), GradientType.LINEAR, null, {x:x + 1, y:y + 1, w:w - 2, h:h - 2, r:0});
 			this.alpha = this.currentState == "disabled" ? 0.5 : 1;
 		}
 	}

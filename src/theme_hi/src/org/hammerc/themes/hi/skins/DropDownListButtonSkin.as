@@ -44,8 +44,8 @@ package org.hammerc.themes.hi.skins
 					this.drawCurrentState(0, 0, w, h, _borderColors[0], _bottomLineColors[0], [_fillColors[0], _fillColors[1]], _cornerRadius);
 					if(w > 21 && h > 2)
 					{
-						this.drawLine(w - 21, 1, w - 21, h - 1, 0xe4e4e4);
-						this.drawLine(w - 20, 1, w - 20, h - 1, 0xf9f9f9);
+						this.drawLine(w - 21, 1, w - 21, h - 1, _otherColors[0]);
+						this.drawLine(w - 20, 1, w - 20, h - 1, _otherColors[1]);
 					}
 					arrowColor = _themeColors[0];
 					break;
@@ -53,8 +53,8 @@ package org.hammerc.themes.hi.skins
 					this.drawCurrentState(0, 0, w, h, _borderColors[1], _bottomLineColors[1], [_fillColors[2], _fillColors[3]], _cornerRadius);
 					if(w > 21 && h > 2)
 					{
-						this.drawLine(w - 21, 1, w - 21, h - 1, 0x3c74ab);
-						this.drawLine(w - 20, 1, w - 20, h - 1, 0x6a9fd3);
+						this.drawLine(w - 21, 1, w - 21, h - 1, _fillColors[2]);
+						this.drawLine(w - 20, 1, w - 20, h - 1, _fillColors[3]);
 					}
 					arrowColor = _themeColors[1];
 					break;
@@ -62,8 +62,8 @@ package org.hammerc.themes.hi.skins
 					this.drawCurrentState(0, 0, w, h, _borderColors[2], _bottomLineColors[2], [_fillColors[4], _fillColors[5]], _cornerRadius);
 					if(w > 21 && h > 2)
 					{
-						this.drawLine(w - 21, 1, w - 21, h - 1, 0x787878);
-						this.drawLine(w - 20, 1, w - 20, h - 1, 0xa4a4a4);
+						this.drawLine(w - 21, 1, w - 21, h - 1, _otherColors[2]);
+						this.drawLine(w - 20, 1, w - 20, h - 1, _otherColors[3]);
 					}
 					arrowColor = _themeColors[1];
 					break;

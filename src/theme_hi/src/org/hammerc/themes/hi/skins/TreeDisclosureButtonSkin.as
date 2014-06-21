@@ -17,8 +17,8 @@ package org.hammerc.themes.hi.skins
 	 */
 	public class TreeDisclosureButtonSkin extends HiSkin
 	{
-		private var _overColor:uint = 0x666666;
-		private var _selectedColor:uint = 0x333333;
+		private var _overColor:uint = _otherColors[11];
+		private var _selectedColor:uint = _otherColors[12];
 		
 		/**
 		 * 创建一个 <code>TreeDisclosureButtonSkin</code> 对象.

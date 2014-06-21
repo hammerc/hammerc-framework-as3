@@ -7,7 +7,10 @@ package org.hammerc.themes.hi.skins
 	import flash.display.CapsStyle;
 	import flash.display.Graphics;
 	
+	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.themes.hi.HiSkin;
+	
+	use namespace hammerc_internal;
 	
 	/**
 	 * <code>TitleWindowCloseButtonSkin</code> 类为可移动窗口组件的关闭按钮皮肤类.
@@ -34,7 +37,7 @@ package org.hammerc.themes.hi.skins
 			super.updateDisplayList(w, h);
 			var g:Graphics = this.graphics;
 			g.clear();
-			g.beginFill(0xFFFFFF, 0);
+			g.beginFill(0, 0);
 			g.drawRect(0, 0, w, h);
 			g.endFill();
 			var offsetX:Number = Math.round(w * 0.5 - 8);
@@ -43,13 +46,13 @@ package org.hammerc.themes.hi.skins
 			{
 				case "up":
 				case "disabled":
-					drawCloseIcon(0xcccccc, offsetX, offsetY);
+					drawCloseIcon(_otherColors[8], offsetX, offsetY);
 					break;
 				case "over":
-					drawCloseIcon(0x555555, offsetX, offsetY);
+					drawCloseIcon(_otherColors[9], offsetX, offsetY);
 					break;
 				case "down":
-					drawCloseIcon(0xcccccc, offsetX, offsetY+1);
+					drawCloseIcon(_otherColors[10], offsetX, offsetY+1);
 					break;
 			}
 			this.alpha = this.currentState == "disabled" ? 0.5 : 1;

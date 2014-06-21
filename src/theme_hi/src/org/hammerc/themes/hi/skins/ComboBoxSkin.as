@@ -94,7 +94,7 @@ package org.hammerc.themes.hi.skins
 			var crr1:Number = _cornerRadius > 0 ? _cornerRadius - 1 : 0;
 			this.drawRoundRect(0, 0, w, h, _cornerRadius, _borderColors[0], 1, this.verticalGradientMatrix(0, 0, w, h ), GradientType.LINEAR, null, {x:1, y:1, w:w - 2, h:h - 2, r:crr1}, g); 
 			//绘制填充
-			this.drawRoundRect(1, 1, w - 2, h - 2, crr1, 0xFFFFFF, 1, this.verticalGradientMatrix(1, 1, w - 2, h - 2), "linear", null, null, g); 
+			this.drawRoundRect(1, 1, w - 2, h - 2, crr1, _themeColors[1], 1, this.verticalGradientMatrix(1, 1, w - 2, h - 2), "linear", null, null, g); 
 		}
 		
 		/**

@@ -67,13 +67,13 @@ package org.hammerc.themes.hi.skins
 			{			
 				case "up":
 				case "disabled":
-					this.drawRoundRect(0, 0, w, h, 0, 0xFFFFFF, 1, this.verticalGradientMatrix(0, 0, w, h)); 
+					this.drawRoundRect(0, 0, w, h, 0, _themeColors[1], 1, this.verticalGradientMatrix(0, 0, w, h)); 
 					textColor = _themeColors[0];
 					break;
 				case "over":
 				case "down":
 					this.drawRoundRect(0, 0, w, h, 0, _borderColors[0], 1, this.verticalGradientMatrix(0, 0, w, h), GradientType.LINEAR, null, {x:0, y:0, w:w, h:h - 1, r:0});
-					this.drawRoundRect(0, 0, w, h - 1, 0, 0x4f83c4, 1, this.verticalGradientMatrix(0, 0, w, h - 1)); 
+					this.drawRoundRect(0, 0, w, h - 1, 0, _fillColors[3], 1, this.verticalGradientMatrix(0, 0, w, h - 1)); 
 					textColor = _themeColors[1];
 					break;
 			}

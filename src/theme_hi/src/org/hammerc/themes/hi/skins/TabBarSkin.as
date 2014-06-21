@@ -5,7 +5,6 @@
 package org.hammerc.themes.hi.skins
 {
 	import org.hammerc.components.DataGroup;
-	import org.hammerc.components.TabBarButton;
 	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.layouts.HorizontalAlign;
 	import org.hammerc.layouts.HorizontalLayout;

@@ -51,7 +51,12 @@ package org.hammerc.themes.hi
 		/**
 		 * 主题颜色, 应用到文本或者图标上.
 		 */
-		hammerc_internal static var _themeColors:Array = [0x333333, 0xFFFFFF];
+		hammerc_internal static var _themeColors:Array = [0x333333, 0xFFFFFF, 0x000000];
+		
+		/**
+		 * 其它颜色, 应用到比较细节的地方.
+		 */
+		hammerc_internal static var _otherColors:Array = [0xe4e4e4, 0xf9f9f9, 0x787878, 0xa4a4a4, 0xf6f8f8, 0xe9eeee, 0xdddddd, 0xeeeeee, 0xcccccc, 0x555555, 0xcccccc, 0x666666, 0x333333];
 		
 		/**
 		 * 创建一个 <code>HiSkin</code> 对象.

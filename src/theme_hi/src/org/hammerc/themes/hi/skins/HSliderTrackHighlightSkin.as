@@ -41,7 +41,7 @@ package org.hammerc.themes.hi.skins
 			this.drawRoundRect(0, offsetY, w, h, 1, _fillColors[2], 1, this.verticalGradientMatrix(0, offsetY, w, h)); 
 			if(w > 5)
 			{
-				this.drawLine(1, offsetY, w - 1, offsetY, 0x457cb2);
+				this.drawLine(1, offsetY, w - 1, offsetY, _fillColors[3]);
 			}
 		}
 	}

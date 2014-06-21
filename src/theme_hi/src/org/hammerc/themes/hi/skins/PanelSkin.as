@@ -74,13 +74,13 @@ package org.hammerc.themes.hi.skins
 			this.graphics.clear();
 			var g:Graphics = this.graphics;
 			g.lineStyle(1, _borderColors[0]);
-			g.beginFill(0xFFFFFF);
+			g.beginFill(_themeColors[1]);
 			g.drawRoundRect(0, 0, w, h, _cornerRadius + 2, _cornerRadius + 2);
 			g.endFill();
 			g.lineStyle();
-			this.drawRoundRect(1, 1, w - 1, 28, {tl:_cornerRadius - 1, tr:_cornerRadius - 1, bl:0, br:0}, [0xf6f8f8, 0xe9eeee], 1, this.verticalGradientMatrix(1, 1, w - 1, 28)); 
-			this.drawLine(1, 29, w, 29, 0xdddddd);
-			this.drawLine(1, 30, w, 30, 0xeeeeee);
+			this.drawRoundRect(1, 1, w - 1, 28, {tl:_cornerRadius - 1, tr:_cornerRadius - 1, bl:0, br:0}, [_otherColors[4], _otherColors[5]], 1, this.verticalGradientMatrix(1, 1, w - 1, 28)); 
+			this.drawLine(1, 29, w, 29, _otherColors[6]);
+			this.drawLine(1, 30, w, 30, _otherColors[7]);
 			this.alpha = this.currentState == "disabled" ? 0.5 : 1;
 		}
 	}

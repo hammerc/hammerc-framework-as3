@@ -105,7 +105,7 @@ package org.hammerc.themes.hi.skins
 			//绘制边框
 			this.drawRoundRect(0, 0, w, h, 0, _borderColors[0], 1, this.verticalGradientMatrix(0, 0, w, h), GradientType.LINEAR, null, {x:1, y:2, w:w - 2, h:h - 3, r:0}); 
 			//绘制填充
-			this.drawRoundRect(1, 2, w - 2, h - 3, 0, 0xFFFFFF, 1, this.verticalGradientMatrix(1, 2, w - 2, h - 3)); 
+			this.drawRoundRect(1, 2, w - 2, h - 3, 0, _themeColors[1], 1, this.verticalGradientMatrix(1, 2, w - 2, h - 3)); 
 			//绘制底线
 			this.drawLine(1, 0, w, 0, _bottomLineColors[0]);
 		}

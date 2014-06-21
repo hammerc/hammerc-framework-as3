@@ -41,6 +41,7 @@ package org.hammerc.themes.hi.skins
 		{
 			super.createChildren();
 			labelDisplay = new Label();
+			labelDisplay.textColor = _themeColors[2];
 			labelDisplay.textAlign = TextFormatAlign.CENTER;
 			labelDisplay.verticalAlign = VerticalAlign.MIDDLE;
 			labelDisplay.maxDisplayedLines = 1;

@@ -39,7 +39,7 @@ package org.hammerc.themes.hi.skins
 			this.drawRoundRect(0, 0, w, h, 0, _fillColors[2], 1, this.verticalGradientMatrix(0, 0, w, h)); 
 			if(w > 5)
 			{
-				this.drawLine(1, 0, w - 1, 0, 0x457cb2);
+				this.drawLine(1, 0, w - 1, 0, _fillColors[3]);
 			}
 		}
 	}
