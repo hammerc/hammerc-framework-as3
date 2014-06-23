@@ -156,7 +156,7 @@ package org.hammerc.marble.project
 			}
 			if(_isInDisk)
 			{
-				this.saveProjectData(_data);
+				this.saveProjectData();
 			}
 			else
 			{
@@ -179,15 +179,15 @@ package org.hammerc.marble.project
 		private function saveSelectHandler(file:File):void
 		{
 			_isInDisk = true;
-			this.saveProjectData(_data);
+			_path = file.nativePath;
+			this.saveProjectData();
 			dispatchEvent(new ProjectEvent(ProjectEvent.SAVE_PROJECT));
 		}
 		
 		/**
 		 * 保存工程数据对象.
-		 * @param file 要保存到的文件地址对象.
 		 */
-		protected function saveProjectData(file:File):void
+		protected function saveProjectData():void
 		{
 			AbstractEnforcer.enforceMethod();
 		}
