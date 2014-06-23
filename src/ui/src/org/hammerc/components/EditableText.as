@@ -90,7 +90,7 @@ package org.hammerc.components
 			{
 				_displayAsPassword = value;
 				_displayAsPasswordChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 				this.invalidateSize();
 				this.invalidateDisplayList();
 			}
@@ -109,11 +109,11 @@ package org.hammerc.components
 			{
 				return;
 			}
-			if(enabled)
+			if(this.enabled)
 			{
 				_editable = value;
 				_editableChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 			}
 			else
 			{
@@ -122,7 +122,7 @@ package org.hammerc.components
 		}
 		public function get editable():Boolean
 		{
-			if(enabled)
+			if(this.enabled)
 			{
 				return _editable;
 			}
@@ -156,7 +156,7 @@ package org.hammerc.components
 				_pendingEditable = _editable;
 				_editable = false;
 			}
-			this.validateProperties();
+			this.invalidateProperties();
 		}
 		
 		/**
@@ -168,7 +168,7 @@ package org.hammerc.components
 			{
 				_maxChars = value;
 				_maxCharsChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 			}
 		}
 		public function get maxChars():int
@@ -185,7 +185,7 @@ package org.hammerc.components
 			{
 				_multiline = value;
 				_multilineChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 			}
 		}
 		public function get multiline():Boolean
@@ -202,7 +202,7 @@ package org.hammerc.components
 			{
 				_restrict = value;
 				_restrictChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 			}
 		}
 		public function get restrict():String
@@ -244,7 +244,7 @@ package org.hammerc.components
 			{
 				_heightInLines = value;
 				_heightInLinesChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 			}
 		}
 		public function get heightInLines():Number
@@ -261,7 +261,7 @@ package org.hammerc.components
 			{
 				_widthInChars = value;
 				_widthInCharsChanged = true;
-				this.validateProperties();
+				this.invalidateProperties();
 			}
 		}
 		public function get widthInChars():Number
@@ -700,7 +700,7 @@ package org.hammerc.components
 		 */
 		public function get selectionBeginIndex():int
 		{
-			this.validateProperties();
+			this.invalidateProperties();
 			if(_textField != null)
 			{
 				return _textField.selectionBeginIndex;
@@ -713,7 +713,7 @@ package org.hammerc.components
 		 */
 		public function get selectionEndIndex():int
 		{
-			this.validateProperties();
+			this.invalidateProperties();
 			if(_textField != null)
 			{
 				return _textField.selectionEndIndex;
@@ -726,7 +726,7 @@ package org.hammerc.components
 		 */
 		public function get caretIndex():int
 		{
-			this.validateProperties();
+			this.invalidateProperties();
 			if(_textField != null)
 			{
 				return _textField.caretIndex;
@@ -739,7 +739,7 @@ package org.hammerc.components
 		 */
 		public function setSelection(beginIndex:int, endIndex:int):void
 		{
-			this.validateProperties();
+			this.invalidateProperties();
 			if(_textField != null)
 			{
 				_textField.setSelection(beginIndex, endIndex);
@@ -751,7 +751,7 @@ package org.hammerc.components
 		 */
 		public function selectAll():void
 		{
-			this.validateProperties();
+			this.invalidateProperties();
 			if(_textField != null)
 			{
 				_textField.setSelection(0, _textField.length - 1);

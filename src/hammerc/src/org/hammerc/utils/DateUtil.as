@@ -68,18 +68,18 @@ package org.hammerc.utils
 			var result:String = "",
 			year:String = date.getFullYear().toString(),
 			month:Number = date.getMonth() + 1,
-			fullMonth:String = month < 9 ? "0" + month : month.toString(),
+			fullMonth:String = month <= 9 ? "0" + month : month.toString(),
 			day:Number = date.getDate(),
-			fullDay:String = day < 9 ? "0" + day : day.toString(),
+			fullDay:String = day <= 9 ? "0" + day : day.toString(),
 			week:Number = date.getDay(),
 			hour:Number = date.getHours(),
-			fullHour:String = hour < 9 ? "0" + hour : hour.toString(),
+			fullHour:String = hour <= 9 ? "0" + hour : hour.toString(),
 			hourL:Number = hour % 12,
-			fullHourL:String = hourL < 9 ? "0" + hourL : hourL.toString(),
+			fullHourL:String = hourL <= 9 ? "0" + hourL : hourL.toString(),
 			minute:Number = date.getMinutes(),
-			fullMinute:String = minute < 9 ? "0" + minute : minute.toString(),
+			fullMinute:String = minute <= 9 ? "0" + minute : minute.toString(),
 			second:Number = date.getSeconds(),
-			fullSecond:String = second < 9 ? "0" + second : second.toString();
+			fullSecond:String = second <= 9 ? "0" + second : second.toString();
 			result = format;
 			result = result.replace(/YYYY/g, year);
 			result = result.replace(/YY/g, year.slice(-2));
@@ -116,11 +116,11 @@ package org.hammerc.utils
 			var result:String = "",
 			day:int = int(time / 86400),
 			hour:int = int(time / 3600) % 24,
-			fullHour:String = hour < 9 ? "0" + hour : hour.toString(),
+			fullHour:String = hour <= 9 ? "0" + hour : hour.toString(),
 			minute:int = int(time % 3600 / 60),
-			fullMinute:String = minute < 9 ? "0" + minute : minute.toString(),
+			fullMinute:String = minute <= 9 ? "0" + minute : minute.toString(),
 			second:int = int(time % 60),
-			fullSecond:String = second < 9 ? "0" + second : second.toString();
+			fullSecond:String = second <= 9 ? "0" + second : second.toString();
 			result = format;
 			result = result.replace(/D/g, day);
 			result = result.replace(/HH/g, fullHour);
