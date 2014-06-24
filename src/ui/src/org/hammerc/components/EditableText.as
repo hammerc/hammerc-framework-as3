@@ -382,7 +382,7 @@ package org.hammerc.components
 			var lineHeight:Number = _textField.getLineMetrics(0).height;
 			if(scrollV == _textField.maxScrollV)
 			{
-				return lineHeight * _textField.numLines;
+				return lineHeight * _textField.maxScrollV;
 			}
 			if(scrollV == _textField.maxScrollV)
 			{
