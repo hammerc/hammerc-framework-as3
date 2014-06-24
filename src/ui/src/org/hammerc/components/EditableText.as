@@ -319,7 +319,7 @@ package org.hammerc.components
 			_horizontalScrollPosition = value;
 			if(_clipAndEnableScrolling)
 			{
-				if(_textField)
+				if(_textField != null)
 				{
 					_textField.scrollH = value;
 				}
@@ -345,7 +345,7 @@ package org.hammerc.components
 			_verticalScrollPosition = value;
 			if(_clipAndEnableScrolling)
 			{
-				if(_textField)
+				if(_textField != null)
 				{
 					_textField.scrollV = getScrollVByVertitcalPos(value);
 				}
@@ -362,12 +362,11 @@ package org.hammerc.components
 		 */
 		private function getScrollVByVertitcalPos(value:Number):int
 		{
-			var numLines:int = _textField.numLines;
-			if(numLines == 0)
+			if(_textField.numLines == 0)
 			{
 				return 1;
 			}
-			var lineHeight:Number = _textField.textHeight / numLines;
+			var lineHeight:Number = _textField.getLineMetrics(0).height;
 			return int(value / lineHeight) + 1;
 		}
 		
@@ -376,22 +375,21 @@ package org.hammerc.components
 		 */
 		private function getVerticalPosByScrollV(scrollV:int):Number
 		{
-			if(scrollV == 1)
+			if(scrollV == 1 || _textField.numLines == 0)
 			{
 				return 0;
 			}
-			var numLines:int = _textField.numLines;
-			if(numLines == 0)
-			{
-				return 0;
-			}
-			var lineHeight:Number = _textField.textHeight / numLines;
+			var lineHeight:Number = _textField.getLineMetrics(0).height;
 			if(scrollV == _textField.maxScrollV)
 			{
-				var offsetHeight:Number = (this.height - 4) % lineHeight;
-				return _textField.textHeight + 4 + offsetHeight - this.height;
+				return lineHeight * _textField.numLines;
 			}
-			return lineHeight * (scrollV - 1);
+			if(scrollV == _textField.maxScrollV)
+			{
+				var offsetHeight:Number = this.height % lineHeight;
+				return _textField.textHeight + offsetHeight - this.height;
+			}
+			return lineHeight * (scrollV - 1) + 2;
 		}
 		
 		/**

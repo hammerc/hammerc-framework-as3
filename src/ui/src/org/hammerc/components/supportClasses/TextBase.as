@@ -96,7 +96,7 @@ package org.hammerc.components.supportClasses
 		 */
 		public function set condenseWhite(value:Boolean):void
 		{
-			if(value != _condenseWhite)
+			if(value == _condenseWhite)
 			{
 				return;
 			}
@@ -145,7 +145,7 @@ package org.hammerc.components.supportClasses
 				{
 					_selectableChanged = true;
 				}
-				if(_textColor != disabledColor)
+				if(_textColor != this.disabledColor)
 				{
 					_defaultStyleChanged = true;
 				}
@@ -426,7 +426,7 @@ package org.hammerc.components.supportClasses
 		 */
 		public function set selectable(value:Boolean):void
 		{
-			if(value == selectable)
+			if(this.selectable == value)
 			{
 				return;
 			}
@@ -592,7 +592,7 @@ package org.hammerc.components.supportClasses
 			_textField.selectable = this.selectable;
 			_textField.antiAliasType = AntiAliasType.ADVANCED;
 			_textField.mouseWheelEnabled = false;
-			addChild(_textField);
+			this.addChild(_textField);
 		}
 		
 		/**
