@@ -480,7 +480,7 @@ package org.hammerc.marble.editor.rect
 		}
 		
 		/**
-		 * 绘制棋盘图像.
+		 * 绘制图像.
 		 */
 		protected function redraw():void
 		{
