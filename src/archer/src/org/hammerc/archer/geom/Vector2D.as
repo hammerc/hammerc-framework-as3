@@ -44,8 +44,10 @@ package org.hammerc.archer.geom
 			return Math.sqrt(dx * dx + dy * dy);
 		}
 		
-		private var _x:Number;													//记录该向量的 x 坐标.
-		private var _y:Number;													//记录该向量的 y 坐标.
+		//记录该向量的 x 坐标.
+		private var _x:Number;
+		//记录该向量的 y 坐标.
+		private var _y:Number;
 		
 		/**
 		 * 创建一个 <code>Vector2D</code> 对象.
