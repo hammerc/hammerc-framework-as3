@@ -4,7 +4,9 @@
  */
 package org.hammerc.marble.display
 {
+	import flash.display.BitmapData;
 	import flash.display.Shape;
+	import flash.geom.Matrix;
 	
 	import org.hammerc.display.IRepaint;
 	import org.hammerc.managers.RepaintManager;
@@ -183,43 +185,16 @@ package org.hammerc.marble.display
 			this.graphics.clear();
 			if(_width > 0 && _height > 0 && _sizeX > 0 && _sizeY > 0)
 			{
-				//使用第二种颜色绘制整个区域
-				this.graphics.beginFill(_color2);
+				//创建棋盘位图
+				var bitmapData:BitmapData = new BitmapData(2, 2, false, _color2);
+				bitmapData.setPixel(0, 0, _color1);
+				bitmapData.setPixel(1, 1, _color1);
+				//填充整个区域
+				var matrix:Matrix = new Matrix();
+				matrix.scale(_sizeX, _sizeY);
+				this.graphics.beginBitmapFill(bitmapData, matrix);
 				this.graphics.drawRect(0, 0, _width, _height);
 				this.graphics.endFill();
-				//绘制第一种颜色的小格子
-				var cols:int = Math.ceil(_width / _sizeX);
-				var rows:int = Math.ceil(_height / _sizeY);
-				for(var i:int = 0; i < rows; i++)
-				{
-					for(var j:int = 0; j < cols; j++)
-					{
-						//剔除不需要绘制的部分
-						if(((i % 2 == 0) && (j % 2 == 1)) || ((i % 2 == 1) && (j % 2 == 0)))
-						{
-							continue;
-						}
-						//获取需要绘制的区域
-						var x:Number = j * _sizeX;
-						var y:Number = i * _sizeY;
-						var width:Number = _sizeX;
-						var height:Number = _sizeY;
-						//最后一列判断是否会超出绘制区域
-						if((j == cols - 1) && (x + width > _width))
-						{
-							width = _width - x;
-						}
-						//最后一行判断是否会超出绘制区域
-						if((i == rows - 1) && (y + height > _height))
-						{
-							height = _height - y;
-						}
-						//绘制小格子
-						this.graphics.beginFill(_color1);
-						this.graphics.drawRect(x, y, width, height);
-						this.graphics.endFill();
-					}
-				}
 			}
 		}
 	}
