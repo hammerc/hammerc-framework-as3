@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.marble.editor.image
+package org.hammerc.marble.editor.common
 {
 	/**
 	 * <code>CanvasType</code> 定义了画布的类型.

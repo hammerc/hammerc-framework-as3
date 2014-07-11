@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.marble.editor.image
+package org.hammerc.marble.editor.common
 {
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -13,10 +13,10 @@ package org.hammerc.marble.editor.image
 	import org.hammerc.marble.display.CheckerboardShape;
 	
 	/**
-	 * <code>AbstractImageEditor</code> 类定义了一个抽象图片编辑类.
+	 * <code>AbstractEditor</code> 类定义了一个抽象编辑类.
 	 * @author wizardc
 	 */
-	public class AbstractImageEditor extends Sprite implements IRepaint
+	public class AbstractEditor extends Sprite implements IRepaint
 	{
 		/**
 		 * 记录在下一次重绘方法被调用时是否需要进行重绘.
@@ -104,11 +104,11 @@ package org.hammerc.marble.editor.image
 		protected var _container:Sprite;
 		
 		/**
-		 * <code>AbstractImageEditor</code> 类为抽象类, 不能被实例化.
+		 * <code>AbstractEditor</code> 类为抽象类, 不能被实例化.
 		 */
-		public function AbstractImageEditor()
+		public function AbstractEditor()
 		{
-			AbstractEnforcer.enforceConstructor(this, AbstractImageEditor);
+			AbstractEnforcer.enforceConstructor(this, AbstractEditor);
 			RepaintManager.getInstance().register(this);
 			//创建遮罩
 			_mask = new Shape();

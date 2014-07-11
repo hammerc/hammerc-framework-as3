@@ -2,7 +2,7 @@
  * Copyright (c) 2011-2014 hammerc.org
  * See LICENSE.txt for full license information.
  */
-package org.hammerc.marble.editor.image
+package org.hammerc.marble.editor.common
 {
 	import org.hammerc.core.AbstractEnforcer;
 	
@@ -10,7 +10,7 @@ package org.hammerc.marble.editor.image
 	 * <code>AbstractNoScopeEditor</code> 类为抽象类, 定义了有固定范围的编辑器.
 	 * @author wizardc
 	 */
-	public class AbstractScopeEditor extends AbstractImageEditor
+	public class AbstractScopeEditor extends AbstractEditor
 	{
 		/**
 		 * 记录编辑区域宽度.
