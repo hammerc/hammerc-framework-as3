@@ -12,42 +12,25 @@ package org.hammerc.archer.pathfinding.astar
 	 */
 	public class AStarLink
 	{
-		protected var _node:AStarNode;
-		protected var _cost:Number;
+		/**
+		 * 格子对象.
+		 */
+		public var node:AStarNode;
+		
+		/**
+		 * 移动的代价.
+		 */
+		public var cost:int;
 		
 		/**
 		 * 创建一个 <code>AStarLink</code> 对象.
 		 * @param node 格子对象.
 		 * @param cost 移动的代价.
 		 */
-		public function AStarLink(node:AStarNode, cost:Number)
+		public function AStarLink(node:AStarNode, cost:int)
 		{
-			_node = node;
-			_cost = cost;
-		}
-		
-		/**
-		 * 设置或获取格子对象.
-		 */
-		public function set node(value:AStarNode):void
-		{
-			_node = value;
-		}
-		public function get node():AStarNode
-		{
-			return _node;
-		}
-		
-		/**
-		 * 设置或获取移动的代价.
-		 */
-		public function set cost(value:Number):void
-		{
-			_cost = value;
-		}
-		public function get cost():Number
-		{
-			return _cost;
+			this.node = node;
+			this.cost = cost;
 		}
 	}
 }

@@ -20,12 +20,12 @@ package org.hammerc.archer.pathfinding.astar
 		/**
 		 * 上下左右的移动成本.
 		 */
-		public static const STRAIGHT_COST:Number = 1.0;
+		public static const STRAIGHT_COST:int = 10;
 		
 		/**
 		 * 斜角的移动成本.
 		 */
-		public static const DIAG_COST:Number = Math.SQRT2;
+		public static const DIAG_COST:int = 14;
 		
 		/**
 		 * 曼哈顿启发函数.
@@ -33,7 +33,7 @@ package org.hammerc.archer.pathfinding.astar
 		 * @param node2 第二个节点.
 		 * @return 两个节点移动的代价.
 		 */
-		public static function manhattan(node1:AStarNode, node2:AStarNode):Number
+		public static function manhattan(node1:AStarNode, node2:AStarNode):int
 		{
 			var dx:int = node1.x > node2.x ? node1.x - node2.x : node2.x - node1.x;
 			var dy:int = node1.y > node2.y ? node1.y - node2.y : node2.y - node1.y;
@@ -46,7 +46,7 @@ package org.hammerc.archer.pathfinding.astar
 		 * @param node2 第二个节点.
 		 * @return 两个节点移动的代价.
 		 */
-		public static function euclidian(node1:AStarNode, node2:AStarNode):Number
+		public static function euclidian(node1:AStarNode, node2:AStarNode):int
 		{
 			var dx:int = node1.x > node2.x ? node1.x - node2.x : node2.x - node1.x;
 			var dy:int = node1.y > node2.y ? node1.y - node2.y : node2.y - node1.y;
@@ -59,7 +59,7 @@ package org.hammerc.archer.pathfinding.astar
 		 * @param node2 第二个节点.
 		 * @return 两个节点移动的代价.
 		 */
-		public static function diagonal(node1:AStarNode, node2:AStarNode):Number
+		public static function diagonal(node1:AStarNode, node2:AStarNode):int
 		{
 			var dx:int = node1.x > node2.x ? node1.x - node2.x : node2.x - node1.x;
 			var dy:int = node1.y > node2.y ? node1.y - node2.y : node2.y - node1.y;
@@ -73,6 +73,7 @@ package org.hammerc.archer.pathfinding.astar
 		private var _startNode:AStarNode;
 		private var _endNode:AStarNode;
 		
+		private var _nowCheckNum:int = 1;
 		private var _binaryHeaps:BinaryHeaps;
 		
 		private var _path:Vector.<AStarNode>;
@@ -94,7 +95,7 @@ package org.hammerc.archer.pathfinding.astar
 			}
 		}
 		
-		private function compare(a:AStarNode, b:AStarNode):Number
+		private function compare(a:AStarNode, b:AStarNode):int
 		{
 			return b._f - a._f;
 		}
@@ -136,14 +137,15 @@ package org.hammerc.archer.pathfinding.astar
 			var node:AStarNode = _startNode;
 			while(node != _endNode)
 			{
-				for(var i:int = 0, len:int = node._aroundLinks.length; i < len; i++)
+				var aroundLinks:Vector.<AStarLink> = node._aroundLinks;
+				for(var i:int = 0, len:int = aroundLinks.length; i < len; i++)
 				{
-					var test:AStarNode = node._aroundLinks[i].node;
-					var cost:Number = node._aroundLinks[i].cost;
-					var g:Number = node._g + (cost * test.costMultiplier);
-					var h:Number = _heuristic(test, _endNode);
-					var f:Number = g + h;
-					if(test._checked)
+					var test:AStarNode = aroundLinks[i].node;
+					var cost:int = aroundLinks[i].cost;
+					var g:int = node._g + cost;
+					var h:int = _heuristic(test, _endNode);
+					var f:int = g + h;
+					if(test._checkNum == _nowCheckNum)
 					{
 						if(test._f > f)
 						{
@@ -151,6 +153,7 @@ package org.hammerc.archer.pathfinding.astar
 							test._g = g;
 							test._h = h;
 							test._parent = node;
+							_binaryHeaps.modify(test, test);
 						}
 					}
 					else
@@ -160,10 +163,10 @@ package org.hammerc.archer.pathfinding.astar
 						test._h = h;
 						test._parent = node;
 						_binaryHeaps.enqueue(test);
-						test._checked = true;
+						test._checkNum = _nowCheckNum;
 					}
 				}
-				node._checked = true;
+				node._checkNum = _nowCheckNum;
 				if(_binaryHeaps.length == 0)
 				{
 					return false;
@@ -171,7 +174,7 @@ package org.hammerc.archer.pathfinding.astar
 				node = _binaryHeaps.dequeue() as AStarNode;
 			}
 			buildPath();
-			_grid.resetChecked();
+			_nowCheckNum++;
 			return true;
 		}
 		

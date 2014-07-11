@@ -131,32 +131,18 @@ package org.hammerc.archer.pathfinding.astar
 						for(var n:int = startY; n <= endY; n++)
 						{
 							var test:AStarNode = _grid[m][n];
+							if(test == node || !test.walkable || !_grid[node.x][test.y].walkable || !_grid[test.x][node.y].walkable)
+							{
+								continue;
+							}
 							var cost:Number = AStar.STRAIGHT_COST;
 							if(!((node.x == test.x) || (node.y == test.y)))
 							{
 								cost = AStar.DIAG_COST;
 							}
-							if(test == node || !test.walkable || !_grid[node.x][test.y].walkable || !_grid[test.x][node.y].walkable)
-							{
-								continue;
-							}
 							node._aroundLinks.push(new AStarLink(test, cost));
 						}
 					}
-				}
-			}
-		}
-		
-		/**
-		 * 还原所有格子对象为都未检查过.
-		 */
-		hammerc_internal function resetChecked():void
-		{
-			for each(var list:Vector.<AStarNode> in _grid)
-			{
-				for each(var value:AStarNode in list)
-				{
-					value._checked = false;
 				}
 			}
 		}

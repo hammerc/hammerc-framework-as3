@@ -107,7 +107,7 @@ package org.hammerc.archer.ds
 			_data[objIndex] = newObj;
 			//计算父级的索引
 			var parentIndex:int = (objIndex - 1) >> 1;
-			var temp:* =  _data[objIndex];
+			var temp:* = _data[objIndex];
 			//只要当前索引不是 0 就有父级
 			while(objIndex > 0)
 			{

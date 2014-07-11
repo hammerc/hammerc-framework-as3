@@ -128,22 +128,22 @@ package org.hammerc.archer.pathfinding.astar
 			{
 				return false;
 			}
-				//两个格子恰好同一列
+			//两个格子恰好同一列
 			else if(dx == 0)
 			{
 				return verticalHasObstacle(node1, node2);
 			}
-				//两个格子恰好同一行
+			//两个格子恰好同一行
 			else if(dy == 0)
 			{
 				return horizontalHasObstacle(node1, node2);
 			}
-				//两个格子恰好位于同一 45 度的直线上
+			//两个格子恰好位于同一 45 度的直线上
 			else if(dx == dy)
 			{
 				return slopeHasObstacle(node1, node2);
 			}
-				//其他不规则的位置
+			//其他不规则的位置
 			else
 			{
 				return otherHasObstacle(dx, dy, node1, node2);
@@ -237,7 +237,6 @@ package org.hammerc.archer.pathfinding.astar
 			}
 			return false;
 		}
-		
 		
 		/**
 		 * 判断两个格子之间的直线连线经过的路径中是否有不可通过的障碍点, 这两个格子位置没有特别的规律.

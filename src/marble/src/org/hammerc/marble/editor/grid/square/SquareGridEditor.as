@@ -101,8 +101,8 @@ package org.hammerc.marble.editor.grid.square
 		{
 			//使用 DDA 直线算法计算
 			var result:Vector.<IGridCell> = new Vector.<IGridCell>();
-			var yDis:int = (gridCell2.row - gridCell1.row);
-			var xDis:int = (gridCell2.column - gridCell1.column);
+			var yDis:int = gridCell2.row - gridCell1.row;
+			var xDis:int = gridCell2.column - gridCell1.column;
 			var maxStep:int = Math.max(Math.abs(yDis), Math.abs(xDis));
 			var yUnitLen:Number = yDis / maxStep;
 			var xUnitLen:Number = xDis / maxStep;

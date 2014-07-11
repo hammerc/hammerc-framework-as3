@@ -23,12 +23,12 @@ package org.hammerc.archer.pathfinding.astar
 		 * 创建一个 <code>SurroundAStarNode</code> 对象.
 		 * @param x 格子的 x 轴坐标.
 		 * @param y 格子的 y 轴坐标.
-		 * @param costMultiplier 格子的地形代价.
 		 * @param walkable 格子是否可以通过.
+		 * @param costMultiplier 格子的地形代价.
 		 */
-		public function SurroundAStarNode(x:int, y:int, costMultiplier:Number = 1, walkable:Boolean = true)
+		public function SurroundAStarNode(x:int, y:int, walkable:Boolean = true, costMultiplier:int = 1)
 		{
-			super(x, y, costMultiplier, walkable);
+			super(x, y, walkable, costMultiplier);
 		}
 	}
 }

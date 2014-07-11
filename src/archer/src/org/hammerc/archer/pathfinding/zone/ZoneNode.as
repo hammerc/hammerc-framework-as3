@@ -13,14 +13,14 @@ package org.hammerc.archer.pathfinding.zone
 	public class ZoneNode extends AStarNode
 	{
 		/**
-		 * 记录该格子所在的房间对象.
+		 * 该格子所在的房间对象.
 		 */
-		protected var _room:ZoneRoom;
+		public var room:ZoneRoom;
 		
 		/**
-		 * 记录该格子是否为和其它房间联通的进出口.
+		 * 该格子是否为和其它房间联通的进出口.
 		 */
-		protected var _isGate:Boolean = false;
+		public var isGate:Boolean = false;
 		
 		/**
 		 * 创建一个 <code>ZoneNode</code> 对象.
@@ -31,35 +31,11 @@ package org.hammerc.archer.pathfinding.zone
 		 * @param costMultiplier 格子的地形代价.
 		 * @param walkable 格子是否可以通过.
 		 */
-		public function ZoneNode(room:ZoneRoom, x:int, y:int, isGate:Boolean = false, costMultiplier:Number = 1, walkable:Boolean = true)
+		public function ZoneNode(room:ZoneRoom, x:int, y:int, isGate:Boolean = false, walkable:Boolean = true, costMultiplier:int = 1)
 		{
-			super(x, y, costMultiplier, walkable);
-			_room = room;
-			_isGate = isGate;
-		}
-		
-		/**
-		 * 设置或获取该格子所在的房间对象.
-		 */
-		public function set room(value:ZoneRoom):void
-		{
-			_room = value;
-		}
-		public function get room():ZoneRoom
-		{
-			return _room;
-		}
-		
-		/**
-		 * 设置或获取该格子是否为和其它房间联通的进出口.
-		 */
-		public function set isGate(value:Boolean):void
-		{
-			_isGate = value;
-		}
-		public function get isGate():Boolean
-		{
-			return _isGate;
+			super(x, y, walkable, costMultiplier);
+			this.room = room;
+			this.isGate = isGate;
 		}
 	}
 }
