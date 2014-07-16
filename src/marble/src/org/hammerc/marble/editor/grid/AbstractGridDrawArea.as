@@ -5,6 +5,7 @@
 package org.hammerc.marble.editor.grid
 {
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	
 	import org.hammerc.core.AbstractEnforcer;
 	
@@ -34,7 +35,7 @@ package org.hammerc.marble.editor.grid
 		/**
 		 * @inheritDoc
 		 */
-		public function targetChanged(target:IGridCell):void
+		public function targetChanged(target:Point):void
 		{
 			AbstractEnforcer.enforceMethod();
 		}

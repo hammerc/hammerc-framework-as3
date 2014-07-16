@@ -18,6 +18,6 @@ package org.hammerc.marble.editor.grid
 		/**
 		 * 选中的颜色.
 		 */
-		public static const SELECTED_COLOR:uint = 0x00000000;
+		public static const SELECTED_COLOR:uint = 0xff000000;
 	}
 }

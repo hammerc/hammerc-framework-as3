@@ -6,10 +6,14 @@ package org.hammerc.marble.editor.grid
 {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.Graphics;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
+	
+	import org.hammerc.archer.geom.Color;
 	
 	import org.hammerc.core.AbstractEnforcer;
 	
@@ -29,13 +33,11 @@ package org.hammerc.marble.editor.grid
 			showDrawAreaFill : false, 
 			drawAreaFillColor : 0xffffff, 
 			drawAreaFillAlpha : 0.3, 
-			showUnselectedBorder : true, 
-			unselectedBorderColor : 0x999999, 
+			showGridBorder : true, 
+			gridBorderColor : 0x999999, 
 			showUnselectedFill : false, 
 			unselectedFillColor : 0x000000, 
 			unselectedFillAlpha : 0.3, 
-			showSelectedBorder : true, 
-			selectedBorderColor : 0x0099ff, 
 			showSelectedFill : true, 
 			selectedFillColor : 0x0099ff, 
 			selectedFillAlpha : 0.3, 
@@ -61,14 +63,24 @@ package org.hammerc.marble.editor.grid
 		protected var _changed:Boolean = false;
 		
 		/**
-		 * 记录存放所有格子的容器.
+		 * 记录格子鼠标事件模拟对象.
 		 */
-		protected var _gridContainer:Sprite;
+		protected var _gridHitTest:IGridHitTest;
 		
 		/**
 		 * 记录所有的格子数据, 使用不透明的位图来对应, 纯白表示未选中, 纯黑表示选中.
 		 */
 		protected var _gridData:BitmapData;
+		
+		/**
+		 * 用于显示格子边框色的形状对象.
+		 */
+		protected var _showBorderData:Shape;
+		
+		/**
+		 * 用于显示格子填充色的位图数据.
+		 */
+		protected var _showFillData:BitmapData;
 		
 		/**
 		 * 撤销指针.
@@ -79,11 +91,6 @@ package org.hammerc.marble.editor.grid
 		 * 撤销数据记录列表.
 		 */
 		protected var _gridDataRecordList:Vector.<BitmapData>;
-		
-		/**
-		 * 格子对象记录列表.
-		 */
-		protected var _gridCellList:Vector.<IGridCell>;
 		
 		/**
 		 * 绘制区域显示对象.
@@ -224,7 +231,7 @@ package org.hammerc.marble.editor.grid
 		 */
 		public function set drawType(value:int):void
 		{
-			if(_drawType == value)
+			if(_drawType != value)
 			{
 				_drawType = value;
 				if(_gridTool != null)
@@ -280,9 +287,9 @@ package org.hammerc.marble.editor.grid
 		/**
 		 * @inheritDoc
 		 */
-		public function get gridContainer():Sprite
+		public function get gridHitTest():IGridHitTest
 		{
-			return _gridContainer;
+			return _gridHitTest;
 		}
 		
 		/**
@@ -293,74 +300,70 @@ package org.hammerc.marble.editor.grid
 			return _gridData;
 		}
 		
-		/**
-		 * @inheritDoc
-		 */
-		public function get gridCellList():Vector.<IGridCell>
-		{
-			return _gridCellList;
-		}
-		
 		private function createGrids():void
 		{
-			_gridContainer = new Sprite();
-			_gridContainer.addEventListener(MouseEvent.MOUSE_OVER, containerMouseOverHandler);
-			_gridContainer.addEventListener(MouseEvent.ROLL_OUT, containerRollOutHandler);
-			this.addChild(_gridContainer);
 			_gridData = new BitmapData(column, row, false, GridColor.UNSELECTED_COLOR);
 			_undoIndex = 0;
 			_gridDataRecordList = new Vector.<BitmapData>();
-			_gridCellList = new Vector.<IGridCell>(row * column, true);
-			for(var i:int = 0; i < row; i++)
+			if(this.style.showUnselectedFill || this.style.showSelectedFill)
 			{
-				for(var j:int = 0; j < column; j++)
-				{
-					var cell:IGridCell = this.createGridCell(i, j);
-					_gridCellList[i * column + j] = cell;
-					this.alignGridCell(DisplayObject(cell), i, j);
-					_gridContainer.addChild(DisplayObject(cell));
-				}
+				_showFillData = new BitmapData(column, row, true, 0x00000000);
+				var shape:Shape = new Shape();
+				this.drawFill(shape.graphics, _showFillData);
+				this.addChild(shape);
 			}
+			if(this.style.showGridBorder)
+			{
+				_showBorderData = new Shape();
+				this.drawBorder(_showBorderData.graphics);
+				this.addChild(_showBorderData);
+			}
+			_gridHitTest = this.createGridHitTest();
+			_gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_OVER, gridsMouseOverHandler);
+			_gridHitTest.addEventListener(MouseEvent.ROLL_OUT, gridsRollOutHandler);
+			this.addChild(DisplayObject(_gridHitTest));
 			_gridDrawArea = this.createGridDrawArea();
-			_gridContainer.addChild(DisplayObject(_gridDrawArea));
+			this.addChild(DisplayObject(_gridDrawArea));
 		}
 		
-		private function containerMouseOverHandler(event:MouseEvent):void
+		private function gridsMouseOverHandler(event:GridMouseEvent):void
 		{
-			if(event.target != event.currentTarget)
-			{
-				var target:IGridCell = IGridCell(event.target);
-				_gridDrawArea.targetChanged(target);
-				DisplayObject(_gridDrawArea).visible = true;
-			}
+			_gridDrawArea.targetChanged(event.gridCell);
+			DisplayObject(_gridDrawArea).visible = true;
 		}
 		
-		private function containerRollOutHandler(event:MouseEvent):void
+		private function gridsRollOutHandler(event:MouseEvent):void
 		{
 			DisplayObject(_gridDrawArea).visible = false;
 		}
 		
 		/**
-		 * 创建具体的格子对象.
-		 * @param row 行数.
-		 * @param column 列数.
-		 * @return 格子对象.
+		 * 绘制格子边框.
+		 * @param graphics 绘制对象.
 		 */
-		protected function createGridCell(row:int, column:int):IGridCell
+		protected function drawBorder(graphics:Graphics):void
 		{
 			AbstractEnforcer.enforceMethod();
-			return null;
 		}
 		
 		/**
-		 * 对齐指定格子的位置.
-		 * @param cell 格子对象.
-		 * @param row 行数.
-		 * @param column 列数.
+		 * 绘制格子填充区域.
+		 * @param graphics 绘制对象.
+		 * @param bitmapData 区域位图对象.
 		 */
-		protected function alignGridCell(cell:DisplayObject, row:int, column:int):void
+		protected function drawFill(graphics:Graphics, bitmapData:BitmapData):void
 		{
 			AbstractEnforcer.enforceMethod();
+		}
+		
+		/**
+		 * 创建具体的格子鼠标事件模拟对象.
+		 * @return 格子鼠标事件模拟对象.
+		 */
+		protected function createGridHitTest():IGridHitTest
+		{
+			AbstractEnforcer.enforceMethod();
+			return null;
 		}
 		
 		/**
@@ -383,7 +386,7 @@ package org.hammerc.marble.editor.grid
 		/**
 		 * @inheritDoc
 		 */
-		public function getDrawArea(target:IGridCell):Vector.<IGridCell>
+		public function getDrawArea(target:Point):Vector.<Point>
 		{
 			AbstractEnforcer.enforceMethod();
 			return null;
@@ -392,18 +395,10 @@ package org.hammerc.marble.editor.grid
 		/**
 		 * @inheritDoc
 		 */
-		public function getLineArea(gridCell1:IGridCell, gridCell2:IGridCell):Vector.<IGridCell>
+		public function getLineArea(gridCell1:Point, gridCell2:Point):Vector.<Point>
 		{
 			AbstractEnforcer.enforceMethod();
 			return null;
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function getGridCell(row:int, column:int):IGridCell
-		{
-			return _gridCellList[row * _column + column];
 		}
 		
 		/**
@@ -511,13 +506,15 @@ package org.hammerc.marble.editor.grid
 		 */
 		protected function redraw():void
 		{
-			for(var i:int = 0; i < this.row; i++)
+			if(_showFillData != null)
 			{
-				for(var j:int = 0; j < this.column; j++)
-				{
-					var cell:IGridCell = _gridCellList[i * column + j];
-					cell.drawCell(_gridData.getPixel(j, i) == GridColor.SELECTED_COLOR);
-				}
+				_showFillData.copyPixels(_gridData, _gridData.rect, new Point());
+				var unselectedColor:Color = new Color(this.style.unselectedFillColor);
+				unselectedColor.a = this.style.showUnselectedFill ? this.style.unselectedFillAlpha * 255 : 0;
+				_showFillData.threshold(_showFillData, _showFillData.rect, new Point(), "==", GridColor.UNSELECTED_COLOR, unselectedColor.color);
+				var selectedColor:Color = new Color(this.style.selectedFillColor);
+				selectedColor.a = this.style.showSelectedFill ? this.style.selectedFillAlpha * 255 : 0;
+				_showFillData.threshold(_showFillData, _showFillData.rect, new Point(), "==", GridColor.SELECTED_COLOR, selectedColor.color);
 			}
 		}
 		

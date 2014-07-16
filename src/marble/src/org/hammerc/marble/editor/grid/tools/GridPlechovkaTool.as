@@ -4,11 +4,10 @@
  */
 package org.hammerc.marble.editor.grid.tools
 {
-	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	import org.hammerc.marble.editor.grid.GridColor;
-	
-	import org.hammerc.marble.editor.grid.IGridCell;
+	import org.hammerc.marble.editor.grid.GridMouseEvent;
 	
 	import org.hammerc.marble.editor.grid.IGridEditor;
 	
@@ -33,22 +32,18 @@ package org.hammerc.marble.editor.grid.tools
 		override public function onRegister():void
 		{
 			_editor.useMinDrawArea = true;
-			_editor.gridContainer.addEventListener(MouseEvent.MOUSE_DOWN, gridMouseDownHandler);
+			_editor.gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
 		}
 		
-		private function gridMouseDownHandler(event:MouseEvent):void
+		private function gridMouseDownHandler(event:GridMouseEvent):void
 		{
-			if(event.target != event.currentTarget)
-			{
-				this.dispatchDrawBeginEvent();
-				var target:IGridCell = IGridCell(event.target);
-				floodFill(target, _editor.selectMode);
-			}
+			this.dispatchDrawBeginEvent();
+			floodFill(event.gridCell, _editor.selectMode);
 		}
 		
-		private function floodFill(target:IGridCell, selected:Boolean):void
+		private function floodFill(target:Point, selected:Boolean):void
 		{
-			_editor.gridData.floodFill(target.column, target.row, selected ? GridColor.SELECTED_COLOR : GridColor.UNSELECTED_COLOR);
+			_editor.gridData.floodFill(target.x, target.y, selected ? GridColor.SELECTED_COLOR : GridColor.UNSELECTED_COLOR);
 			_editor.callRedraw();
 			this.dispatchDrawEndEvent();
 		}
@@ -59,7 +54,7 @@ package org.hammerc.marble.editor.grid.tools
 		override public function onRemove():void
 		{
 			_editor.useMinDrawArea = false;
-			_editor.gridContainer.removeEventListener(MouseEvent.MOUSE_DOWN, gridMouseDownHandler);
+			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
 		}
 	}
 }

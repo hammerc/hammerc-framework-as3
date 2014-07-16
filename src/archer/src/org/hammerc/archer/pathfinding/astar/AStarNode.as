@@ -71,7 +71,7 @@ package org.hammerc.archer.pathfinding.astar
 		 * @param walkable 格子是否可以通过.
 		 * @param costMultiplier 格子的地形代价.
 		 */
-		public function AStarNode(x:int, y:int, walkable:Boolean = true, costMultiplier:Number = 1)
+		public function AStarNode(x:int, y:int, walkable:Boolean = true, costMultiplier:int = 1)
 		{
 			this.x = x;
 			this.y = y;

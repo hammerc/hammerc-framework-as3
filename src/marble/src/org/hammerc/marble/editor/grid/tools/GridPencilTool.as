@@ -4,9 +4,11 @@
  */
 package org.hammerc.marble.editor.grid.tools
 {
+	import flash.display.DisplayObject;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
-	import org.hammerc.marble.editor.grid.IGridCell;
+	import org.hammerc.marble.editor.grid.GridMouseEvent;
 	
 	import org.hammerc.marble.editor.grid.IGridEditor;
 	
@@ -32,46 +34,38 @@ package org.hammerc.marble.editor.grid.tools
 		 */
 		override public function onRegister():void
 		{
-			_editor.gridContainer.addEventListener(MouseEvent.MOUSE_DOWN, gridMouseDownHandler);
-			_editor.gridContainer.addEventListener(MouseEvent.MOUSE_MOVE, gridMouseMoveHandler);
+			_editor.gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
+			_editor.gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_MOVE, gridMouseMoveHandler);
 		}
 		
-		private function gridMouseDownHandler(event:MouseEvent):void
+		private function gridMouseDownHandler(event:GridMouseEvent):void
 		{
-			if(event.target != event.currentTarget)
+			this.dispatchDrawBeginEvent();
+			DisplayObject(_editor.gridHitTest).stage.addEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
+			_mouseIsDown = true;
+			drawArea(event.gridCell);
+		}
+		
+		private function gridMouseMoveHandler(event:GridMouseEvent):void
+		{
+			if(_mouseIsDown)
 			{
-				this.dispatchDrawBeginEvent();
-				_editor.gridContainer.stage.addEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
-				_mouseIsDown = true;
-				var target:IGridCell = IGridCell(event.target);
-				drawArea(target);
+				drawArea(event.gridCell);
 			}
 		}
 		
-		private function gridMouseMoveHandler(event:MouseEvent):void
+		private function drawArea(target:Point):void
 		{
-			if(event.target != event.currentTarget)
+			var drawAreaList:Vector.<Point> = _editor.getDrawArea(target);
+			for each (var gridCell:Point in drawAreaList)
 			{
-				if(_mouseIsDown)
-				{
-					var target:IGridCell = IGridCell(event.target);
-					drawArea(target);
-				}
-			}
-		}
-		
-		private function drawArea(target:IGridCell):void
-		{
-			var drawAreaList:Vector.<IGridCell> = _editor.getDrawArea(target);
-			for each (var gridCell:IGridCell in drawAreaList)
-			{
-				_editor.setGridCellSelect(gridCell.row, gridCell.column, _editor.selectMode);
+				_editor.setGridCellSelect(gridCell.y, gridCell.x, _editor.selectMode);
 			}
 		}
 		
 		private function gridMouseUpHandler(event:MouseEvent):void
 		{
-			_editor.gridContainer.stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
+			DisplayObject(_editor.gridHitTest).stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
 			_mouseIsDown = false;
 			this.dispatchDrawEndEvent();
 		}
@@ -81,11 +75,11 @@ package org.hammerc.marble.editor.grid.tools
 		 */
 		override public function onRemove():void
 		{
-			_editor.gridContainer.removeEventListener(MouseEvent.MOUSE_DOWN, gridMouseDownHandler);
-			_editor.gridContainer.removeEventListener(MouseEvent.MOUSE_MOVE, gridMouseMoveHandler);
-			if(_editor.gridContainer.stage != null)
+			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
+			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_MOVE, gridMouseMoveHandler);
+			if(DisplayObject(_editor.gridHitTest).stage != null)
 			{
-				_editor.gridContainer.stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
+				DisplayObject(_editor.gridHitTest).stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
 			}
 		}
 	}

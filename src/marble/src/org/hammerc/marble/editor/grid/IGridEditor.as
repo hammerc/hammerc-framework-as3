@@ -5,7 +5,6 @@
 package org.hammerc.marble.editor.grid
 {
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
@@ -30,7 +29,7 @@ package org.hammerc.marble.editor.grid
 		/**
 		 * 获取行数.
 		 */
-		function get row():int
+		function get row():int;
 		
 		/**
 		 * 获取列数.
@@ -72,9 +71,9 @@ package org.hammerc.marble.editor.grid
 		function get useMinDrawArea():Boolean;
 		
 		/**
-		 * 获取存放所有格子对象的容器.
+		 * 获取格子鼠标事件模拟对象.
 		 */
-		function get gridContainer():Sprite;
+		function get gridHitTest():IGridHitTest;
 		
 		/**
 		 * 获取所有的格子数据.
@@ -82,16 +81,11 @@ package org.hammerc.marble.editor.grid
 		function get gridData():BitmapData;
 		
 		/**
-		 * 获取所有的格子对象.
-		 */
-		function get gridCellList():Vector.<IGridCell>;
-		
-		/**
 		 * 根据当前的绘制区域获取对应的格子.
 		 * @param target 当前选中的格子.
 		 * @return 位于绘制区域中的格子.
 		 */
-		function getDrawArea(target:IGridCell):Vector.<IGridCell>;
+		function getDrawArea(target:Point):Vector.<Point>;
 		
 		/**
 		 * 根据两个格子获取该两个格子连成的直线经过的所有格子.
@@ -99,14 +93,7 @@ package org.hammerc.marble.editor.grid
 		 * @param gridCell2 第二个格子.
 		 * @return 该两个格子连成的直线经过的所有格子.
 		 */
-		function getLineArea(gridCell1:IGridCell, gridCell2:IGridCell):Vector.<IGridCell>;
-		
-		/**
-		 * 获取指定的格子对象.
-		 * @param row 行数.
-		 * @param column 列数.
-		 */
-		function getGridCell(row:int, column:int):IGridCell;
+		function getLineArea(gridCell1:Point, gridCell2:Point):Vector.<Point>;
 		
 		/**
 		 * 设置指定格子是否被设置为选中.

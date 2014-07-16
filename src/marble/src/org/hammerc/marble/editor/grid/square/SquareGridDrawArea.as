@@ -5,10 +5,9 @@
 package org.hammerc.marble.editor.grid.square
 {
 	import flash.display.Shape;
+	import flash.geom.Point;
 	
 	import org.hammerc.marble.editor.grid.AbstractGridDrawArea;
-	import org.hammerc.marble.editor.grid.IGridCell;
-	
 	import org.hammerc.marble.editor.grid.IGridEditor;
 	
 	/**
@@ -51,13 +50,13 @@ package org.hammerc.marble.editor.grid.square
 		/**
 		 * @inheritDoc
 		 */
-		override public function targetChanged(target:IGridCell):void
+		override public function targetChanged(target:Point):void
 		{
 			//求出包含的范围
-			var minRow:int = target.row - int((_editor.drawArea.y - 1) / 2);
-			var maxRow:int = target.row + int(_editor.drawArea.y / 2);
-			var minColumn:int = target.column - int((_editor.drawArea.x - 1) / 2);
-			var maxColumn:int = target.column + int(_editor.drawArea.x / 2);
+			var minRow:int = target.y - int((_editor.drawArea.y - 1) / 2);
+			var maxRow:int = target.y + int(_editor.drawArea.y / 2);
+			var minColumn:int = target.x - int((_editor.drawArea.x - 1) / 2);
+			var maxColumn:int = target.x + int(_editor.drawArea.x / 2);
 			//边界处理
 			if(minRow < 0)
 			{

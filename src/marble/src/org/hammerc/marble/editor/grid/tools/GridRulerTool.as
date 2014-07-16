@@ -4,12 +4,13 @@
  */
 package org.hammerc.marble.editor.grid.tools
 {
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
-	import org.hammerc.marble.editor.grid.IGridCell;
+	import org.hammerc.marble.editor.grid.GridMouseEvent;
 	
 	import org.hammerc.marble.editor.grid.IGridEditor;
 	
@@ -22,7 +23,8 @@ package org.hammerc.marble.editor.grid.tools
 		private var _lineShape:Shape;
 		private var _mouseIsDown:Boolean = false;
 		private var _beginPoint:Point;
-		private var _beginCell:IGridCell;
+		private var _beginCell:Point;
+		private var _endCell:Point;
 		
 		/**
 		 * 创建一个 <code>GridRulerTool</code> 对象.
@@ -42,52 +44,51 @@ package org.hammerc.marble.editor.grid.tools
 			_editor.useMinDrawArea = true;
 			_lineShape = new Shape();
 			DisplayObjectContainer(_editor).addChild(_lineShape);
-			_editor.gridContainer.addEventListener(MouseEvent.MOUSE_DOWN, gridMouseDownHandler);
-			_editor.gridContainer.addEventListener(MouseEvent.MOUSE_MOVE, gridMouseMoveHandler);
+			_editor.gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
+			_editor.gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_MOVE, gridMouseMoveHandler);
 		}
 		
-		private function gridMouseDownHandler(event:MouseEvent):void
+		private function gridMouseDownHandler(event:GridMouseEvent):void
 		{
-			if(event.target != event.currentTarget)
-			{
-				this.dispatchDrawBeginEvent();
-				_editor.gridContainer.stage.addEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
-				_mouseIsDown = true;
-				_beginPoint.x = _editor.gridContainer.mouseX;
-				_beginPoint.y = _editor.gridContainer.mouseY;
-				_beginCell = IGridCell(event.target);
-			}
+			this.dispatchDrawBeginEvent();
+			DisplayObject(_editor.gridHitTest).stage.addEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
+			_mouseIsDown = true;
+			_beginPoint.x = DisplayObject(_editor.gridHitTest).mouseX;
+			_beginPoint.y = DisplayObject(_editor.gridHitTest).mouseY;
+			_beginCell = event.gridCell;
+			_endCell = event.gridCell;
 		}
 		
-		private function gridMouseMoveHandler(event:MouseEvent):void
+		private function gridMouseMoveHandler(event:GridMouseEvent):void
 		{
 			if(_mouseIsDown)
 			{
 				_lineShape.graphics.clear();
 				_lineShape.graphics.lineStyle(0, _editor.style.rulerLineColor);
 				_lineShape.graphics.moveTo(_beginPoint.x, _beginPoint.y);
-				_lineShape.graphics.lineTo(_editor.gridContainer.mouseX, _editor.gridContainer.mouseY);
+				_lineShape.graphics.lineTo(DisplayObject(_editor.gridHitTest).mouseX, DisplayObject(_editor.gridHitTest).mouseY);
+				_endCell = event.gridCell;
 			}
 		}
 		
 		private function gridMouseUpHandler(event:MouseEvent):void
 		{
-			_editor.gridContainer.stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
+			DisplayObject(_editor.gridHitTest).stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
 			_mouseIsDown = false;
 			_lineShape.graphics.clear();
-			if(event.target != event.currentTarget)
+			if(event.target == _editor.gridHitTest)
 			{
-				drawArea(_beginCell, IGridCell(event.target));
+				drawArea(_beginCell, _endCell);
 			}
 			this.dispatchDrawEndEvent();
 		}
 		
-		private function drawArea(gridCell1:IGridCell, gridCell2:IGridCell):void
+		private function drawArea(gridCell1:Point, gridCell2:Point):void
 		{
-			var drawAreaList:Vector.<IGridCell> = _editor.getLineArea(gridCell1, gridCell2);
-			for each (var gridCell:IGridCell in drawAreaList)
+			var drawAreaList:Vector.<Point> = _editor.getLineArea(gridCell1, gridCell2);
+			for each (var gridCell:Point in drawAreaList)
 			{
-				_editor.setGridCellSelect(gridCell.row, gridCell.column, _editor.selectMode);
+				_editor.setGridCellSelect(gridCell.y, gridCell.x, _editor.selectMode);
 			}
 		}
 		
@@ -98,11 +99,11 @@ package org.hammerc.marble.editor.grid.tools
 		{
 			_editor.useMinDrawArea = false;
 			DisplayObjectContainer(_editor).removeChild(_lineShape);
-			_editor.gridContainer.removeEventListener(MouseEvent.MOUSE_DOWN, gridMouseDownHandler);
-			_editor.gridContainer.removeEventListener(MouseEvent.MOUSE_MOVE, gridMouseMoveHandler);
-			if(_editor.gridContainer.stage != null)
+			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
+			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_MOVE, gridMouseMoveHandler);
+			if(DisplayObject(_editor.gridHitTest).stage != null)
 			{
-				_editor.gridContainer.stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
+				DisplayObject(_editor.gridHitTest).stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
 			}
 		}
 	}
