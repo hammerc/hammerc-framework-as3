@@ -67,7 +67,7 @@ package org.hammerc.marble.editor.item
 		protected var _pivot:Sprite;
 		
 		/**
-		 * 创建一个 <code>TriangleEditor</code> 对象.
+		 * 创建一个 <code>ItemEditor</code> 对象.
 		 * @param useInteger 拖拽时是否使用整数.
 		 * @param shapeScale 样式缩放系数.
 		 * @param showPivot 是否显示注册点.
