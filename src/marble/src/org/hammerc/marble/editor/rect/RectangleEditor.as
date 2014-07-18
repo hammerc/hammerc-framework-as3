@@ -28,13 +28,13 @@ package org.hammerc.marble.editor.rect
 	public class RectangleEditor extends Sprite implements IRepaint
 	{
 		private static const DEFAULT_STYLE:Object = {
-			anchorSize:5, 
-			anchorColor:0x00AEFF, 
-			anchorAlpha:1, 
-			lineColor:0x00AEFF, 
-			lineAlpha:1, 
-			fillColor:0x00AEFF, 
-			fillAlpha:0.3
+			anchorSize : 5, 
+			anchorColor : 0x00AEFF, 
+			anchorAlpha : 1, 
+			lineColor : 0x00AEFF, 
+			lineAlpha : 1, 
+			fillColor : 0x00AEFF, 
+			fillAlpha : 0.3
 		};
 		
 		/**

@@ -31,7 +31,6 @@ package org.hammerc.marble.editor.grid.square
 		public function SquareGridEditor(gridWidth:int, gridHeight:int, row:int, column:int, undoStep:int = 3, style:Object = null)
 		{
 			super(gridWidth, gridHeight, row, column, undoStep, style);
-		
 		}
 		
 		/**
