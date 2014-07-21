@@ -385,7 +385,7 @@ package org.hammerc.marble.editor.item
 				distY = this.parent.mouseY - _beginY;
 				this.x = _offsetX + _beginX + distX;
 				this.y = _offsetY + _beginY + distY;
-				this.dispatchEvent(new Event(Event.CHANGE));
+				this.dispatchEvent(new Event(Event.CHANGE, true));
 			}
 			event.updateAfterEvent();
 		}
@@ -396,7 +396,7 @@ package org.hammerc.marble.editor.item
 			this.stage.removeEventListener(MouseEvent.MOUSE_UP, stageMouseUpHandler);
 			this.pivotX += _pivot.x / this.scaleX;
 			this.pivotY += _pivot.y / this.scaleY;
-			this.dispatchEvent(new Event(Event.CHANGE));
+			this.dispatchEvent(new Event(Event.CHANGE, true));
 		}
 		
 		/**

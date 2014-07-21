@@ -374,7 +374,7 @@ package org.hammerc.marble.editor.rect
 					dragRight(distX);
 					break;
 			}
-			this.dispatchEvent(new Event(Event.CHANGE));
+			this.dispatchEvent(new Event(Event.CHANGE, true));
 			event.updateAfterEvent();
 		}
 		

@@ -293,7 +293,7 @@ package org.hammerc.marble.editor.rect
 					this.point3 = _beginPoint3.add(dist);
 					break;
 			}
-			this.dispatchEvent(new Event(Event.CHANGE));
+			this.dispatchEvent(new Event(Event.CHANGE, true));
 			event.updateAfterEvent();
 		}
 		
