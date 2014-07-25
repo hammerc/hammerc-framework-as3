@@ -128,6 +128,7 @@ package org.hammerc.archer.frame
 			}
 			var nowTime:int = getTimer();
 			var passedTime:int = nowTime - _lastTime;
+			var passedSecond:Number = passedTime * 0.001;
 			_lastTime = nowTime;
 			var length:int = _clientList.length;
 			if(length != 0)
@@ -143,7 +144,7 @@ package org.hammerc.archer.frame
 							_clientList[currentIndex] = client;
 							_clientList[i] = null;
 						}
-						client.frameHandler(passedTime);
+						client.frameHandler(passedSecond);
 						currentIndex++;
 					}
 				}
