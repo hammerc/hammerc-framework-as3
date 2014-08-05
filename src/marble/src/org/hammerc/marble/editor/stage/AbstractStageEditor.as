@@ -24,8 +24,8 @@ package org.hammerc.marble.editor.stage
 		 */
 		public function AbstractStageEditor()
 		{
-			super();
 			_nameMap = new Object();
+			super();
 		}
 		
 		/**
