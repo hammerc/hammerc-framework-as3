@@ -132,7 +132,7 @@ package org.hammerc.load
 		{
 			if(_loading)
 			{
-				throw new Error("加载已经开始，无法继续添加的下载项！");
+				throw new Error("加载已经开始，无法继续添加新的下载项！");
 			}
 			if(item != null)
 			{
@@ -149,7 +149,7 @@ package org.hammerc.load
 		{
 			if(_loading)
 			{
-				throw new Error("加载已经开始，无法继续添加的下载项！");
+				throw new Error("加载已经开始，无法继续添加新的下载项！");
 			}
 			if(items != null && items.length > 0)
 			{
@@ -165,8 +165,13 @@ package org.hammerc.load
 		 */
 		public function start():void
 		{
+			if(_loading)
+			{
+				throw new Error("加载已经开始！");
+			}
 			if(_loaderItemList.length == 0)
 			{
+				this.dispatchEvent(new MultiLoaderEvent(MultiLoaderEvent.MULTI_LOAD_COMPLETE, null, 0, 0));
 				return;
 			}
 			var len:int = Math.min(_loaderList.length, _loaderItemList.length);
