@@ -18,34 +18,34 @@ package org.hammerc.marble.utils
 		];
 		
 		private static const COMMENTS:Array = [
-			{regex:"(//.*)", color:"#009900"}, 
-			{regex:"(/\\*([^\\*]|[\r\n])*?\\*/)", color:"#009900"}, 
-			{regex:"(/\\*\\*(.|[\r\n])*?\\*/)", color:"#3F5FBF"}, 
+			{regex:"(//.*)", lightColor:"#009900", darkColor:"#7A7A7A"}, 
+			{regex:"(/\\*([^\\*]|[\r\n])*?\\*/)", lightColor:"#009900", darkColor:"#7A7A7A"}, 
+			{regex:"(/\\*\\*(.|[\r\n])*?\\*/)", lightColor:"#3F5FBF", darkColor:"#609454"}, 
 		];
 		
 		private static const STRINGS:Array = [
-			{regex:"(&quot;(.|[\r\n])*?&quot;)", color:"#990000"}, 
-			{regex:"(&apos;(.|[\r\n])*?&apos;)", color:"#990000"}, 
+			{regex:"(&quot;(.|[\r\n])*?&quot;)", lightColor:"#990000", darkColor:"#609454"}, 
+			{regex:"(&apos;(.|[\r\n])*?&apos;)", lightColor:"#990000", darkColor:"#609454"}, 
 		];
 		
 		private static const KEYWORDS:Array = [
-			{color:"#0033FF", words:["import", "public", "private", "protected", "internal", "set", "get", "if", "else", "switch", "case", "break", "default", "for", "each", "in", "continue", "do", "while", "is", "as", "typeof", "instanceof", "use", "with", "return", "true", "false", "null", "void", "try", "catch", "finally", "throw", "new", "delete", "static", "final", "const", "dynamic", "extends", "implements", "override"]}, 
-			{color:"#6699CC", words:["var"]}, 
-			{color:"#339966", words:["function"]}, 
-			{color:"#9900CC", words:["package", "class", "interface"]}, 
+			{lightColor:"#0033FF", darkColor:"#C8762F", words:["import", "public", "private", "protected", "internal", "set", "get", "if", "else", "switch", "case", "break", "default", "for", "each", "in", "continue", "do", "while", "is", "as", "typeof", "instanceof", "use", "with", "return", "true", "false", "null", "void", "try", "catch", "finally", "throw", "new", "delete", "static", "final", "const", "dynamic", "extends", "implements", "override"]}, 
+			{lightColor:"#6699CC", darkColor:"#D4A74D", words:["var"]}, 
+			{lightColor:"#339966", darkColor:"#D4A74D", words:["function"]}, 
+			{lightColor:"#9900CC", darkColor:"#D4A74D", words:["package", "class", "interface"]}, 
 		];
 		
 		private static const PREFIX:Array = [
-			{regex:"(:\\s*)", color:"#0033FF", words:["void"]}, 
-			{regex:"(=\\s*)", color:"#0033FF", words:["new", "null", "this", "super", "true", "false"]}, 
+			{regex:"(:\\s*)", lightColor:"#0033FF", darkColor:"#C8762F", words:["void"]}, 
+			{regex:"(=\\s*)", lightColor:"#0033FF", darkColor:"#C8762F", words:["new", "null", "this", "super", "true", "false"]}, 
 		];
 		
 		private static const SUFFIX:Array = [
-			{regex:"(\\{)", color:"#9900CC", words:["package"]}, 
-			{regex:"(\\{|\\()", color:"#0033FF", words:["for", "if", "each", "else", "switch", "do", "while", "typeof", "instanceof", "with", "try", "catch", "finally", "throw"]}, 
-			{regex:"(:)", color:"#0033FF", words:["case", "default"]}, 
-			{regex:"(;)", color:"#0033FF", words:["return", "continue", "true", "false", "null"]},
-			{regex:"(.)", color:"#0033FF", words:["this", "super"]}, 
+			{regex:"(\\{)", lightColor:"#9900CC", darkColor:"#D4A74D", words:["package"]}, 
+			{regex:"(\\{|\\()", lightColor:"#0033FF", darkColor:"#C8762F", words:["for", "if", "each", "else", "switch", "do", "while", "typeof", "instanceof", "with", "try", "catch", "finally", "throw"]}, 
+			{regex:"(:)", lightColor:"#0033FF", darkColor:"#C8762F", words:["case", "default"]}, 
+			{regex:"(;)", lightColor:"#0033FF", darkColor:"#C8762F", words:["return", "continue", "true", "false", "null"]},
+			{regex:"(.)", lightColor:"#0033FF", darkColor:"#C8762F", words:["this", "super"]}, 
 		];
 		
 		private static const SPACES:Array = [
@@ -56,9 +56,10 @@ package org.hammerc.marble.utils
 		/**
 		 * 将 as3 源代码转换为带有颜色的 HTML 文本.
 		 * @param code as3 源代码.
+		 * @param lightTheme 是否使用亮色风格.
 		 * @return 对应上色后的 HTML 文本.
 		 */
-		public static function colour(code:String):String
+		public static function colour(code:String, lightTheme:Boolean = true):String
 		{
 			//as3 正则表达式可以按 \n 回车符进行行的分别, 所以需要将换行进行统一
 			code = code.replace(/(\r\n)|\r/g, "\n");
@@ -70,17 +71,17 @@ package org.hammerc.marble.utils
 			}
 			for each(item in COMMENTS)
 			{
-				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + item.color + "\'>$1</font>");
+				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>$1</font>");
 			}
 			for each(item in STRINGS)
 			{
-				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + item.color + "\'>$1</font>");
+				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>$1</font>");
 			}
 			for each(item in KEYWORDS)
 			{
 				for each(var word:String in item.words)
 				{
-					var newWord:String = "<font color=\'" + item.color + "\'>" + word + "</font>";
+					var newWord:String = "<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>" + word + "</font>";
 					code = code.replace(new RegExp("^(" + word + ")(\\s)", "g"), newWord + "$2");
 					code = code.replace(new RegExp("(\\s)(" + word + ")(\\s)", "g"), "$1" + newWord + "$3");
 				}
@@ -89,14 +90,14 @@ package org.hammerc.marble.utils
 			{
 				for each(word in item.words)
 				{
-					code = code.replace(new RegExp(item.regex + "(" + word + ")", "g"), "$1<font color=\'" + item.color + "\'>$2</font>");
+					code = code.replace(new RegExp(item.regex + "(" + word + ")", "g"), "$1<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>$2</font>");
 				}
 			}
 			for each(item in SUFFIX)
 			{
 				for each(word in item.words)
 				{
-					code = code.replace(new RegExp("(" + word + ")" + item.regex, "g"), "<font color=\'" + item.color + "\'>$1</font>$2");
+					code = code.replace(new RegExp("(" + word + ")" + item.regex, "g"), "<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>$1</font>$2");
 				}
 			}
 			for each(item in SPACES)

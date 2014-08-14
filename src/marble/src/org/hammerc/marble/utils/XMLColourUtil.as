@@ -18,18 +18,18 @@ package org.hammerc.marble.utils
 		];
 		
 		private static const TAGS:Array = [
-			{regex:"(&lt;\\?(.|[\r\n])*?\\?&gt;)", color:"#9900CC"}, 
-			{regex:"(&lt;!--(.|[\r\n])*?--&gt;)", color:"#666666"}, 
-			{regex:"(&lt;[0-9a-zA-Z]+&gt;)", color:"#000099"}, 
-			{regex:"(&lt;/[0-9a-zA-Z]+&gt;)", color:"#000099"}, 
-			{regex:"(&lt;[0-9a-zA-Z]+/&gt;)", color:"#000099"}, 
-			{regex:"(&lt;[0-9a-zA-Z =(&quot;)(&quot;)(&apos;)(&apos;)]+&gt;)", color:"#000099"}, 
-			{regex:"(&lt;[0-9a-zA-Z =(&quot;)(&quot;)(&apos;)(&apos;)]+/&gt;)", color:"#000099"}, 
+			{regex:"(&lt;\\?(.|[\r\n])*?\\?&gt;)", lightColor:"#9900CC", darkColor:"#7A7A7A"}, 
+			{regex:"(&lt;!--(.|[\r\n])*?--&gt;)", lightColor:"#666666", darkColor:"#7A7A7A"}, 
+			{regex:"(&lt;[0-9a-zA-Z]+&gt;)", lightColor:"#000099", darkColor:"#D4A74D"}, 
+			{regex:"(&lt;/[0-9a-zA-Z]+&gt;)", lightColor:"#000099", darkColor:"#D4A74D"}, 
+			{regex:"(&lt;[0-9a-zA-Z]+/&gt;)", lightColor:"#000099", darkColor:"#D4A74D"}, 
+			{regex:"(&lt;[0-9a-zA-Z =(&quot;)(&quot;)(&apos;)(&apos;)]+&gt;)", lightColor:"#000099", darkColor:"#D4A74D"}, 
+			{regex:"(&lt;[0-9a-zA-Z =(&quot;)(&quot;)(&apos;)(&apos;)]+/&gt;)", lightColor:"#000099", darkColor:"#D4A74D"}, 
 		];
 		
 		private static const STRINGS:Array = [
-			{regex:"(&quot;(.|[\r\n])*?&quot;)", color:"#990000"}, 
-			{regex:"(&apos;(.|[\r\n])*?&apos;)", color:"#990000"}, 
+			{regex:"(&quot;(.|[\r\n])*?&quot;)", lightColor:"#990000", darkColor:"#609454"}, 
+			{regex:"(&apos;(.|[\r\n])*?&apos;)", lightColor:"#990000", darkColor:"#609454"}, 
 		];
 		
 		private static const SPACES:Array = [
@@ -40,9 +40,10 @@ package org.hammerc.marble.utils
 		/**
 		 * 将 XML 转换为带有颜色的 XML 文本.
 		 * @param code XML 文件.
+		 * @param lightTheme 是否使用亮色风格.
 		 * @return 对应上色后的 XML 文本.
 		 */
-		public static function colour(code:String):String
+		public static function colour(code:String, lightTheme:Boolean = true):String
 		{
 			//as3 正则表达式可以按 \n 回车符进行行的分别, 所以需要将换行进行统一
 			code = code.replace(/(\r\n)|\r/g, "\n");
@@ -54,11 +55,11 @@ package org.hammerc.marble.utils
 			}
 			for each(item in TAGS)
 			{
-				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + item.color + "\'>$1</font>");
+				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>$1</font>");
 			}
 			for each(item in STRINGS)
 			{
-				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + item.color + "\'>$1</font>");
+				code = code.replace(new RegExp(item.regex, "g"), "<font color=\'" + (lightTheme ? item.lightColor : item.darkColor) + "\'>$1</font>");
 			}
 			for each(item in SPACES)
 			{
