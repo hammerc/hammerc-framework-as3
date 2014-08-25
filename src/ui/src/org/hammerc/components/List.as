@@ -412,6 +412,118 @@ package org.hammerc.components
 		/**
 		 * @inheritDoc
 		 */
+		override protected function itemAdded(index:int):void
+		{
+			this.adjustSelection(index, true); 
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function itemRemoved(index:int):void
+		{
+			this.adjustSelection(index, false);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override protected function adjustSelection(index:int, add:Boolean = false):void
+		{
+			var i:int;
+			var curr:Number;
+			var newInterval:Vector.<int> = new Vector.<int>();
+			var e:IndexChangeEvent;
+			if(this.selectedIndex == NO_SELECTION || _doingWholesaleChanges)
+			{
+				if(this.dataProvider != null && this.dataProvider.length == 1 && this.requireSelection)
+				{
+					newInterval.push(0);
+					_selectedIndices = newInterval;
+					_selectedIndex = 0;
+					this.dispatchEvent(new UIEvent(UIEvent.VALUE_COMMIT));
+				}
+				return;
+			}
+			if((!this.selectedIndices && this.selectedIndex > NO_SELECTION) || (this.selectedIndex > NO_SELECTION && this.selectedIndices.indexOf(this.selectedIndex) == -1))
+			{
+				this.commitSelection();
+			}
+			if(add)
+			{
+				for(i = 0; i < this.selectedIndices.length; i++)
+				{
+					curr = this.selectedIndices[i];
+					if(curr >= index)
+					{
+						newInterval.push(curr + 1);
+					}
+					else
+					{
+						newInterval.push(curr);
+					}
+				}
+			}
+			else
+			{
+				if((!this.selectedIndices || this.selectedIndices.length == 0) && this.selectedIndices.length == 1 && index == this.selectedIndex && this.requireSelection)
+				{
+					if(this.dataProvider.length == 0)
+					{
+						newInterval = new Vector.<int>();
+					}
+					else
+					{
+						_proposedSelectedIndex = 0;
+						this.invalidateProperties();
+						if(index == 0)
+						{
+							return;
+						}
+						newInterval.push(0);
+					}
+				}
+				else
+				{
+					for(i = 0; i < this.selectedIndices.length; i++)
+					{
+						curr = this.selectedIndices[i];
+						if(curr > index)
+						{
+							newInterval.push(curr - 1);
+						}
+						else if(curr < index)
+						{
+							newInterval.push(curr);
+						}
+					}
+				}
+			}
+			var oldIndices:Vector.<int> = this.selectedIndices;
+			_selectedIndices = newInterval;
+			_selectedIndex = getFirstItemValue(newInterval);
+			if (_selectedIndices != oldIndices)
+			{
+				_selectedIndexAdjusted = true;
+				this.invalidateProperties();
+			}
+		}
+		
+		private function getFirstItemValue(v:Vector.<int>):int
+		{
+			if(v != null && v.length > 0)
+			{
+				return v[0];
+			}
+			else
+			{
+				return -1;
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		override hammerc_internal function isItemIndexSelected(index:int):Boolean
 		{
 			if(_allowMultipleSelection)

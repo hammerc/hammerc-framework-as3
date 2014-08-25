@@ -757,7 +757,7 @@ package org.hammerc.components
 			this.invalidateProperties();
 			if(_textField != null)
 			{
-				_textField.setSelection(0, _textField.length - 1);
+				_textField.setSelection(0, _textField.length);
 			}
 		}
 	}

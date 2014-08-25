@@ -115,7 +115,10 @@ package org.hammerc.components.supportClasses
 		
 		private var _useVirtualLayout:Boolean = false;
 		
-		private var _selectedIndexAdjusted:Boolean = false;
+		/**
+		 * 校正选中的索引.
+		 */
+		hammerc_internal var _selectedIndexAdjusted:Boolean = false;
 		
 		/**
 		 * 创建一个 <code>ListBase</code> 对象.

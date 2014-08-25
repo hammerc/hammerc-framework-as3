@@ -1139,7 +1139,11 @@ package org.hammerc.core
 		 */
 		public function get preferredX():Number
 		{
-			return super.x;
+			if(this.scaleX >= 0)
+			{
+				return super.x;
+			}
+			return super.x - this.preferredWidth;
 		}
 		
 		/**
@@ -1147,7 +1151,11 @@ package org.hammerc.core
 		 */
 		public function get preferredY():Number
 		{
-			return super.y;
+			if(this.scaleY >= 0)
+			{
+				return super.y;
+			}
+			return super.y - this.preferredHeight;
 		}
 		
 		/**
@@ -1155,7 +1163,11 @@ package org.hammerc.core
 		 */
 		public function get layoutBoundsX():Number
 		{
-			return super.x;
+			if(this.scaleX >= 0)
+			{
+				return super.x;
+			}
+			return super.x - this.layoutBoundsWidth;
 		}
 		
 		/**
@@ -1163,7 +1175,11 @@ package org.hammerc.core
 		 */
 		public function get layoutBoundsY():Number
 		{
-			return super.y;
+			if(this.scaleY >= 0)
+			{
+				return super.y;
+			}
+			return super.y - this.layoutBoundsHeight;
 		}
 		
 		/**
@@ -1176,7 +1192,12 @@ package org.hammerc.core
 			{
 				return 0;
 			}
-			return w * this.scaleX;
+			var scaleX:Number = this.scaleX;
+			if(scaleX < 0)
+			{
+				scaleX = -scaleX;
+			}
+			return w * scaleX;
 		}
 		
 		/**
@@ -1189,7 +1210,12 @@ package org.hammerc.core
 			{
 				return 0;
 			}
-			return h * this.scaleY;
+			var scaleY:Number = this.scaleY;
+			if(scaleY < 0)
+			{
+				scaleY = -scaleY;
+			}
+			return h * scaleY;
 		}
 		
 		/**
@@ -1197,7 +1223,12 @@ package org.hammerc.core
 		 */
 		public function get layoutBoundsWidth():Number
 		{
-			var w:Number =  0;
+			var scaleX:Number = this.scaleX;
+			if(scaleX < 0)
+			{
+				scaleX = -scaleX;
+			}
+			var w:Number = 0;
 			if(_layoutWidthExplicitlySet)
 			{
 				w = _width;
@@ -1210,7 +1241,7 @@ package org.hammerc.core
 			{
 				w = this.measuredWidth;
 			}
-			return escapeNaN(w * this.scaleX);
+			return escapeNaN(w * scaleX);
 		}
 		
 		/**
@@ -1218,7 +1249,12 @@ package org.hammerc.core
 		 */
 		public function get layoutBoundsHeight():Number
 		{
-			var h:Number =  0
+			var scaleY:Number = this.scaleY;
+			if(scaleY < 0)
+			{
+				scaleY = -scaleY;
+			}
+			var h:Number = 0;
 			if(_layoutHeightExplicitlySet)
 			{
 				h = _height;
@@ -1231,7 +1267,7 @@ package org.hammerc.core
 			{
 				h = this.measuredHeight;
 			}
-			return escapeNaN(h * this.scaleY);
+			return escapeNaN(h * scaleY);
 		}
 		
 		/**
@@ -1303,8 +1339,6 @@ package org.hammerc.core
 		 */
 		public function setLayoutBoundsSize(layoutWidth:Number, layoutHeight:Number):void
 		{
-			layoutWidth /= this.scaleX;
-			layoutHeight /= this.scaleY;
 			if(isNaN(layoutWidth))
 			{
 				_layoutWidthExplicitlySet = false;
@@ -1323,7 +1357,7 @@ package org.hammerc.core
 			{
 				_layoutHeightExplicitlySet = true;
 			}
-			this.setActualSize(layoutWidth, layoutHeight);
+			this.setActualSize(layoutWidth / this.scaleX, layoutHeight / this.scaleY);
 		}
 		
 		/**
@@ -1331,6 +1365,14 @@ package org.hammerc.core
 		 */
 		public function setLayoutBoundsPosition(x:Number, y:Number):void
 		{
+			if(this.scaleX < 0)
+			{
+				x += this.layoutBoundsWidth;
+			}
+			if(this.scaleY < 0)
+			{
+				y += this.layoutBoundsHeight;
+			}
 			var changed:Boolean = false;
 			if(this.x != x)
 			{

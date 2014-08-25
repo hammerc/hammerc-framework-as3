@@ -316,7 +316,7 @@ package org.hammerc.components
 				return element;
 			}
 			checkForRangeError(index, true);
-			var host:DisplayObject = element.parent;
+			var host:Object = element.owner;
 			if(host == this)
 			{
 				this.setElementIndex(element, index);
@@ -325,10 +325,6 @@ package org.hammerc.components
 			else if(host is IUIContainer)
 			{
 				IUIContainer(host).removeElement(element);
-			}
-			else if(element.owner is IUIContainer)
-			{
-				IUIContainer(element.owner).removeElement(element);
 			}
 			_elementsContent.splice(index, 0, element);
 			if(!_elementsContentChanged)

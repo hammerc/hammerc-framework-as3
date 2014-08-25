@@ -321,7 +321,7 @@ package org.hammerc.components.supportClasses
 		{
 			HammercGlobals.stage.removeEventListener(MouseEvent.MOUSE_MOVE, this.stage_mouseMoveHandler);
 			HammercGlobals.stage.removeEventListener(MouseEvent.MOUSE_UP, this.stage_mouseUpHandler);
-			HammercGlobals.stage.addEventListener(Event.MOUSE_LEAVE, this.stage_mouseUpHandler);
+			HammercGlobals.stage.removeEventListener(Event.MOUSE_LEAVE, this.stage_mouseUpHandler);
 			this.removeEventListener(Event.ENTER_FRAME, this.updateWhenMouseMove);
 			if(_needUpdateValue)
 			{

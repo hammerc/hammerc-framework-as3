@@ -602,7 +602,6 @@ package org.hammerc.components
 			if(oldRenderer != null && oldRenderer is DisplayObject)
 			{
 				recycle(oldRenderer);
-				this.dispatchEvent(new RendererExistenceEvent(RendererExistenceEvent.RENDERER_REMOVE, oldRenderer.data, oldRenderer.itemIndex, oldRenderer));
 			}
 		}
 		
