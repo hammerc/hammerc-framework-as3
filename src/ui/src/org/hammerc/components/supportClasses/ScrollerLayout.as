@@ -7,6 +7,7 @@ package org.hammerc.components.supportClasses
 	import flash.geom.Point;
 	
 	import org.hammerc.components.Scroller;
+	import org.hammerc.core.ILayoutElement;
 	import org.hammerc.core.IViewport;
 	import org.hammerc.core.ScrollPolicy;
 	import org.hammerc.core.UIComponent;
@@ -39,11 +40,38 @@ package org.hammerc.components.supportClasses
 		private var _invalidationCount:int = 0;
 		
 		/**
+		 * 是否使用最小的视域尺寸 (排除两端空白区域) 来决定是否显示滚动条.
+		 * 设置此属性为 true, 会自行测量视域尺寸而不采用 viewport 提供的视域尺寸.
+		 * 通常用于避免特殊情况下滚动条无限循环问题 (viewport 含有设置过相对布局属性的子项).
+		 */
+		private var _useMinimalContentSize:Boolean = false;
+		
+		/**
 		 * 创建一个 <code>ScrollerLayout</code> 对象.
 		 */
 		public function ScrollerLayout()
 		{
 			super();
+		}
+		
+		/**
+		 * 设置或获取是否使用最小的视域尺寸 (排除两端空白区域) 来决定是否显示滚动条.
+		 */
+		public function set useMinimalContentSize(value:Boolean):void
+		{
+			if(_useMinimalContentSize == value)
+			{
+				return;
+			}
+			_useMinimalContentSize = value;
+			if(this.target != null)
+			{
+				this.target.invalidateDisplayList();
+			}
+		}
+		public function get useMinimalContentSize():Boolean
+		{
+			return _useMinimalContentSize;
 		}
 		
 		/**
@@ -59,6 +87,11 @@ package org.hammerc.components.supportClasses
 		 */
 		private function getLayoutContentSize(viewport:IViewport):Point
 		{
+			var group:GroupBase = viewport as GroupBase;
+			if(group != null && _useMinimalContentSize)
+			{
+				return measureContentSize(group);
+			}
 			var cw:Number = viewport.contentWidth;
 			var ch:Number = viewport.contentHeight;
 			if(((cw == 0) && (ch == 0)) || (isNaN(cw) || isNaN(ch)))
@@ -66,6 +99,37 @@ package org.hammerc.components.supportClasses
 				return new Point(0, 0);
 			}
 			return new Point(cw, ch);
+		}
+		
+		/**
+		 * 重新测量视域尺寸, 如果有相对布局属性, 排除两端的空白.
+		 * @param target 目标对象.
+		 * @return 视域尺寸.
+		 */
+		private function measureContentSize(target:GroupBase):Point
+		{
+			var maxX:Number = 0;
+			var maxY:Number = 0;
+			var minX:Number = 0;
+			var minY:Number = 0;
+			var count:int = target.numElements;
+			for(var i:int = 0; i < count; i++)
+			{
+				var layoutElement:ILayoutElement = target.getElementAt(i) as ILayoutElement;
+				if(layoutElement == null || !layoutElement.includeInLayout)
+				{
+					continue;
+				}
+				var preferredX:Number = layoutElement.preferredX;
+				var preferredY:Number = layoutElement.preferredY;
+				var preferredWidth:Number = layoutElement.preferredWidth;
+				var preferredHeight:Number = layoutElement.preferredHeight;
+				minX = Math.floor(Math.min(minX, preferredX));
+				minY = Math.floor(Math.min(minY, preferredY));
+				maxX = Math.ceil(Math.max(maxX, preferredX + preferredWidth));
+				maxY = Math.ceil(Math.max(maxY, preferredY + preferredHeight));
+			}
+			return new Point(maxX - minX, maxY - minY);
 		}
 		
 		/**
