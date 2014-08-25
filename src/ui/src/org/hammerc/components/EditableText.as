@@ -367,7 +367,12 @@ package org.hammerc.components
 				return 1;
 			}
 			var lineHeight:Number = _textField.getLineMetrics(0).height;
-			return int(value / lineHeight) + 1;
+			var offsetHeight:Number = this.height % lineHeight;
+			if(_textField.textHeight + offsetHeight - this.height == value)
+			{
+				return _textField.maxScrollV;
+			}
+			return int((value - 2) / lineHeight) + 1;
 		}
 		
 		/**
@@ -686,8 +691,8 @@ package org.hammerc.components
 			}
 			else
 			{
-				var lineHeight:Number = _textField.textHeight / numLines;
-				var offsetHeight:Number = (this.height - 4) % lineHeight;
+				var lineHeight:Number = _textField.getLineMetrics(0).height;
+				var offsetHeight:Number = this.height % lineHeight;
 				contentHeight = _textField.textHeight + 4 + offsetHeight;
 			}
 			setContentHeight(contentHeight);
