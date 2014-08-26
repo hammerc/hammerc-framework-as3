@@ -339,16 +339,16 @@ package org.hammerc.marble.editor.rect
 			_interactionList[0].graphics.endFill();
 			_interactionList[1].x = _point1.x;
 			_interactionList[1].y = _point1.y;
-			_interactionList[1].scaleX = _shapeScale;
-			_interactionList[1].scaleY = _shapeScale;
+			_interactionList[1].scaleX = 1 / _shapeScale;
+			_interactionList[1].scaleY = 1 / _shapeScale;
 			_interactionList[2].x = _point2.x;
 			_interactionList[2].y = _point2.y;
-			_interactionList[2].scaleX = _shapeScale;
-			_interactionList[2].scaleY = _shapeScale;
+			_interactionList[2].scaleX = 1 / _shapeScale;
+			_interactionList[2].scaleY = 1 / _shapeScale;
 			_interactionList[3].x = _point3.x;
 			_interactionList[3].y = _point3.y;
-			_interactionList[3].scaleX = _shapeScale;
-			_interactionList[3].scaleY = _shapeScale;
+			_interactionList[3].scaleX = 1 / _shapeScale;
+			_interactionList[3].scaleY = 1 / _shapeScale;
 		}
 	}
 }

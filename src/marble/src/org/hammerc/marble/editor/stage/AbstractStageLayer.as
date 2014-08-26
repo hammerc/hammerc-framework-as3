@@ -73,8 +73,8 @@ package org.hammerc.marble.editor.stage
 			if(_lock != value)
 			{
 				_lock = value;
-				this.mouseEnabled = _lock;
-				this.mouseChildren = _lock;
+				this.mouseEnabled = !_lock;
+				this.mouseChildren = !_lock;
 			}
 		}
 		public function get lock():Boolean

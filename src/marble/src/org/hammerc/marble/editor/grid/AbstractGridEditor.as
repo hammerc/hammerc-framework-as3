@@ -529,7 +529,7 @@ package org.hammerc.marble.editor.grid
 				for(var j:int = 0; j < this.column; j++)
 				{
 					var selected:Boolean = bytes.readBoolean();
-					_gridData.setPixel(j, i, selected ? GridColor.SELECTED_COLOR : GridColor.UNSELECTED_COLOR);
+					_gridData.setPixel32(j, i, selected ? GridColor.SELECTED_COLOR : GridColor.UNSELECTED_COLOR);
 				}
 			}
 			_gridData.unlock();
@@ -547,10 +547,11 @@ package org.hammerc.marble.editor.grid
 			{
 				for(var j:int = 0; j < this.column; j++)
 				{
-					var selected:Boolean = _gridData.getPixel(j, i) == GridColor.SELECTED_COLOR;
+					var selected:Boolean = _gridData.getPixel32(j, i) == GridColor.SELECTED_COLOR;
 					bytes.writeBoolean(selected);
 				}
 			}
+			bytes.position = 0;
 			return bytes;
 		}
 	}

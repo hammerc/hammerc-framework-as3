@@ -12,6 +12,7 @@ package org.hammerc.utils
 	
 	/**
 	 * <code>ReverseDictionary</code> 类实现了支持反向查值的哈希表.
+	 * <p>注意: 对于使用复杂对象作为键的情况请使用 <code>setValue</code> 和 <code>getValue</code> 方法, 直接获取和赋值会出现仅记录一个键的情况.</p>
 	 * @author wizardc
 	 */
 	public dynamic class ReverseDictionary extends Proxy
@@ -32,6 +33,28 @@ package org.hammerc.utils
 		}
 		
 		/**
+		 * 设置值.
+		 * @param key 键.
+		 * @param value 值.
+		 */
+		public function setValue(key:*, value:*):void
+		{
+			_reverse[_origin[key]] = undefined;
+			_origin[key] = value;
+			_reverse[value] = key;
+		}
+		
+		/**
+		 * 获取值.
+		 * @param key 键.
+		 * @return 值.
+		 */
+		public function getValue(key:*):*
+		{
+			return _origin[key];
+		}
+		
+		/**
 		 * 反向查值, 根据值查找键名.
 		 * @param value 值.
 		 * @return 对应的键名.
@@ -49,15 +72,15 @@ package org.hammerc.utils
 		
 		override flash_proxy function setProperty(name:*, value:*):void
 		{
-			delete _reverse[_origin[name]];
+			_reverse[_origin[name]] = undefined;
 			_origin[name] = value;
 			_reverse[value] = name;
 		}
 		
 		override flash_proxy function deleteProperty(name:*):Boolean
 		{
-			delete _reverse[_origin[name]];
-			delete _origin[name];
+			_reverse[_origin[name]] = undefined;
+			_origin[name] = undefined;
 			return true;
 		}
 		
