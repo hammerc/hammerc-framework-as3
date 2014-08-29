@@ -492,8 +492,8 @@ package org.hammerc.marble.editor.rect
 		{
 			for each(var shape:Shape in _anchorShapeList)
 			{
-				shape.scaleX = 1 / _shapeScale;
-				shape.scaleY = 1 / _shapeScale;
+				shape.scaleX = _shapeScale;
+				shape.scaleY = _shapeScale;
 			}
 			_rectShape.width = this.width;
 			_rectShape.height = this.height;
@@ -516,8 +516,8 @@ package org.hammerc.marble.editor.rect
 			for(var i:int = 1; i < 9; i++)
 			{
 				var sprite:Sprite = _interactionList[i];
-				sprite.scaleX = 1 / _shapeScale;
-				sprite.scaleY = 1 / _shapeScale;
+				sprite.scaleX = _shapeScale;
+				sprite.scaleY = _shapeScale;
 			}
 			var halfWidth:Number = this.width / 2;
 			var halfHeight:Number = this.height / 2;

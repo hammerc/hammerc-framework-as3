@@ -425,8 +425,8 @@ package org.hammerc.marble.editor.item
 		 */
 		protected function redraw():void
 		{
-			_pivot.scaleX = this.shapeScale;
-			_pivot.scaleY = this.shapeScale;
+			_pivot.scaleX = _shapeScale;
+			_pivot.scaleY = _shapeScale;
 			this.graphics.clear();
 			if(this.style.showRect && this.content != null && this.selected)
 			{
