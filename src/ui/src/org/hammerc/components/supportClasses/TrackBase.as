@@ -295,11 +295,21 @@ package org.hammerc.components.supportClasses
 			newValue = this.nearestValidValue(newValue, this.snapInterval);
 			if(newValue != this.value)
 			{
-				this.setValue(newValue); 
+				this.setValue(newValue);
 				this.validateDisplayList();
 				this.dispatchEvent(new TrackBaseEvent(TrackBaseEvent.THUMB_DRAG));
 				this.dispatchEvent(new Event(Event.CHANGE));
 			}
+		}
+		
+		/**
+		 * 当 value 改变后需要手动调用该方法来保证滚动区域正确.
+		 */
+		public function updateWhenValueChanged():void
+		{
+			this.value = this.nearestValidValue(this.value, this.snapInterval);
+			this.setValue(this.value);
+			this.validateDisplayList();
 		}
 		
 		/**
