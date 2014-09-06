@@ -362,7 +362,7 @@ package org.hammerc.components.supportClasses
 			}
 			else if(_textDisplayProperties.text !== undefined)
 			{
-				setSelection(0, _textDisplayProperties.text.length - 1);
+				setSelection(0, _textDisplayProperties.text.length);
 			}
 		}
 		
@@ -371,6 +371,8 @@ package org.hammerc.components.supportClasses
 		 */
 		public function set text(value:String):void
 		{
+			textDisplay.htmlText = null;
+			_textDisplayProperties.htmlText = undefined;
 			if(textDisplay != null)
 			{
 				textDisplay.text = value;
@@ -392,6 +394,37 @@ package org.hammerc.components.supportClasses
 				return textDisplay.text;
 			}
 			var v:* = _textDisplayProperties.text;
+			return (v === undefined) ? "" : v;
+		}
+		
+		/**
+		 * 设置或获取 HTML 文本.
+		 */
+		public function set htmlText(value:String):void
+		{
+			textDisplay.text = null;
+			_textDisplayProperties.text = undefined;
+			if(textDisplay != null)
+			{
+				textDisplay.htmlText = value;
+				_textDisplayProperties.htmlText = true;
+			}
+			else
+			{
+				_textDisplayProperties.htmlText = value;
+				_textDisplayProperties.selectionBeginIndex = 0;
+				_textDisplayProperties.selectionEndIndex = 0;
+			}
+			this.invalidateProperties();
+			this.invalidateSkinState();
+		}
+		public function get htmlText():String
+		{
+			if(textDisplay != null)
+			{
+				return textDisplay.htmlText;
+			}
+			var v:* = _textDisplayProperties.htmlText;
 			return (v === undefined) ? "" : v;
 		}
 		
@@ -593,6 +626,11 @@ package org.hammerc.components.supportClasses
 				textDisplay.text = _textDisplayProperties.text;
 				newTextDisplayProperties.text = true;
 			}
+			if(_textDisplayProperties.htmlText !== undefined)
+			{
+				textDisplay.htmlText = _textDisplayProperties.htmlText;
+				newTextDisplayProperties.htmlText = true;
+			}
 			if(_textDisplayProperties.selectionBeginIndex !== undefined)
 			{
 				textDisplay.setSelection(_textDisplayProperties.selectionBeginIndex, _textDisplayProperties.selectionEndIndex);
@@ -652,6 +690,10 @@ package org.hammerc.components.supportClasses
 			if(_textDisplayProperties.text)
 			{
 				newTextDisplayProperties.text = textDisplay.text;
+			}
+			if(_textDisplayProperties.htmlText)
+			{
+				newTextDisplayProperties.htmlText = textDisplay.htmlText;
 			}
 			if(_textDisplayProperties.heightInLines&& richEditableText)
 			{

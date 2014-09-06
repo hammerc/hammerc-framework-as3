@@ -481,7 +481,7 @@ package org.hammerc.components.supportClasses
 		}
 		
 		/**
-		 * 设置或获取 HTML 文本.
+		 * @inheritDoc
 		 */
 		public function set htmlText(value:String):void
 		{

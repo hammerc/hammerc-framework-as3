@@ -15,5 +15,11 @@ package org.hammerc.core
 		 */
 		function set text(value:String):void;
 		function get text():String;
+		
+		/**
+		 * 设置或获取 HTML 文本.
+		 */
+		function set htmlText(value:String):void;
+		function get htmlText():String;
 	}
 }
