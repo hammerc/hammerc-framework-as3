@@ -41,7 +41,6 @@ package org.hammerc.marble.editor.grid.tools
 		 */
 		override public function onRegister():void
 		{
-			_editor.useMinDrawArea = true;
 			_lineShape = new Shape();
 			DisplayObjectContainer(_editor).addChild(_lineShape);
 			_editor.gridHitTest.addEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
@@ -86,6 +85,15 @@ package org.hammerc.marble.editor.grid.tools
 		private function drawArea(gridCell1:Point, gridCell2:Point):void
 		{
 			var drawAreaList:Vector.<Point> = _editor.getLineArea(gridCell1, gridCell2);
+			for each(var gridCell:Point in drawAreaList)
+			{
+				drawAreaNow(gridCell);
+			}
+		}
+		
+		private function drawAreaNow(target:Point):void
+		{
+			var drawAreaList:Vector.<Point> = _editor.getDrawArea(target);
 			for each (var gridCell:Point in drawAreaList)
 			{
 				_editor.setGridCellSelect(gridCell.y, gridCell.x, _editor.selectMode);
@@ -97,7 +105,6 @@ package org.hammerc.marble.editor.grid.tools
 		 */
 		override public function onRemove():void
 		{
-			_editor.useMinDrawArea = false;
 			DisplayObjectContainer(_editor).removeChild(_lineShape);
 			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_DOWN, gridMouseDownHandler);
 			_editor.gridHitTest.removeEventListener(GridMouseEvent.GRID_MOUSE_MOVE, gridMouseMoveHandler);

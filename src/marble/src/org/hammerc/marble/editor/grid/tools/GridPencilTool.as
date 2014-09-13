@@ -9,7 +9,6 @@ package org.hammerc.marble.editor.grid.tools
 	import flash.geom.Point;
 	
 	import org.hammerc.marble.editor.grid.GridMouseEvent;
-	
 	import org.hammerc.marble.editor.grid.IGridEditor;
 	
 	/**
@@ -19,6 +18,8 @@ package org.hammerc.marble.editor.grid.tools
 	public class GridPencilTool extends AbstractGridTool
 	{
 		private var _mouseIsDown:Boolean = false;
+		//记录上一个格子的位置
+		private var _lastPoint:Point;
 		
 		/**
 		 * 创建一个 <code>GridPencilTool</code> 对象.
@@ -43,6 +44,7 @@ package org.hammerc.marble.editor.grid.tools
 			this.dispatchDrawBeginEvent();
 			DisplayObject(_editor.gridHitTest).stage.addEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
 			_mouseIsDown = true;
+			_lastPoint = event.gridCell;
 			drawArea(event.gridCell);
 		}
 		
@@ -50,7 +52,24 @@ package org.hammerc.marble.editor.grid.tools
 		{
 			if(_mouseIsDown)
 			{
-				drawArea(event.gridCell);
+				//判断中间是否会出现空隙
+				var dx:int = Math.abs(_lastPoint.x - event.gridCell.x);
+				var dy:int = Math.abs(_lastPoint.y - event.gridCell.y);
+				if(dx < 2 && dy < 2)
+				{
+					//相邻则直接绘制
+					drawArea(event.gridCell);
+				}
+				else
+				{
+					//会出现空隙则绘制直线
+					var drawAreaList:Vector.<Point> = _editor.getLineArea(_lastPoint, event.gridCell);
+					for each(var gridCell:Point in drawAreaList)
+					{
+						drawArea(gridCell);
+					}
+				}
+				_lastPoint = event.gridCell;
 			}
 		}
 		
@@ -67,6 +86,7 @@ package org.hammerc.marble.editor.grid.tools
 		{
 			DisplayObject(_editor.gridHitTest).stage.removeEventListener(MouseEvent.MOUSE_UP, gridMouseUpHandler);
 			_mouseIsDown = false;
+			_lastPoint = null;
 			this.dispatchDrawEndEvent();
 		}
 		
