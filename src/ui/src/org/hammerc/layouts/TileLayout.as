@@ -675,6 +675,8 @@ package org.hammerc.layouts
 			var rowIndex:int;
 			var orientedByColumns:Boolean = (orientation == TileOrientation.COLUMNS);
 			var index:int = _startIndex;
+			var horizontalGap:Number = isNaN(_horizontalGap) ? 0 : _horizontalGap;
+			var verticalGap:Number = isNaN(_verticalGap) ? 0 : _verticalGap;
 			for(var i:int = _startIndex; i <= _endIndex; i++)
 			{
 				if(this.useVirtualLayout)

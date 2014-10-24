@@ -50,13 +50,17 @@ package org.hammerc.managers
 		}
 		
 		/**
-		 * 添加一个语言包.
+		 * 添加一个语言包, 名称相同的语言包可以叠加.
 		 * @param language 要添加的语言包名称.
 		 * @param content 要添加的语言包内容.
 		 */
 		public static function addLanguage(language:String, content:String):void
 		{
-			var contentMap:Object = new Object();
+			if(!_languageMap.hasOwnProperty(language))
+			{
+				_languageMap[language] = new Object();
+			}
+			var contentMap:Object = _languageMap[language];
 			var textLines:Array = content.split(/\r?\n|\n/);
 			var key:String, value:String;
 			for each(var textLine:String in textLines)
@@ -76,7 +80,6 @@ package org.hammerc.managers
 					}
 				}
 			}
-			_languageMap[language] = contentMap;
 		}
 		
 		private static function analyzeText(text:String):String
