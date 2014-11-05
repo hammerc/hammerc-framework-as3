@@ -1,7 +1,12 @@
-/**
- * Copyright (c) 2011-2014 hammerc.org
- * See LICENSE.txt for full license information.
- */
+// =================================================================================================
+//
+//	Hammerc Framework
+//	Copyright 2013 hammerc.org All Rights Reserved.
+//
+//	See LICENSE for full license information.
+//
+// =================================================================================================
+
 package org.hammerc.load
 {
 	import flash.events.Event;
