@@ -9,7 +9,10 @@
 
 package org.hammerc.crystal.control
 {
+	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.crystal.interfaces.INotification;
+	
+	use namespace hammerc_internal;
 	
 	/**
 	 * <code>Notification</code> 类实现了一个最简单的消息对象.
@@ -17,6 +20,40 @@ package org.hammerc.crystal.control
 	 */
 	public class Notification implements INotification
 	{
+		private static var _pool:Vector.<Notification> = new Vector.<Notification>();
+		
+		/**
+		 * 从对象池中取出一个消息对象.
+		 * @param name 消息名称.
+		 * @param type 消息的类型.
+		 * @param body 消息的数据.
+		 * @return 消息对象.
+		 */
+		hammerc_internal static function fromPool(name:String, type:String = null, body:Object = null):Notification
+		{
+			if(_pool.length > 0)
+			{
+				return _pool.pop().reset(name, type, body);
+			}
+			else
+			{
+				return new Notification(name, type, body);
+			}
+		}
+		
+		/**
+		 * 回收一个消息对象.
+		 * @param notification 消息对象.
+		 */
+		hammerc_internal static function toPool(notification:INotification):void
+		{
+			if(notification is Notification)
+			{
+				(notification as Notification).clear();
+			}
+			_pool[_pool.length] = notification;
+		}
+		
 		private var _name:String;
 		private var _type:String;
 		private var _body:Object;
@@ -64,6 +101,31 @@ package org.hammerc.crystal.control
 		public function get body():Object
 		{
 			return _body;
+		}
+		
+		/**
+		 * 重置消息的数据.
+		 * @param name 消息名称.
+		 * @param type 消息的类型.
+		 * @param body 消息的数据.
+		 * @return 消息对象.
+		 */
+		hammerc_internal function reset(name:String, type:String = null, body:Object = null):Notification
+		{
+			_name = name;
+			_type = type;
+			_body = body;
+			return this;
+		}
+		
+		/**
+		 * 清除消息的数据.
+		 */
+		hammerc_internal function clear():void
+		{
+			_name = null;
+			_type = null;
+			_body = null;
 		}
 		
 		/**

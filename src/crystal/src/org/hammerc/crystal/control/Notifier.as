@@ -10,9 +10,12 @@
 package org.hammerc.crystal.control
 {
 	import org.hammerc.core.AbstractEnforcer;
+	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.crystal.control.observer.Provider;
 	import org.hammerc.crystal.interfaces.INotification;
 	import org.hammerc.crystal.interfaces.INotifier;
+	
+	use namespace hammerc_internal;
 	
 	/**
 	 * <code>Notifier</code> 实现了一个最简单的消息发送对象.
@@ -33,9 +36,10 @@ package org.hammerc.crystal.control
 		 */
 		public function sendNotification(notificationName:String, body:Object = null, type:String = null):void
 		{
-			var notification:INotification = new Notification(notificationName, type, body);
+			var notification:INotification = Notification.fromPool(notificationName, type, body);
 			Controller.getInstance().executeCommand(notification);
 			Provider.getInstance().notifyObservers(notification);
+			Notification.toPool(notification);
 		}
 	}
 }

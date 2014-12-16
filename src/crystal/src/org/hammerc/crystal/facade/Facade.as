@@ -9,15 +9,18 @@
 
 package org.hammerc.crystal.facade
 {
+	import org.hammerc.core.hammerc_internal;
 	import org.hammerc.crystal.control.Controller;
 	import org.hammerc.crystal.control.Notification;
 	import org.hammerc.crystal.control.observer.Provider;
-	import org.hammerc.crystal.interfaces.IProxy;
+	import org.hammerc.crystal.interfaces.IMediator;
 	import org.hammerc.crystal.interfaces.INotification;
 	import org.hammerc.crystal.interfaces.IObserver;
-	import org.hammerc.crystal.interfaces.IMediator;
+	import org.hammerc.crystal.interfaces.IProxy;
 	import org.hammerc.crystal.model.ModelManager;
 	import org.hammerc.crystal.view.ViewManager;
+	
+	use namespace hammerc_internal;
 	
 	/**
 	 * <code>Facade</code> 类代理 MVC 中所有处理方法.
@@ -84,9 +87,10 @@ package org.hammerc.crystal.facade
 		 */
 		public function sendNotification(notificationName:String, body:Object = null, type:String = null):void
 		{
-			var notification:INotification = new Notification(notificationName, type, body);
+			var notification:INotification = Notification.fromPool(notificationName, type, body);
 			_controller.executeCommand(notification);
 			_provider.notifyObservers(notification);
+			Notification.toPool(notification);
 		}
 		
 		/**
