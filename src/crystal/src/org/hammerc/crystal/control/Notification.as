@@ -50,8 +50,8 @@ package org.hammerc.crystal.control
 			if(notification is Notification)
 			{
 				(notification as Notification).clear();
+				_pool[_pool.length] = notification as Notification;
 			}
-			_pool[_pool.length] = notification;
 		}
 		
 		private var _name:String;
