@@ -174,6 +174,7 @@ package org.hammerc.archer.pathfinding.astar
 				node._checkNum = _nowCheckNum;
 				if(_binaryHeaps.length == 0)
 				{
+					_nowCheckNum++;
 					return false;
 				}
 				node = _binaryHeaps.dequeue() as AStarNode;
