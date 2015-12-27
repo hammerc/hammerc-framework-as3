@@ -10,22 +10,22 @@
 package org.hammerc.archer.bt
 {
 	/**
-	 * <code>BehaviorStatus</code> Àà¶¨ÒåÁËĞĞÎªÊ÷µÄÔËĞĞ×´Ì¬Ã¶¾Ù.
+	 * <code>BehaviorStatus</code> ç±»å®šä¹‰äº†è¡Œä¸ºæ ‘çš„è¿è¡ŒçŠ¶æ€æšä¸¾.
 	 */
 	public final class BehaviorStatus
 	{
 		/**
-		 * ÔËĞĞÊ§°Ü.
+		 * è¿è¡Œå¤±è´¥.
 		 */
 		public static const FAILURE:int = 0;
 		
 		/**
-		 * ÔËĞĞÖĞ.
+		 * è¿è¡Œä¸­.
 		 */
 		public static const RUNNING:int = 1;
 		
 		/**
-		 * ÔËĞĞ³É¹¦.
+		 * è¿è¡ŒæˆåŠŸ.
 		 */
 		public static const SUCCESS:int = 2;
 	}
