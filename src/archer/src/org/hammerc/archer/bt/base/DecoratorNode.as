@@ -20,7 +20,10 @@ package org.hammerc.archer.bt.base
 	 */
 	public class DecoratorNode extends BehaviorNode
 	{
-		private var _child:BehaviorNode;
+		/**
+		 * 子节点.
+		 */
+		protected var _child:BehaviorNode;
 		
 		/**
 		 * 创建一个 <code>DecoratorNode</code> 对象.
@@ -41,13 +44,13 @@ package org.hammerc.archer.bt.base
 			{
 				if(_child != null)
 				{
-					_child.setRoot(null);
+					_child.setTree(null);
 					_child.setParent(null);
 				}
 				_child = value;
 				if(_child != null)
 				{
-					_child.setRoot(this);
+					_child.setTree(this.tree);
 					_child.setParent(this);
 				}
 			}

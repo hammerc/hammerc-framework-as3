@@ -10,6 +10,7 @@
 package org.hammerc.archer.bt.base
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
+	import org.hammerc.archer.bt.BehaviorTree;
 	import org.hammerc.core.AbstractEnforcer;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -23,8 +24,10 @@ package org.hammerc.archer.bt.base
 	{
 		private var _id:String;
 		
-		private var _root:BehaviorNode;
+		private var _tree:BehaviorTree;
 		private var _parent:BehaviorNode;
+		
+		private var _running:Boolean = false;
 		
 		/**
 		 * 创建一个 <code>BehaviorNode</code> 对象.
@@ -45,11 +48,11 @@ package org.hammerc.archer.bt.base
 		}
 		
 		/**
-		 * 获取根节点.
+		 * 获取该节点所属的行为树.
 		 */
-		public function get root():BehaviorNode
+		public function get tree():BehaviorTree
 		{
-			return _root;
+			return _tree;
 		}
 		
 		/**
@@ -61,12 +64,12 @@ package org.hammerc.archer.bt.base
 		}
 		
 		/**
-		 * 设置根节点.
-		 * @param root 根节点.
+		 * 设置该节点所属的行为树.
+		 * @param tree 该节点所属的行为树.
 		 */
-		hammerc_internal function setRoot(root:BehaviorNode):void
+		hammerc_internal function setTree(tree:BehaviorTree):void
 		{
-			_root = root;
+			_tree = tree;
 		}
 		
 		/**
@@ -79,9 +82,30 @@ package org.hammerc.archer.bt.base
 		}
 		
 		/**
+		 * 执行该节点, 由父节点调用.
+		 * @param time 和上次执行间隔的时间, 单位为秒.
+		 * @return 执行状态.
+		 */
+		hammerc_internal final function tick(time:Number):int
+		{
+			if(!_running)
+			{
+				_running = true;
+				this.enter();
+			}
+			var state:int = this.execute(time);
+			if(state != BehaviorStatus.RUNNING)
+			{
+				_running = false;
+				this.exit(state == BehaviorStatus.SUCCESS);
+			}
+			return state;
+		}
+		
+		/**
 		 * 进入该节点时调用该方法.
 		 */
-		public function enter():void
+		protected function enter():void
 		{
 		}
 		
@@ -90,15 +114,16 @@ package org.hammerc.archer.bt.base
 		 * @param time 和上次执行间隔的时间, 单位为秒.
 		 * @return 执行状态.
 		 */
-		public function execute(time:Number):int
+		protected function execute(time:Number):int
 		{
 			return BehaviorStatus.FAILURE;
 		}
 		
 		/**
 		 * 离开该节点时调用该方法.
+		 * @param success 该节点是否执行成功.
 		 */
-		public function exit():void
+		protected function exit(success:Boolean):void
 		{
 		}
 	}

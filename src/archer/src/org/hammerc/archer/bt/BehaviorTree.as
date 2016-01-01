@@ -15,47 +15,44 @@ package org.hammerc.archer.bt
 	use namespace hammerc_internal;
 	
 	/**
-	 * <code>BehaviorTree</code> 类定义了行为树的根节点对象.
+	 * <code>BehaviorTree</code> 类定义了行为树对象.
 	 * @author wizardc
 	 */
-	public class BehaviorTree extends BehaviorNode
+	public class BehaviorTree
 	{
-		private var _child:BehaviorNode;
+		private var _root:BehaviorNode;
 		private var _data:Object;
 		
 		/**
 		 * 创建一个 <code>BehaviorTree</code> 对象.
-		 * @param id ID.
 		 */
-		public function BehaviorTree(id:String = null)
+		public function BehaviorTree()
 		{
-			super(id);
-			this.setRoot(this);
 		}
 		
 		/**
-		 * 设置或获取子节点.
+		 * 设置或获取根节点.
 		 */
-		public function set child(value:BehaviorNode):void
+		public function set root(value:BehaviorNode):void
 		{
-			if(_child != value)
+			if(_root != value)
 			{
-				if(_child != null)
+				if(_root != null)
 				{
-					_child.setRoot(null);
-					_child.setParent(null);
+					_root.setTree(null);
+					_root.setParent(null);
 				}
-				_child = value;
-				if(_child != null)
+				_root = value;
+				if(_root != null)
 				{
-					_child.setRoot(this);
-					_child.setParent(this);
+					_root.setTree(this);
+					_root.setParent(_root);
 				}
 			}
 		}
-		public function get child():BehaviorNode
+		public function get root():BehaviorNode
 		{
-			return _child;
+			return _root;
 		}
 		
 		/**
@@ -71,13 +68,15 @@ package org.hammerc.archer.bt
 		}
 		
 		/**
-		 * @inheritDoc
+		 * 执行行为树.
+		 * @param time 和上次执行间隔的时间, 单位为秒.
+		 * @return 执行状态.
 		 */
-		override public function execute(time:Number):int
+		public function execute(time:Number):int
 		{
-			if(_child != null)
+			if(_root != null)
 			{
-				return _child.execute(time);
+				return _root.tick(time);
 			}
 			return BehaviorStatus.FAILURE;
 		}

@@ -63,7 +63,7 @@ package org.hammerc.archer.bt.base
 			{
 				_childMap[child.id] = child;
 			}
-			child.setRoot(this.root);
+			child.setTree(this.tree);
 			child.setParent(this);
 			return child;
 		}
@@ -137,7 +137,7 @@ package org.hammerc.archer.bt.base
 			{
 				delete _childMap[child.id];
 			}
-			child.setRoot(null);
+			child.setTree(null);
 			child.setParent(null);
 			return child;
 		}

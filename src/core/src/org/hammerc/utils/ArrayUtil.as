@@ -171,6 +171,26 @@ package org.hammerc.utils
 		}
 		
 		/**
+		 * 洗牌.
+		 * @param array 要被打乱的数组.
+		 * @throws ArgumentError 要打乱的数组为空时抛出该异常.
+		 */
+		public static function shuffle(array:Array):void
+		{
+			if(array == null)
+			{
+				throw new ArgumentError("参数\"array\"不能为空！");
+			}
+			for(var i:int = 0, len:int = array.length; i < len; i++)
+			{
+				var index:int = int(Math.random() * len);
+				var obj:Object = array[i];
+				array[i] = array[index];
+				array[index] = obj;
+			}
+		}
+		
+		/**
 		 * 将两个数组中的相同项取出.
 		 * @param array1 第一个数组.
 		 * @param array2 第二个数组.
