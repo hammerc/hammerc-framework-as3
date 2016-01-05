@@ -9,6 +9,7 @@
 
 package org.hammerc.archer.bt.base
 {
+	import org.hammerc.archer.bt.BehaviorTree;
 	import org.hammerc.core.AbstractEnforcer;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -26,13 +27,22 @@ package org.hammerc.archer.bt.base
 		protected var _child:BehaviorNode;
 		
 		/**
+		 * 创建子树的回调方法.
+		 * <p>该节点子节点在这个方法中创建, 这样可以实现子树复用, 如果是外部添加的子树克隆时则需要再新建一个手动添加.</p>
+		 */
+		protected var _createChildFunc:Function;
+		
+		/**
 		 * 创建一个 <code>DecoratorNode</code> 对象.
+		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function DecoratorNode(id:String = null)
+		public function DecoratorNode(createChildFunc:Function, id:String = null)
 		{
 			AbstractEnforcer.enforceConstructor(this, CompositeNode);
 			super(id);
+			_createChildFunc = createChildFunc;
+			this._createChildFunc(this);
 		}
 		
 		/**
@@ -58,6 +68,18 @@ package org.hammerc.archer.bt.base
 		public function get child():BehaviorNode
 		{
 			return _child;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override hammerc_internal function setTree(tree:BehaviorTree):void
+		{
+			super.setTree(tree);
+			if(_child != null)
+			{
+				_child.setTree(tree);
+			}
 		}
 	}
 }

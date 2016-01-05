@@ -32,11 +32,12 @@ package org.hammerc.archer.bt.composites
 		
 		/**
 		 * 创建一个 <code>Parallel</code> 对象.
+		 * @param createChildrenFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function Parallel(id:String = null)
+		public function Parallel(createChildrenFunc:Function, id:String = null)
 		{
-			super(id);
+			super(createChildrenFunc, id);
 		}
 		
 		/**
@@ -180,6 +181,14 @@ package org.hammerc.archer.bt.composites
 		override protected function exit(success:Boolean):void
 		{
 			_status = null;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function clone():BehaviorNode
+		{
+			return new Parallel(_createChildrenFunc, _id);
 		}
 	}
 }

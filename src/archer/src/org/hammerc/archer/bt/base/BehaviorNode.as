@@ -22,10 +22,20 @@ package org.hammerc.archer.bt.base
 	 */
 	public class BehaviorNode
 	{
-		private var _id:String;
+		/**
+		 * 节点的 ID.
+		 */
+		protected var _id:String;
 		
-		private var _tree:BehaviorTree;
-		private var _parent:BehaviorNode;
+		/**
+		 * 节点所属的树对象.
+		 */
+		protected var _tree:BehaviorTree;
+		
+		/**
+		 * 父节点对象.
+		 */
+		protected var _parent:BehaviorNode;
 		
 		private var _running:Boolean = false;
 		
@@ -125,6 +135,16 @@ package org.hammerc.archer.bt.base
 		 */
 		protected function exit(success:Boolean):void
 		{
+		}
+		
+		/**
+		 * 克隆当前节点, 用于子树复用的情况.
+		 * @return 当前节点的副本.
+		 */
+		public function clone():BehaviorNode
+		{
+			AbstractEnforcer.enforceMethod();
+			return null;
 		}
 	}
 }

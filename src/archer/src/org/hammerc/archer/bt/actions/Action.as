@@ -10,9 +10,10 @@
 package org.hammerc.archer.bt.actions
 {
 	import org.hammerc.archer.bt.base.BehaviorNode;
+	import org.hammerc.core.AbstractEnforcer;
 	
 	/**
-	 * <code>Action</code> 类定义了动作节点.
+	 * <code>Action</code> 类为抽象类, 定义了动作节点.
 	 * <p>行为节点用来完成具体的操作.</p>
 	 * @author wizardc
 	 */
@@ -24,6 +25,7 @@ package org.hammerc.archer.bt.actions
 		 */
 		public function Action(id:String = null)
 		{
+			AbstractEnforcer.enforceConstructor(this, Action);
 			super(id);
 		}
 	}

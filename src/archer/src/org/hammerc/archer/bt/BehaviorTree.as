@@ -80,5 +80,24 @@ package org.hammerc.archer.bt
 			}
 			return BehaviorStatus.FAILURE;
 		}
+		
+		/**
+		 * 根据 ID 获取对应的节点.
+		 * @param path 由多个节点名称组合而成的路径, 用 "/" 符号分隔.
+		 * @return 对应的节点.
+		 */
+		public function getNodeByID(path:String):BehaviorNode
+		{
+			return null;
+		}
+		
+		/**
+		 * 获取该树的结构描述.
+		 * @return 所有节点的路径数组.
+		 */
+		public function getTreeStructure():Vector.<String>
+		{
+			return null;
+		}
 	}
 }

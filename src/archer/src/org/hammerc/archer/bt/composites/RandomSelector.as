@@ -20,11 +20,12 @@ package org.hammerc.archer.bt.composites
 	{
 		/**
 		 * 创建一个 <code>RandomSelector</code> 对象.
+		 * @param createChildrenFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function RandomSelector(id:String = null)
+		public function RandomSelector(createChildrenFunc:Function, id:String = null)
 		{
-			super(id);
+			super(createChildrenFunc, id);
 		}
 		
 		/**
@@ -40,6 +41,14 @@ package org.hammerc.archer.bt.composites
 				_childList[i] = _childList[index];
 				_childList[index] = obj;
 			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function clone():BehaviorNode
+		{
+			return new RandomSelector(_createChildrenFunc, _id);
 		}
 	}
 }
