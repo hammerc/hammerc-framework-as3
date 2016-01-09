@@ -10,6 +10,7 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
+	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -28,10 +29,11 @@ package org.hammerc.archer.bt.decorators
 		 * 创建一个 <code>Timer</code> 对象.
 		 * @param id ID.
 		 * @param delayTime 延时, 单位为秒.
+		 * @param child 子节点.
 		 */
-		public function Timer(id:String = null, delayTime:Number = 1)
+		public function Timer(id:String = null, delayTime:Number = 1, child:BehaviorNode = null)
 		{
-			super(id || "Timer");
+			super(id || "Timer", child);
 			_delayTime = delayTime;
 		}
 		

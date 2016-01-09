@@ -10,6 +10,7 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
+	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -24,10 +25,11 @@ package org.hammerc.archer.bt.decorators
 		/**
 		 * 创建一个 <code>UntilSuccess</code> 对象.
 		 * @param id ID.
+		 * @param child 子节点.
 		 */
-		public function UntilSuccess(id:String = null)
+		public function UntilSuccess(id:String = null, child:BehaviorNode = null)
 		{
-			super(id || "UntilSuccess");
+			super(id || "UntilSuccess", child);
 		}
 		
 		/**

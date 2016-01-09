@@ -31,11 +31,13 @@ package org.hammerc.archer.bt.base
 		/**
 		 * 创建一个 <code>DecoratorNode</code> 对象.
 		 * @param id ID.
+		 * @param child 子节点.
 		 */
-		public function DecoratorNode(createChildFunc:Function, id:String = null)
+		public function DecoratorNode(id:String = null, child:BehaviorNode = null)
 		{
 			AbstractEnforcer.enforceConstructor(this, CompositeNode);
 			super(id);
+			this.child = child;
 		}
 		
 		/**

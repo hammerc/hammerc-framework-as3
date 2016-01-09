@@ -10,6 +10,7 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
+	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -30,10 +31,11 @@ package org.hammerc.archer.bt.decorators
 		 * @param id ID.
 		 * @param maxTime 最大运行时间, 单位为秒.
 		 * @param resultSuccess 超过限制后是否返回成功.
+		 * @param child 子节点.
 		 */
-		public function TimeLimit(id:String = null, maxTime:Number = 1, resultSuccess:Boolean = false)
+		public function TimeLimit(id:String = null, maxTime:Number = 1, resultSuccess:Boolean = false, child:BehaviorNode = null)
 		{
-			super(id || "TimeLimit");
+			super(id || "TimeLimit", child);
 			_maxTime = maxTime;
 			_resultSuccess = resultSuccess;
 		}
