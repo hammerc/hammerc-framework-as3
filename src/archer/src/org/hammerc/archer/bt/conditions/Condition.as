@@ -27,7 +27,7 @@ package org.hammerc.archer.bt.conditions
 		public function Condition(id:String = null)
 		{
 			AbstractEnforcer.enforceConstructor(this, Condition);
-			super(id);
+			super(id || "Condition");
 		}
 		
 		/**

@@ -37,7 +37,7 @@ package org.hammerc.archer.bt.composites
 		 */
 		public function Parallel(createChildrenFunc:Function, id:String = null)
 		{
-			super(createChildrenFunc, id);
+			super(createChildrenFunc, id || "Parallel");
 		}
 		
 		/**

@@ -26,7 +26,7 @@ package org.hammerc.archer.bt.actions
 		public function Action(id:String = null)
 		{
 			AbstractEnforcer.enforceConstructor(this, Action);
-			super(id);
+			super(id || "Action");
 		}
 	}
 }

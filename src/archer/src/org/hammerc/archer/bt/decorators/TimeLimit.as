@@ -33,7 +33,7 @@ package org.hammerc.archer.bt.decorators
 		 */
 		public function TimeLimit(createChildFunc:Function, id:String = null)
 		{
-			super(createChildFunc, id);
+			super(createChildFunc, id || "TimeLimit");
 		}
 		
 		/**

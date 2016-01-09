@@ -81,5 +81,18 @@ package org.hammerc.archer.bt.base
 				_child.setTree(tree);
 			}
 		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override hammerc_internal function getTreeStructure(list:Vector.<String>, parent:String):void
+		{
+			if(parent.length > 0)
+			{
+				parent += "/";
+			}
+			parent += _id;
+			_child.getTreeStructure(list, parent);
+		}
 	}
 }

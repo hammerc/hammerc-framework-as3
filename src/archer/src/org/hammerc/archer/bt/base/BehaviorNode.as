@@ -138,6 +138,20 @@ package org.hammerc.archer.bt.base
 		}
 		
 		/**
+		 * 获取行为树结构的描述.
+		 * @param list 描述字符串数组.
+		 * @param parent 父级的路径名称.
+		 */
+		hammerc_internal function getTreeStructure(list:Vector.<String>, parent:String):void
+		{
+			if(parent.length > 0)
+			{
+				parent += "/";
+			}
+			list.push(parent + _id);
+		}
+		
+		/**
 		 * 克隆当前节点, 用于子树复用的情况.
 		 * @return 当前节点的副本.
 		 */

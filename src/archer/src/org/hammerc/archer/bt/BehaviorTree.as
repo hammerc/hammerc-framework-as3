@@ -10,6 +10,8 @@
 package org.hammerc.archer.bt
 {
 	import org.hammerc.archer.bt.base.BehaviorNode;
+	import org.hammerc.archer.bt.base.CompositeNode;
+	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
 	use namespace hammerc_internal;
@@ -83,12 +85,47 @@ package org.hammerc.archer.bt
 		
 		/**
 		 * 根据 ID 获取对应的节点.
+		 * <p>如果要使用该功能, 请确保每个组合节点都没有同 ID 名的子节点, 否则得到的结果可能非预期.</p>
 		 * @param path 由多个节点名称组合而成的路径, 用 "/" 符号分隔.
 		 * @return 对应的节点.
 		 */
 		public function getNodeByID(path:String):BehaviorNode
 		{
-			return null;
+			var paths:Array = path.split("/");
+			if(paths[0] != _root.id)
+			{
+				return null;
+			}
+			var node:BehaviorNode = _root;
+			for(var i:int = 1, len:int = paths.length; i < len; i++)
+			{
+				if(node is CompositeNode)
+				{
+					node = CompositeNode(node).getChildByID(paths[i]);
+					if(node != null)
+					{
+						continue;
+					}
+					else
+					{
+						return null;
+					}
+				}
+				if(node is DecoratorNode)
+				{
+					node = DecoratorNode(node).child;
+					if(node != null)
+					{
+						continue;
+					}
+					else
+					{
+						return null;
+					}
+				}
+				return null;
+			}
+			return node;
 		}
 		
 		/**
@@ -97,7 +134,9 @@ package org.hammerc.archer.bt
 		 */
 		public function getTreeStructure():Vector.<String>
 		{
-			return null;
+			var result:Vector.<String> = new Vector.<String>();
+			_root.getTreeStructure(result, "");
+			return result;
 		}
 	}
 }

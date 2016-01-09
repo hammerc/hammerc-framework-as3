@@ -33,7 +33,7 @@ package org.hammerc.archer.bt.composites
 		 */
 		public function Selector(createChildrenFunc:Function, id:String = null)
 		{
-			super(createChildrenFunc, id);
+			super(createChildrenFunc, id || "Selector");
 		}
 		
 		/**

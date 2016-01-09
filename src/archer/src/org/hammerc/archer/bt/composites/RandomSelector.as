@@ -25,7 +25,7 @@ package org.hammerc.archer.bt.composites
 		 */
 		public function RandomSelector(createChildrenFunc:Function, id:String = null)
 		{
-			super(createChildrenFunc, id);
+			super(createChildrenFunc, id || "RandomSelector");
 		}
 		
 		/**

@@ -29,7 +29,7 @@ package org.hammerc.archer.bt.decorators
 		 */
 		public function Invert(createChildFunc:Function, id:String = null)
 		{
-			super(createChildFunc, id);
+			super(createChildFunc, id || "Invert");
 		}
 		
 		/**
