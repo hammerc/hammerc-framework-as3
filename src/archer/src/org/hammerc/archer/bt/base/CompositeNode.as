@@ -9,6 +9,8 @@
 
 package org.hammerc.archer.bt.base
 {
+	import flash.utils.getQualifiedClassName;
+	
 	import org.hammerc.archer.bt.BehaviorTree;
 	import org.hammerc.core.AbstractEnforcer;
 	import org.hammerc.core.hammerc_internal;
@@ -189,16 +191,17 @@ package org.hammerc.archer.bt.base
 		/**
 		 * @inheritDoc
 		 */
-		override hammerc_internal function getTreeStructure(list:Vector.<String>, parent:String):void
+		override hammerc_internal function getTreeStructure(list:Vector.<String>, parent:String, showType:Boolean):void
 		{
 			if(parent.length > 0)
 			{
 				parent += "/";
 			}
 			parent += _id;
+			list.push(parent + (showType ? "[" + getQualifiedClassName(this) + "]" : ""));
 			for(var i:int = 0, len:int = _childList.length; i < len; i++)
 			{
-				_childList[i].getTreeStructure(list, parent);
+				_childList[i].getTreeStructure(list, parent, showType);
 			}
 		}
 	}

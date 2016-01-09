@@ -22,14 +22,25 @@ package org.hammerc.archer.bt
 	 */
 	public class BehaviorTree
 	{
+		private var _id:String;
 		private var _root:BehaviorNode;
 		private var _data:Object;
 		
 		/**
 		 * 创建一个 <code>BehaviorTree</code> 对象.
+		 * @param id ID.
 		 */
-		public function BehaviorTree()
+		public function BehaviorTree(id:String = null)
 		{
+			_id = id || "Behavior Tree";
+		}
+		
+		/**
+		 * 获取本对象的 ID.
+		 */
+		public function get id():String
+		{
+			return _id;
 		}
 		
 		/**
@@ -130,13 +141,29 @@ package org.hammerc.archer.bt
 		
 		/**
 		 * 获取该树的结构描述.
+		 * @param showType 是否显示节点的类型.
 		 * @return 所有节点的路径数组.
 		 */
-		public function getTreeStructure():Vector.<String>
+		public function getTreeStructure(showType:Boolean = false):Vector.<String>
 		{
 			var result:Vector.<String> = new Vector.<String>();
-			_root.getTreeStructure(result, "");
+			_root.getTreeStructure(result, "", showType);
 			return result;
+		}
+		
+		/**
+		 * 打印该树的结构描述到控制台.
+		 * @param showType 是否显示节点的类型.
+		 */
+		public function printTreeStructure(showType:Boolean = false):void
+		{
+			trace("----- print \"" + _id + "\" structure begin -----");
+			var list:Vector.<String> = this.getTreeStructure(showType);
+			for each(var item:String in list)
+			{
+				trace(item);
+			}
+			trace("----- print \"" + _id + "\" structure ended -----");
 		}
 	}
 }

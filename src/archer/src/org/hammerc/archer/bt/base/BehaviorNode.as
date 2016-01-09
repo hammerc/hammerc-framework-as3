@@ -9,6 +9,8 @@
 
 package org.hammerc.archer.bt.base
 {
+	import flash.utils.getQualifiedClassName;
+	
 	import org.hammerc.archer.bt.BehaviorStatus;
 	import org.hammerc.archer.bt.BehaviorTree;
 	import org.hammerc.core.AbstractEnforcer;
@@ -141,14 +143,15 @@ package org.hammerc.archer.bt.base
 		 * 获取行为树结构的描述.
 		 * @param list 描述字符串数组.
 		 * @param parent 父级的路径名称.
+		 * @param showType 是否显示节点的类型.
 		 */
-		hammerc_internal function getTreeStructure(list:Vector.<String>, parent:String):void
+		hammerc_internal function getTreeStructure(list:Vector.<String>, parent:String, showType:Boolean):void
 		{
 			if(parent.length > 0)
 			{
 				parent += "/";
 			}
-			list.push(parent + _id);
+			list.push(parent + _id + (showType ? "[" + getQualifiedClassName(this) + "]" : ""));
 		}
 		
 		/**
