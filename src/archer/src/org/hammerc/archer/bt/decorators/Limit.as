@@ -24,16 +24,20 @@ package org.hammerc.archer.bt.decorators
 	{
 		private var _nowCount:int;
 		private var _maxCount:int;
-		private var _resultSuccess:Boolean = false;
+		private var _resultSuccess:Boolean;
 		
 		/**
 		 * 创建一个 <code>Limit</code> 对象.
 		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
+		 * @param maxCount 最大运行次数.
+		 * @param resultSuccess 超过限制后是否返回成功.
 		 */
-		public function Limit(createChildFunc:Function, id:String = null)
+		public function Limit(createChildFunc:Function, id:String = null, maxCount:int = 1, resultSuccess:Boolean = false)
 		{
 			super(createChildFunc, id || "Limit");
+			_maxCount = maxCount;
+			_resultSuccess = resultSuccess;
 		}
 		
 		/**

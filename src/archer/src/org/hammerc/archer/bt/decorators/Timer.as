@@ -29,10 +29,12 @@ package org.hammerc.archer.bt.decorators
 		 * 创建一个 <code>Timer</code> 对象.
 		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
+		 * @param delayTime 延时, 单位为秒.
 		 */
-		public function Timer(createChildFunc:Function, id:String = null)
+		public function Timer(createChildFunc:Function, id:String = null, delayTime:Number = 1)
 		{
 			super(createChildFunc, id || "Timer");
+			_delayTime = delayTime;
 		}
 		
 		/**

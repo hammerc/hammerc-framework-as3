@@ -24,16 +24,20 @@ package org.hammerc.archer.bt.decorators
 	{
 		private var _nowTime:Number;
 		private var _maxTime:Number;
-		private var _resultSuccess:Boolean = false;
+		private var _resultSuccess:Boolean;
 		
 		/**
 		 * 创建一个 <code>TimeLimit</code> 对象.
 		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
+		 * @param maxTime 最大运行时间, 单位为秒.
+		 * @param resultSuccess 超过限制后是否返回成功.
 		 */
-		public function TimeLimit(createChildFunc:Function, id:String = null)
+		public function TimeLimit(createChildFunc:Function, id:String = null, maxTime:Number = 1, resultSuccess:Boolean = false)
 		{
 			super(createChildFunc, id || "TimeLimit");
+			_maxTime = maxTime;
+			_resultSuccess = resultSuccess;
 		}
 		
 		/**
