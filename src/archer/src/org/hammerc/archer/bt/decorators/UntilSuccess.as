@@ -10,7 +10,6 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
-	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -24,12 +23,11 @@ package org.hammerc.archer.bt.decorators
 	{
 		/**
 		 * 创建一个 <code>UntilSuccess</code> 对象.
-		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function UntilSuccess(createChildFunc:Function, id:String = null)
+		public function UntilSuccess(id:String = null)
 		{
-			super(createChildFunc, id || "UntilSuccess");
+			super(id || "UntilSuccess");
 		}
 		
 		/**
@@ -48,9 +46,9 @@ package org.hammerc.archer.bt.decorators
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():DecoratorNode
 		{
-			return new UntilSuccess(_createChildFunc, _id);
+			return new UntilSuccess(_id);
 		}
 	}
 }

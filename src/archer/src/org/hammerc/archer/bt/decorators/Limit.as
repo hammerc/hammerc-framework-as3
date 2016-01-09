@@ -10,7 +10,6 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
-	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -28,14 +27,13 @@ package org.hammerc.archer.bt.decorators
 		
 		/**
 		 * 创建一个 <code>Limit</code> 对象.
-		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
 		 * @param maxCount 最大运行次数.
 		 * @param resultSuccess 超过限制后是否返回成功.
 		 */
-		public function Limit(createChildFunc:Function, id:String = null, maxCount:int = 1, resultSuccess:Boolean = false)
+		public function Limit(id:String = null, maxCount:int = 1, resultSuccess:Boolean = false)
 		{
-			super(createChildFunc, id || "Limit");
+			super(id || "Limit");
 			_maxCount = maxCount;
 			_resultSuccess = resultSuccess;
 		}
@@ -88,9 +86,9 @@ package org.hammerc.archer.bt.decorators
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():DecoratorNode
 		{
-			return new Limit(_createChildFunc, _id);
+			return new Limit(_id, _maxCount, _resultSuccess);
 		}
 	}
 }

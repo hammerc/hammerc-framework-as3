@@ -28,12 +28,11 @@ package org.hammerc.archer.bt.composites
 		
 		/**
 		 * 创建一个 <code>Sequence</code> 对象.
-		 * @param createChildrenFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function Sequence(createChildrenFunc:Function, id:String = null)
+		public function Sequence(id:String = null)
 		{
-			super(createChildrenFunc, id || "Sequence");
+			super(id || "Sequence");
 		}
 		
 		/**
@@ -96,9 +95,9 @@ package org.hammerc.archer.bt.composites
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():CompositeNode
 		{
-			return new Sequence(_createChildrenFunc, _id);
+			return new Sequence(_id);
 		}
 	}
 }

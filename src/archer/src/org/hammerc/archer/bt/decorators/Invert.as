@@ -10,7 +10,6 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
-	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -24,12 +23,11 @@ package org.hammerc.archer.bt.decorators
 	{
 		/**
 		 * 创建一个 <code>Invert</code> 对象.
-		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function Invert(createChildFunc:Function, id:String = null)
+		public function Invert(id:String = null)
 		{
-			super(createChildFunc, id || "Invert");
+			super(id || "Invert");
 		}
 		
 		/**
@@ -52,9 +50,9 @@ package org.hammerc.archer.bt.decorators
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():DecoratorNode
 		{
-			return new Invert(_createChildFunc, _id);
+			return new Invert(_id);
 		}
 	}
 }

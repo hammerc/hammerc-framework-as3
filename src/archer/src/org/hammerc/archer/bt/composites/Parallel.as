@@ -32,15 +32,14 @@ package org.hammerc.archer.bt.composites
 		
 		/**
 		 * 创建一个 <code>Parallel</code> 对象.
-		 * @param createChildrenFunc 创建子树的回调方法.
 		 * @param id ID.
 		 * @param failurePolicy 返回失败的策略.
 		 * @param successPolicy 返回成功的策略.
 		 * @param childFinishPolicy 子节点结束运行的策略.
 		 */
-		public function Parallel(createChildrenFunc:Function, id:String = null, failurePolicy:int = ParallelFailurePolicy.ONE, successPolicy:int = ParallelSuccessPolicy.ONE, childFinishPolicy:int = ParallelChildFinishPolicy.ONCE)
+		public function Parallel(id:String = null, failurePolicy:int = ParallelFailurePolicy.ONE, successPolicy:int = ParallelSuccessPolicy.ONE, childFinishPolicy:int = ParallelChildFinishPolicy.ONCE)
 		{
-			super(createChildrenFunc, id || "Parallel");
+			super(id || "Parallel");
 			_failurePolicy = failurePolicy;
 			_successPolicy = successPolicy;
 			_childFinishPolicy = childFinishPolicy;
@@ -192,9 +191,9 @@ package org.hammerc.archer.bt.composites
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():CompositeNode
 		{
-			return new Parallel(_createChildrenFunc, _id, _failurePolicy, _successPolicy, _childFinishPolicy);
+			return new Parallel(_id, _failurePolicy, _successPolicy, _childFinishPolicy);
 		}
 	}
 }

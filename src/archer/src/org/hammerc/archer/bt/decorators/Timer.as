@@ -10,7 +10,6 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
-	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -27,13 +26,12 @@ package org.hammerc.archer.bt.decorators
 		
 		/**
 		 * 创建一个 <code>Timer</code> 对象.
-		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
 		 * @param delayTime 延时, 单位为秒.
 		 */
-		public function Timer(createChildFunc:Function, id:String = null, delayTime:Number = 1)
+		public function Timer(id:String = null, delayTime:Number = 1)
 		{
-			super(createChildFunc, id || "Timer");
+			super(id || "Timer");
 			_delayTime = delayTime;
 		}
 		
@@ -73,9 +71,9 @@ package org.hammerc.archer.bt.decorators
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():DecoratorNode
 		{
-			return new Timer(_createChildFunc, _id);
+			return new Timer(_id, _delayTime);
 		}
 	}
 }

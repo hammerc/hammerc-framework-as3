@@ -10,7 +10,6 @@
 package org.hammerc.archer.bt.decorators
 {
 	import org.hammerc.archer.bt.BehaviorStatus;
-	import org.hammerc.archer.bt.base.BehaviorNode;
 	import org.hammerc.archer.bt.base.DecoratorNode;
 	import org.hammerc.core.hammerc_internal;
 	
@@ -28,14 +27,13 @@ package org.hammerc.archer.bt.decorators
 		
 		/**
 		 * 创建一个 <code>TimeLimit</code> 对象.
-		 * @param createChildFunc 创建子树的回调方法.
 		 * @param id ID.
 		 * @param maxTime 最大运行时间, 单位为秒.
 		 * @param resultSuccess 超过限制后是否返回成功.
 		 */
-		public function TimeLimit(createChildFunc:Function, id:String = null, maxTime:Number = 1, resultSuccess:Boolean = false)
+		public function TimeLimit(id:String = null, maxTime:Number = 1, resultSuccess:Boolean = false)
 		{
-			super(createChildFunc, id || "TimeLimit");
+			super(id || "TimeLimit");
 			_maxTime = maxTime;
 			_resultSuccess = resultSuccess;
 		}
@@ -88,9 +86,9 @@ package org.hammerc.archer.bt.decorators
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():DecoratorNode
 		{
-			return new TimeLimit(_createChildFunc, _id);
+			return new TimeLimit(_id, _maxTime, _resultSuccess);
 		}
 	}
 }

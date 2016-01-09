@@ -10,6 +10,7 @@
 package org.hammerc.archer.bt.composites
 {
 	import org.hammerc.archer.bt.base.BehaviorNode;
+	import org.hammerc.archer.bt.base.CompositeNode;
 	
 	/**
 	 * <code>RandomSelector</code> 类定义了随机选择节点.
@@ -20,12 +21,11 @@ package org.hammerc.archer.bt.composites
 	{
 		/**
 		 * 创建一个 <code>RandomSelector</code> 对象.
-		 * @param createChildrenFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function RandomSelector(createChildrenFunc:Function, id:String = null)
+		public function RandomSelector(id:String = null)
 		{
-			super(createChildrenFunc, id || "RandomSelector");
+			super(id || "RandomSelector");
 		}
 		
 		/**
@@ -46,9 +46,9 @@ package org.hammerc.archer.bt.composites
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():CompositeNode
 		{
-			return new RandomSelector(_createChildrenFunc, _id);
+			return new RandomSelector(_id);
 		}
 	}
 }

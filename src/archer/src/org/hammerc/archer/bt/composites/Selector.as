@@ -28,12 +28,11 @@ package org.hammerc.archer.bt.composites
 		
 		/**
 		 * 创建一个 <code>Selector</code> 对象.
-		 * @param createChildrenFunc 创建子树的回调方法.
 		 * @param id ID.
 		 */
-		public function Selector(createChildrenFunc:Function, id:String = null)
+		public function Selector(id:String = null)
 		{
-			super(createChildrenFunc, id || "Selector");
+			super(id || "Selector");
 		}
 		
 		/**
@@ -96,9 +95,9 @@ package org.hammerc.archer.bt.composites
 		/**
 		 * @inheritDoc
 		 */
-		override public function clone():BehaviorNode
+		override protected function createSelf():CompositeNode
 		{
-			return new Selector(_createChildrenFunc, _id);
+			return new Selector(_id);
 		}
 	}
 }
