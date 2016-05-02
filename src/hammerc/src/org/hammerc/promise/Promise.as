@@ -126,10 +126,10 @@ package org.hammerc.promise
 		{
 			try
 			{
-				func(function(value:*):void
+				func(function(value:* = null):void
 				{
 					_resolver.resolve(value);
-				},function(reason:*):void
+				},function(reason:* = null):void
 				{
 					_resolver.reject(reason);
 				});
