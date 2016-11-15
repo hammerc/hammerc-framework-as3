@@ -130,6 +130,14 @@ package org.hammerc.marble.project
 			FileUtil.browseForOpen(openSelectHandler, 1, typeFilter, title, defaultPath);
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
+		public function directOpenProject(path:String):void
+		{
+			openSelectHandler(new File(FileUtil.escapeUrl(path)));
+		}
+		
 		private function openSelectHandler(file:File):void
 		{
 			_path = file.nativePath;

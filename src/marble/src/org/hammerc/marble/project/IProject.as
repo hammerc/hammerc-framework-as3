@@ -51,6 +51,12 @@ package org.hammerc.marble.project
 		function openProject(typeFilter:Array = null, title:String = "浏览文件", defaultPath:String = null):void;
 		
 		/**
+		 * 直接打开一个工程.
+		 * @param path 要打开的工程文件路径.
+		 */
+		function directOpenProject(path:String):void;
+		
+		/**
 		 * 保存当前工程.
 		 * @param defaultPath 默认路径.
 		 * @param title 对话框标题.
