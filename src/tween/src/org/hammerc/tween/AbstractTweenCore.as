@@ -23,7 +23,12 @@ package org.hammerc.tween
 	public class AbstractTweenCore extends EventDispatcher
 	{
 		/**
-		 * 记录缓动对象在停止缓动时是否可以被垃圾回收.
+		 * 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
+		 */
+		protected var _autoUpdate:Boolean = true;
+		
+		/**
+		 * 记录缓动对象在停止缓动时是否可以被垃圾回收, 缓动手动执行时无效.
 		 */
 		protected var _gc:Boolean = false;
 		
@@ -39,8 +44,9 @@ package org.hammerc.tween
 		
 		/**
 		 * <code>AbstractTweenCore</code> 类为抽象类, 不能被实例化.
+		 * @param autoUpdate 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
 		 */
-		public function AbstractTweenCore()
+		public function AbstractTweenCore(autoUpdate:Boolean = true)
 		{
 			AbstractEnforcer.enforceConstructor(this, AbstractTweenCore);
 			if(!TweenManager.hammerc_internal::initialized)
@@ -48,7 +54,11 @@ package org.hammerc.tween
 				TweenManager.hammerc_internal::initialize();
 				TweenManager.hammerc_internal::initialized = true;
 			}
-			TweenManager.hammerc_internal::appendTween(this);
+			_autoUpdate = autoUpdate;
+			if(_autoUpdate)
+			{
+				TweenManager.hammerc_internal::appendTween(this);
+			}
 			this.initTween();
 		}
 		
@@ -82,7 +92,7 @@ package org.hammerc.tween
 		}
 		
 		/**
-		 * 设置或获取本缓动对象在停止缓动时是否可以被垃圾回收.
+		 * 设置或获取本缓动对象在停止缓动时是否可以被垃圾回收, 缓动手动执行时无效.
 		 * <p>提示: 修改立即生效.</p>
 		 */
 		public function set gc(value:Boolean):void
@@ -170,7 +180,10 @@ package org.hammerc.tween
 		{
 			_active = false;
 			_playing = false;
-			TweenManager.hammerc_internal::removeTween(this);
+			if(_autoUpdate)
+			{
+				TweenManager.hammerc_internal::removeTween(this);
+			}
 		}
 	}
 }

@@ -118,14 +118,15 @@ package org.hammerc.tween
 		/**
 		 * 创建一个 <code>Timeline</code> 对象.
 		 * @param variables 保存初始化时的属性数据的对象.
+		 * @param autoUpdate 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
 		 */
-		public function Timeline(variables:Object = null)
+		public function Timeline(variables:Object = null, autoUpdate:Boolean = true)
 		{
 			_timeMap = new Dictionary();
 			_forwardTweenList = new Vector.<TimelineItem>();
 			_backwardTweenList = new Vector.<TimelineItem>();
 			_variables = variables;
-			super();
+			super(autoUpdate);
 		}
 		
 		/**

@@ -261,6 +261,11 @@ package org.hammerc.tween
 		public var onCompleteParams:*;
 		
 		/**
+		 * 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
+		 */
+		protected var _autoUpdate:Boolean = true;
+		
+		/**
 		 * 记录缓动是否处于激活状态.
 		 */
 		protected var _active:Boolean = true;
@@ -285,8 +290,9 @@ package org.hammerc.tween
 		 * @param target 要进行缓动的对象, 传入空对象则本缓动对象将无效.
 		 * @param duration 缓动的持续时间, 负值按 0 处理.
 		 * @param variables 缓动的目标属性, 传入空对象则本缓动对象将无效, 可添加属性 <code>paused:true</code> 使缓动不会立即执行.
+		 * @param autoUpdate 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
 		 */
-		public function TinyTween(target:Object, duration:Number, variables:Object)
+		public function TinyTween(target:Object, duration:Number, variables:Object, autoUpdate:Boolean = true)
 		{
 			if(!_initialized)
 			{
@@ -300,8 +306,12 @@ package org.hammerc.tween
 			this.target = target == null ? {} : target;
 			this.duration = Math.max(duration, 0);
 			this.variables = variables == null ? {} : variables;
+			_autoUpdate = autoUpdate;
 			this.ease = easeOut;
-			_tweenList.push(this);
+			if(_autoUpdate)
+			{
+				_tweenList.push(this);
+			}
 			for each(var name:String in ATTRIBUTES)
 			{
 				if(this.variables.hasOwnProperty(name))
@@ -491,10 +501,13 @@ package org.hammerc.tween
 		{
 			_active = false;
 			_playing = false;
-			var index:int = _tweenList.indexOf(this);
-			if(index != -1)
+			if(_autoUpdate)
 			{
-				_tweenList.splice(index, 1);
+				var index:int = _tweenList.indexOf(this);
+				if(index != -1)
+				{
+					_tweenList.splice(index, 1);
+				}
 			}
 			var propertyList:Vector.<TinyTweenItem> = _masterMap[this.target];
 			for(var i:int = 0; i < propertyList.length; i++)
