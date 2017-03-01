@@ -190,33 +190,33 @@ package org.hammerc.crystal.facade
 		}
 		
 		/**
-		 * 判断一个中介对象是否被注册.
-		 * @param mediatorName 中介对象名称.
-		 * @return 指定的中介对象被注册返回 (<code>true</code>), 否则返回 (<code>false</code>).
+		 * 判断一个中介对象是否被创建.
+		 * @param viewComponent 对应的视图对象.
+		 * @return 指定的中介对象被创建返回 (<code>true</code>), 否则返回 (<code>false</code>).
 		 */
-		public function hasMediator(mediatorName:String):Boolean
+		public function hasMediator(viewComponent:Object):Boolean
 		{
-			return _viewManager.hasMediator(mediatorName);
+			return _viewManager.hasMediator(viewComponent);
 		}
 		
 		/**
 		 * 获取一个中介对象.
-		 * @param mediatorName 中介对象名称.
+		 * @param viewComponent 对应的视图对象.
 		 * @return 指定的中介对象.
 		 */
-		public function getMediator(mediatorName:String):IMediator
+		public function getMediator(viewComponent:Object):IMediator
 		{
-			return _viewManager.getMediator(mediatorName);
+			return _viewManager.getMediator(viewComponent);
 		}
 		
 		/**
 		 * 移除一个中介对象.
-		 * @param mediatorName 中介对象名称.
+		 * @param viewComponent 对应的视图对象.
 		 * @return 移除的中介对象.
 		 */
-		public function removeMediator(mediatorName:String):IMediator
+		public function removeMediator(viewComponent:Object):IMediator
 		{
-			return _viewManager.removeMediator(mediatorName);
+			return _viewManager.removeMediator(viewComponent);
 		}
 	}
 }

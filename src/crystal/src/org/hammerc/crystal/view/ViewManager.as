@@ -9,6 +9,8 @@
 
 package org.hammerc.crystal.view
 {
+	import flash.utils.Dictionary;
+	
 	import org.hammerc.crystal.control.observer.Provider;
 	import org.hammerc.crystal.interfaces.IMediator;
 	
@@ -33,7 +35,7 @@ package org.hammerc.crystal.view
 			return _instance;
 		}
 		
-		private var _mediatorMap:Object;
+		private var _mediatorMap:Dictionary;
 		
 		/**
 		 * 本类为单例类不能实例化.
@@ -45,7 +47,7 @@ package org.hammerc.crystal.view
 			{
 				throw new Error("单例类不能进行实例化！");
 			}
-			_mediatorMap = new Object();
+			_mediatorMap = new Dictionary();
 		}
 		
 		/**
@@ -54,7 +56,7 @@ package org.hammerc.crystal.view
 		 */
 		public function registerMediator(mediator:IMediator):void
 		{
-			if(this.hasMediator(mediator.name))
+			if(this.hasMediator(mediator.viewComponent))
 			{
 				throw new Error("需要注册的中介名称已经存在！");
 			}
@@ -66,38 +68,38 @@ package org.hammerc.crystal.view
 					Provider.getInstance().registerObserver(notificationName, mediator);
 				}
 			}
-			_mediatorMap[mediator.name] = mediator;
+			_mediatorMap[mediator.viewComponent] = mediator;
 			mediator.onRegister();
 		}
 		
 		/**
-		 * 判断一个中介对象是否被注册.
-		 * @param mediatorName 中介对象名称.
-		 * @return 指定的中介对象被注册返回 (<code>true</code>), 否则返回 (<code>false</code>).
+		 * 判断一个中介对象是否被创建.
+		 * @param viewComponent 对应的视图对象.
+		 * @return 指定的中介对象被创建返回 (<code>true</code>), 否则返回 (<code>false</code>).
 		 */
-		public function hasMediator(mediatorName:String):Boolean
+		public function hasMediator(viewComponent:Object):Boolean
 		{
-			return _mediatorMap.hasOwnProperty(mediatorName);
+			return _mediatorMap.hasOwnProperty(viewComponent);
 		}
 		
 		/**
 		 * 获取一个中介对象.
-		 * @param mediatorName 中介对象名称.
+		 * @param viewComponent 对应的视图对象.
 		 * @return 指定的中介对象.
 		 */
-		public function getMediator(mediatorName:String):IMediator
+		public function getMediator(viewComponent:Object):IMediator
 		{
-			return _mediatorMap[mediatorName] as IMediator;
+			return _mediatorMap[viewComponent] as IMediator;
 		}
 		
 		/**
 		 * 移除一个中介对象.
-		 * @param mediatorName 中介对象名称.
+		 * @param viewComponent 对应的视图对象.
 		 * @return 移除的中介对象.
 		 */
-		public function removeMediator(mediatorName:String):IMediator
+		public function removeMediator(viewComponent:Object):IMediator
 		{
-			var mediator:IMediator = this.getMediator(mediatorName);
+			var mediator:IMediator = this.getMediator(viewComponent);
 			if(mediator != null)
 			{
 				var list:Array = mediator.interestNotificationList();
@@ -109,7 +111,7 @@ package org.hammerc.crystal.view
 					}
 				}
 				mediator.onRemove();
-				delete _mediatorMap[mediatorName];
+				delete _mediatorMap[viewComponent];
 			}
 			return mediator;
 		}
