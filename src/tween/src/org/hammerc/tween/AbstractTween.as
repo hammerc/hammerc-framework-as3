@@ -152,14 +152,15 @@ package org.hammerc.tween
 		 * @param target 要进行缓动的对象, 传入空对象则本缓动对象将无效.
 		 * @param duration 缓动的持续时间.
 		 * @param variables 缓动的目标属性, 传入空对象则本缓动对象将无效, 可添加属性 <code>paused:true</code> 使缓动不会立即执行.
+		 * @param autoUpdate 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
 		 */
-		public function AbstractTween(target:Object, duration:Number, variables:Object)
+		public function AbstractTween(target:Object, duration:Number, variables:Object, autoUpdate:Boolean = true)
 		{
 			AbstractEnforcer.enforceConstructor(this, AbstractTween);
 			_target = target == null ? {} : target;
 			_duration = Math.max(duration, 0);
 			_variables = variables == null ? {} : variables;
-			super();
+			super(autoUpdate);
 		}
 		
 		/**

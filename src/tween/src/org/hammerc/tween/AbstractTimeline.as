@@ -109,12 +109,13 @@ package org.hammerc.tween
 		
 		/**
 		 * <code>AbstractTimeline</code> 类为抽象类, 不能被实例化.
+		 * @param autoUpdate 记录当前缓动对象是否会自动执行, 如果不会需要手动调用缓动对象的 <code>update</code> 方法及手动进行销毁.
 		 */
-		public function AbstractTimeline()
+		public function AbstractTimeline(autoUpdate:Boolean = true)
 		{
 			AbstractEnforcer.enforceConstructor(this, AbstractTimeline);
 			_labels = new Object();
-			super();
+			super(autoUpdate);
 		}
 		
 		/**
